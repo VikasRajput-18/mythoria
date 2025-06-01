@@ -7,10 +7,10 @@ import React from "react";
 const page = () => {
   return (
     <div className="flex-1 px-8 py-16 ">
-      <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+      <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">
         Welcome to Mythoria
       </h1>
-      <p className="text-lg md:text-xl max-w-2xl text-mystic-500">
+      <p className="text-lg  max-w-2xl text-mystic-500">
         Craft your legacy, one page at a time — unleash your imagination through
         stories, comics, and magical manuscripts.
       </p>
@@ -27,7 +27,7 @@ const page = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-12 gap-4 mt-8 space-y-8">
+      <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24">
         {STORIES.map((story, ind) => {
           return <Story key={ind} {...story} />;
         })}
