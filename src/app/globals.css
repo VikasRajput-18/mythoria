@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --color-mystic-800: #121417;
+  --color-mystic-400: #293038;
+  --color-mystic-500: #9EABB8;
+}
