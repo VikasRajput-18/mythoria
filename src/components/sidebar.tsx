@@ -9,7 +9,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 w-full min-w-[200px] max-w-[350px] px-8 py-16">
+    <aside className="sticky top-0 w-[350px] px-8 py-16">
       <h1 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h1>
       <div className="mt-8 space-y-5">
         {SIDEBAR_OPTIONS.map((item) => {
