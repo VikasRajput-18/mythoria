@@ -1,0 +1,31 @@
+import React, { InputHTMLAttributes } from "react";
+
+type CustomInputProps = {
+  value: string;
+  label?: string;
+  className?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
+
+const CustomInput = ({
+  label,
+  className = "",
+  value,
+  ...props
+}: CustomInputProps) => {
+  return (
+    <div className={`max-w-lg w-full space-y-2 flex flex-col ${className}`}>
+      {label && (
+        <label htmlFor="" className="text-neutral-300 text-lg font-semibold">
+          {label}
+        </label>
+      )}
+      <input
+        value={value}
+        {...props}
+        className="bg-mystic-700 rounded-md px-3 py-3 placeholder:text-mystic-500 border border-mystic-300 outline-none "
+      />
+    </div>
+  );
+};
+
+export default CustomInput;

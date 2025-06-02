@@ -3,7 +3,6 @@
 import { SIDEBAR_OPTIONS } from "@/constants/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -14,8 +13,7 @@ const Sidebar = () => {
       <div className="mt-8 space-y-5">
         {SIDEBAR_OPTIONS.map((item) => {
           const { icon: Icon } = item;
-          const isActive = pathname.includes(item.href);
-          console.log(isActive);
+          const isActive = pathname === item.href;
           return (
             <Link
               href={item.href}

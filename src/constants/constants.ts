@@ -11,19 +11,19 @@ export const SIDEBAR_OPTIONS = [
     key: "my-stories",
     label: "My Stories",
     icon: Book,
-    href: "my-stories",
+    href: "/my-stories",
   },
   {
     key: "create",
     label: "Create Story",
     icon: BookPlus,
-    href: "create",
+    href: "/create",
   },
   {
     key: "upgrade",
     label: "Upgrade Plan",
     icon: CreditCard,
-    href: "upgrade",
+    href: "/upgrade",
   },
 ];
 
