@@ -2,11 +2,10 @@
 
 @theme {
   --color-mystic-800: #121417;
-  --color-mystic-700: #1F1C26;
+  --color-mystic-700: #1f1c26;
   --color-mystic-600: #3d4754;
   --color-mystic-500: #9eabb8;
   --color-mystic-400: #293038;
-  --color-mystic-300: #403D54;
-
-  --color-mystic-blue-900 : #1466B8
+  --color-mystic-300: #403d54;
+  --color-mystic-blue-900: #1466b8;
 }
