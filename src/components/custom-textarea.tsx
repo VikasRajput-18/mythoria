@@ -1,17 +1,17 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { TextareaHTMLAttributes } from "react";
 
-type CustomInputProps = {
+type CustomTextAreaProps = {
   value: string;
   label?: string;
   className?: string;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const CustomInput = ({
+const CustomTextArea = ({
   label,
   className = "",
   value,
   ...props
-}: CustomInputProps) => {
+}: CustomTextAreaProps) => {
   return (
     <div className={`max-w-lg w-full space-y-2 flex flex-col ${className}`}>
       {label && (
@@ -19,13 +19,14 @@ const CustomInput = ({
           {label}
         </label>
       )}
-      <input
+      <textarea
         value={value}
         {...props}
         className="bg-mystic-700 rounded-md px-3 py-3 placeholder:text-mystic-500 border border-mystic-300 outline-none text-white"
+        rows={3}
       />
     </div>
   );
 };
 
-export default CustomInput;
+export default CustomTextArea;

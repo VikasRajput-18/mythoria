@@ -1,11 +1,25 @@
+// components/RTE.tsx
 "use client";
 
-import React, { useState, useRef, useMemo } from "react";
-import JoditEditor from "jodit-react";
+import dynamic from "next/dynamic";
 
-const ClientOnlyRTE = ({ placeholder = "Write your own story" }) => {
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
+import React, { useRef, useMemo } from "react";
+
+interface ClientOnlyRTEProps {
+  value: string;
+  onChange: (content: string) => void;
+  placeholder?: string;
+}
+
+const ClientOnlyRTE = ({
+  placeholder = "Write your own story",
+  value,
+  onChange,
+}: ClientOnlyRTEProps) => {
   const editor = useRef(null);
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
 
   const config = useMemo(
     () => ({
@@ -50,27 +64,28 @@ const ClientOnlyRTE = ({ placeholder = "Write your own story" }) => {
         "eraser",
       ],
       style: {
-        backgroundColor: "#1f1c26", // mystic-700
+        backgroundColor: "#1f1c26",
         color: "#ffffff",
       },
       height: 400,
     }),
     [placeholder]
   );
-  console.log(content);
+
   return (
-    <>
-      <label htmlFor="" className="text-neutral-300 text-lg font-semibold">
+    <div>
+      <label className="text-neutral-300 text-lg font-semibold">
         Story Content
       </label>
       <JoditEditor
         ref={editor}
-        value={content}
+        value={value}
         config={config}
         tabIndex={1}
-        onChange={(newContent) => setContent(newContent)}
+        onChange={(newContent) => {}}
+        onBlur={(newContent) => onChange(newContent)}
       />
-    </>
+    </div>
   );
 };
 
