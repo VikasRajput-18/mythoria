@@ -21,7 +21,7 @@ const page = () => {
         </button>
         <Link
           href="/create"
-          className="text-white hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-2 bg-mystic-blue-900"
+          className="text-white hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-2 bg-mystic-blue-900"
         >
           Create New Story
         </Link>
