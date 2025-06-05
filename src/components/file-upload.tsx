@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useDropzone } from "react-dropzone";
 import { Upload } from "lucide-react";
+import Image from "next/image";
 
 export const FileUpload = ({
   onChange,
@@ -26,7 +27,7 @@ export const FileUpload = ({
   const { getRootProps, isDragActive } = useDropzone({
     multiple: false,
     accept: {
-      "image/*": []
+      "image/*": [],
     },
     noClick: true,
     onDrop: handleFileChange,
@@ -69,9 +70,11 @@ export const FileUpload = ({
                   "relative z-40 bg-white dark:bg-neutral-900 flex flex-col items-start md:h-auto p-4 mt-4 w-full mx-auto rounded-md shadow-sm"
                 )}
               >
-                <img
+                <Image
                   src={URL.createObjectURL(file)}
                   alt="Uploaded preview"
+                  width={300}
+                  height={250}
                   className="w-full max-h-60 object-contain rounded-md mb-4"
                 />
                 <div className="flex justify-between w-full items-center gap-4">
@@ -86,7 +89,9 @@ export const FileUpload = ({
                   <p className="bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">
                     {file.type}
                   </p>
-                  <p>Modified: {new Date(file.lastModified).toLocaleDateString()}</p>
+                  <p>
+                    Modified: {new Date(file.lastModified).toLocaleDateString()}
+                  </p>
                 </div>
               </motion.div>
             ) : (
