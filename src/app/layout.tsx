@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "Mythoria",
     images: [
       {
-        url: "https://mythoria-sable.vercel.app/assets/mythoria.png", // 🔁 Replace with actual logo URL
+        url: "https://mythoria-sable.vercel.app/assets/mythoria.jpg", // 🔁 Replace with actual logo URL
         width: 1200,
         height: 630,
         alt: "Mythoria Logo",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "Mythoria – Craft & Discover Magical Stories",
     description:
       "Craft, read, and explore magical stories in a beautiful page-flip experience.",
-    images: ["https://mythoria-sable.vercel.app/assets/mythoria.png"], // 🔁 Replace if needed
+    images: ["https://mythoria-sable.vercel.app/assets/mythoria.jpg"], // 🔁 Replace if needed
   },
 };
 
