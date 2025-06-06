@@ -65,7 +65,7 @@ const Create = () => {
   };
 
   return (
-    <div className="flex-1 px-8 py-16 ">
+    <div className="flex-1 p-8 ">
       <div className="flex gap-3  w-full justify-between flex-wrap-reverse">
         <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">
           Create a new story
