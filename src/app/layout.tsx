@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Epilogue } from "next/font/google";
+import { Epilogue, Josefin_Sans as JosefinSans } from "next/font/google";
 import "./globals.css";
 
 const epilogueSans = Epilogue({
   variable: "--font-epilogue-sans",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const josefinSans = JosefinSans({
+  variable: "--font-josefin-sans",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -43,10 +49,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${epilogueSans.className} antialiased`}>
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${epilogueSans.className} ${josefinSans.variable} antialiased`}
+    >
+      <body>{children}</body>
     </html>
   );
 }
