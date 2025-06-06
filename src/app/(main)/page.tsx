@@ -1,15 +1,28 @@
+"use client";
+
 import PlanLimitBar from "@/components/plan-limit-bar";
 import Story from "@/components/story";
 import { STORIES } from "@/constants/constants";
+import { useAppContext } from "@/context/app-context";
+import { cn } from "@/lib/utils";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 const page = () => {
+  const { toggleSidebar, openSidebar } = useAppContext();
+
   return (
-    <div className="flex-1 p-4 sm:p-8 ">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-        Welcome to Mythoria
-      </h1>
+    <div className={cn(`flex-1 p-4 sm:p-8`, openSidebar && "opacity-30")}>
+      <div className="flex items-center gap-2">
+        <Menu
+          className="stroke-white md:hidden flex-inline cursor-pointer"
+          onClick={toggleSidebar}
+        />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+          Welcome to Mythoria
+        </h1>
+      </div>
       <p className="sm:text-lg  max-w-2xl text-mystic-500">
         Craft your legacy, one page at a time — unleash your imagination through
         stories, comics, and magical manuscripts.

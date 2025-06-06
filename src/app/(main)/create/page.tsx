@@ -6,8 +6,9 @@ import CustomSelect from "@/components/custom-select";
 import CustomTextArea from "@/components/custom-textarea";
 import CustomToggle from "@/components/custom-toggle";
 import { FileUpload } from "@/components/file-upload";
+import { useAppContext } from "@/context/app-context";
 import { FormTypes } from "@/types";
-import { X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 
 const Create = () => {
@@ -20,7 +21,7 @@ const Create = () => {
     audience: "",
     status: "draft",
   });
-
+  const { toggleSidebar, openSidebar } = useAppContext();
   const [tag, setTag] = useState("");
 
   const [files, setFiles] = useState<File[]>([]);
@@ -65,11 +66,17 @@ const Create = () => {
   };
 
   return (
-    <div className="flex-1 p-4 md:p-8 ">
+    <div className="w-full p-4 md:p-8">
       <div className="flex gap-3  w-full justify-between flex-wrap-reverse">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-          Create a new story
-        </h1>
+        <div className="">
+          <Menu
+            className="stroke-white md:hidden flex-inline cursor-pointer"
+            onClick={toggleSidebar}
+          />
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+            Create a new story
+          </h1>
+        </div>
         <CustomToggle
           label="Status"
           value={formData.status}

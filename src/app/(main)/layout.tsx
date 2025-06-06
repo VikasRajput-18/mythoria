@@ -8,7 +8,7 @@ export default function HomeLayout({
   return (
     <section className="bg-mystic-800 flex items-start min-h-screen w-full ">
       <Sidebar />
-      {children}
+      <main className="w-full">{children}</main>
     </section>
   );
 }

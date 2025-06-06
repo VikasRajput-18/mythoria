@@ -1,15 +1,49 @@
 "use client";
 
 import { SIDEBAR_OPTIONS } from "@/constants/constants";
+import { useAppContext } from "@/context/app-context";
+import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const { openSidebar, toggleSidebar } = useAppContext();
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  // Close sidebar on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        openSidebar &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        toggleSidebar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [openSidebar, toggleSidebar]);
 
   return (
-    <aside className="fixed -left-[400px] md:sticky top-0 md:w-[350px] p-8">
-      <h1 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h1>
+    <aside
+      ref={sidebarRef}
+      className={cn(
+        `fixed -left-[400px] bg-mystic-800 md:sticky transition-all duration-200 ease-in-out top-0 w-[350px] p-8`,
+        openSidebar ? "left-0  h-screen z-[999]" : "h-screen"
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h1>
+        <X
+          className="stroke-white md:hidden cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out"
+          onClick={toggleSidebar}
+        />
+      </div>
       <div className="mt-8 space-y-5">
         {SIDEBAR_OPTIONS.map((item) => {
           const { icon: Icon } = item;

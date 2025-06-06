@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Epilogue, Josefin_Sans as JosefinSans } from "next/font/google";
 import "./globals.css";
+import AppProvider from "@/context/app-context";
 
 const epilogueSans = Epilogue({
   variable: "--font-epilogue-sans",
@@ -53,7 +54,9 @@ export default function RootLayout({
       lang="en"
       className={`${epilogueSans.className} ${josefinSans.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }
