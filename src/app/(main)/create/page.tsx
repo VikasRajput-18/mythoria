@@ -65,9 +65,9 @@ const Create = () => {
   };
 
   return (
-    <div className="flex-1 md:p-8 ">
+    <div className="flex-1 p-4 md:p-8 ">
       <div className="flex gap-3  w-full justify-between flex-wrap-reverse">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
           Create a new story
         </h1>
         <CustomToggle
@@ -78,7 +78,7 @@ const Create = () => {
           }
         />
       </div>
-      <p className="text-lg  max-w-2xl text-mystic-500">
+      <p className="sm:text-lg max-w-2xl text-mystic-500">
         Your story needs a title and genre. You can add more details later.
       </p>
 
