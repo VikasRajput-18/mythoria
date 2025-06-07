@@ -1,9 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   typescript: {
     ignoreBuildErrors: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "scontent-del1-1.cdninstagram.com",
+        pathname: "/**", // Allow all paths
+      },
+    ],
   },
 };
 
