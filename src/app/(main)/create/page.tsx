@@ -3,12 +3,14 @@
 import ClientOnlyRTE from "@/components/client-only-RTE";
 import CustomInput from "@/components/custom-input";
 import CustomSelect from "@/components/custom-select";
+import CustomTags from "@/components/custom-tags";
 import CustomTextArea from "@/components/custom-textarea";
 import CustomToggle from "@/components/custom-toggle";
 import { FileUpload } from "@/components/file-upload";
 import { useAppContext } from "@/context/app-context";
 import { FormTypes } from "@/types";
-import { Menu, X } from "lucide-react";
+import { Eye, Menu, X } from "lucide-react";
+import Link from "next/link";
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 
 const Create = () => {
@@ -20,13 +22,25 @@ const Create = () => {
     tags: [],
     audience: "",
     status: "draft",
+    thumbnail: "",
   });
   const { toggleSidebar, openSidebar } = useAppContext();
   const [tag, setTag] = useState("");
 
   const [files, setFiles] = useState<File[]>([]);
   const handleFileUpload = (files: File[]) => {
-    setFiles(files);
+    const file = files[0]; // Only take the first file
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({
+        ...prev,
+        thumbnail: reader.result as string,
+      }));
+      setFiles([file]);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleChange = (
@@ -62,7 +76,7 @@ const Create = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    localStorage.setItem("storyData", JSON.stringify(formData));
   };
 
   return (
@@ -127,20 +141,12 @@ const Create = () => {
             />
             {formData.tags.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
-                {formData.tags.map((tagObj) => (
-                  <span
-                    key={tagObj.id}
-                    className="bg-mystic-700 text-white px-3 py-1 rounded-full flex items-center gap-2 break-words border-[1px] border-mystic-600"
-                  >
-                    {tagObj.value}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(tagObj.id)}
-                      className="cursor-pointer p-0.5 hover:bg-mystic-600  hover:rounded-full"
-                    >
-                      <X size={16} />
-                    </button>
-                  </span>
+                {formData.tags.map((tag) => (
+                  <CustomTags
+                    key={tag.id}
+                    {...tag}
+                    handleRemoveTag={handleRemoveTag}
+                  />
                 ))}
               </div>
             )}
@@ -169,10 +175,16 @@ const Create = () => {
             <option value="mature">Mature</option>
           </CustomSelect>
         </div>
-        <div className="flex justify-end">
+        <div className="flex items-center gap-4 justify-end">
+          <Link
+            href={"/preview"}
+            className="text-mystic-800 no-underline hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-3 bg-white cursor-pointer mt-8 "
+          >
+            Preview
+          </Link>
           <button
             type="submit"
-            className="text-white hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 cursor-pointer ml-auto mt-8 max-w-sm w-full"
+            className="text-white hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 cursor-pointer mt-8"
           >
             Create
           </button>
