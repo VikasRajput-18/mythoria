@@ -1,35 +1,24 @@
 "use client";
 
-import ClientOnlyRTE from "@/components/client-only-RTE";
+import { ChangeEvent, FormEvent, KeyboardEvent } from "react";
+import { Eye, Menu } from "lucide-react";
+import Link from "next/link";
+
 import CustomInput from "@/components/custom-input";
 import CustomSelect from "@/components/custom-select";
 import CustomTags from "@/components/custom-tags";
 import CustomTextArea from "@/components/custom-textarea";
 import CustomToggle from "@/components/custom-toggle";
+import ClientOnlyRTE from "@/components/client-only-RTE";
 import { FileUpload } from "@/components/file-upload";
 import { useAppContext } from "@/context/app-context";
-import { FormTypes } from "@/types";
-import { Eye, Menu, X } from "lucide-react";
-import Link from "next/link";
-import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 
 const Create = () => {
-  const [formData, setFormData] = useState<FormTypes>({
-    title: "",
-    description: "",
-    genre: "",
-    content: "",
-    tags: [],
-    audience: "",
-    status: "draft",
-    thumbnail: "",
-  });
-  const { toggleSidebar, openSidebar } = useAppContext();
-  const [tag, setTag] = useState("");
+  const { toggleSidebar, formData, setFormData, tag, setTag, files, setFiles } =
+    useAppContext();
 
-  const [files, setFiles] = useState<File[]>([]);
   const handleFileUpload = (files: File[]) => {
-    const file = files[0]; // Only take the first file
+    const file = files[0];
     if (!file) return;
 
     const reader = new FileReader();
@@ -76,15 +65,15 @@ const Create = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("storyData", JSON.stringify(formData));
+    // localStorage.setItem("storyData", JSON.stringify(formData));
   };
 
   return (
     <div className="w-full p-4 md:p-8">
       <div className="flex gap-3  w-full justify-between flex-wrap-reverse">
-        <div className="">
+        <div>
           <Menu
-            className="stroke-white md:hidden flex-inline cursor-pointer"
+            className="stroke-white md:hidden cursor-pointer"
             onClick={toggleSidebar}
           />
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -94,11 +83,12 @@ const Create = () => {
         <CustomToggle
           label="Status"
           value={formData.status}
-          onChange={(newStatus: "draft" | "publish") =>
+          onChange={(newStatus) =>
             setFormData((prev) => ({ ...prev, status: newStatus }))
           }
         />
       </div>
+
       <p className="sm:text-lg max-w-2xl text-mystic-500">
         Your story needs a title and genre. You can add more details later.
       </p>
@@ -116,18 +106,20 @@ const Create = () => {
           onChange={handleChange}
           label="Short Description"
           name="description"
-          placeholder="Write a short description about your story..."
+          placeholder="Write a short description..."
         />
 
         <ClientOnlyRTE value={formData.content} onChange={handleEditorChange} />
+
         <div>
-          <label htmlFor="" className="text-neutral-300 text-lg font-semibold">
+          <label className="text-neutral-300 text-lg font-semibold">
             Thumbnail
           </label>
-          <div className="w-full max-w-4xl  border border-dashed bg-white dark:bg-mystic-700 border-neutral-200 dark:border-neutral-800 rounded-lg">
+          <div className="w-full max-w-4xl border border-dashed bg-white dark:bg-mystic-700 border-neutral-200 dark:border-neutral-800 rounded-lg">
             <FileUpload onChange={handleFileUpload} />
           </div>
         </div>
+
         <div className="flex items-start gap-4 flex-wrap">
           <div className="max-w-lg w-full">
             <CustomInput
@@ -151,12 +143,13 @@ const Create = () => {
               </div>
             )}
           </div>
+
           <CustomInput
             value={formData.genre}
             onChange={handleChange}
             name="genre"
             label="Genre"
-            placeholder="e.g., Fantasy, Adventure, Sci-Fi"
+            placeholder="e.g., Fantasy, Adventure"
             className="flex-1"
           />
         </div>
@@ -167,7 +160,6 @@ const Create = () => {
             value={formData.audience}
             onChange={handleChange}
             label="Audience"
-            className=""
           >
             <option value="">Select Audience</option>
             <option value="general">General</option>
@@ -175,16 +167,17 @@ const Create = () => {
             <option value="mature">Mature</option>
           </CustomSelect>
         </div>
+
         <div className="flex items-center gap-4 justify-end">
           <Link
             href={"/preview"}
-            className="text-mystic-800 no-underline hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-3 bg-white cursor-pointer mt-8 "
+            className="text-mystic-800 no-underline hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-white mt-8"
           >
             Preview
           </Link>
           <button
             type="submit"
-            className="text-white hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 cursor-pointer mt-8"
+            className="text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-8"
           >
             Create
           </button>

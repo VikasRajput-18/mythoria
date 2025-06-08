@@ -1,0 +1,67 @@
+import Image from "next/image";
+import React from "react";
+import StoryCard from "./story-card";
+
+export const GenerateButton = () => {
+  return (
+    <button className="w-full py-5 cursor-pointer rounded-full flex items-center justify-center gap-3 bg-[#1C1A1C] transition-all duration-[450ms] ease-in-out hover:bg-gradient-to-t hover:from-[#A47CF3] hover:to-[#683FEA] hover:shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.4),inset_0px_-4px_0px_0px_rgba(0,0,0,0.2),0px_0px_0px_4px_rgba(255,255,255,0.2),0px_0px_180px_0px_#9917FF] hover:-translate-y-0.5 group">
+      <svg
+        height="24"
+        width="24"
+        viewBox="0 0 24 24"
+        className="fill-[#AAAAAA] transition-all duration-[800ms] ease-in-out group-hover:fill-white group-hover:scale-110"
+      >
+        <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z" />
+      </svg>
+      <span className=" text-[#AAAAAA] font-semibold text-base md:text-lg group-hover:text-white">
+        Subscribe
+      </span>
+    </button>
+  );
+};
+
+const AuthorDetails = () => {
+  return (
+    <div className="md:max-w-[400px] sticky top-10 ">
+      <div className="flex items-center gap-2">
+        <div className="border-2 border-mystic-blue-900 rounded-full p-0.5">
+          <Image
+            src={
+              "https://scontent-del1-1.cdninstagram.com/v/t51.2885-19/503272151_18356863138147606_8698245624336229866_n.jpg?_nc_ht=scontent-del1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QEp9EJ7kzXokBDp2OJ5Xe4OwapeVTJJTF4Rh_QNmW619rxurMQvRGyQ11DLw1FEp38&_nc_ohc=7VRPTjfG49EQ7kNvwEpaIGi&_nc_gid=_T8f9RTy0iOf-2kJ1uE4iA&edm=AA5fTDYBAAAA&ccb=7-5&oh=00_AfNU4gfMnEekg-hBup-aK83IEELVRNa-WvN2EplofjtAFg&oe=684A2C5A&_nc_sid=7edfe2"
+            }
+            width={100}
+            height={100}
+            className="w-24 h-24 rounded-full object-cover"
+            alt="Vikas Rajput"
+          />
+        </div>
+        <div>
+          <h3 className="text-white text-lg">Vikas Rajput</h3>
+          <p className="text-neutral-300 text-sm max-w-[250px]">
+            Writer of fantasy and science fiction.
+          </p>
+        </div>
+      </div>
+      <div className="mt-4 w-full flex justify-end">
+        <GenerateButton />
+      </div>
+      <div>
+        <h3 className="text-white">Other stories by Vikas Rajput</h3>
+        <div className="mt-4 space-y-8">
+          <StoryCard
+            thumbnail={"/assets/lost_city.png"}
+            title="The Lost City"
+            genre="Fantasy"
+          />
+          <StoryCard
+            thumbnail={"/assets/curse_of_the_cursed.png"}
+            title="Curse of the Cursed"
+            genre="Horror"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AuthorDetails;

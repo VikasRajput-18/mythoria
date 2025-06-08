@@ -1,32 +1,34 @@
 "use client";
+import AuthorDetails from "@/components/author-details";
 import CustomInput from "@/components/custom-input";
 import CustomTags from "@/components/custom-tags";
+import { useAppContext } from "@/context/app-context";
 import { Tag } from "@/types";
-import { Bookmark, Heart, MessageCircle, Share2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Bookmark,
+  Heart,
+  MessageCircle,
+  Share2,
+} from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function MyBook() {
-  const [storyData, setStoryData] = useState<any>(null);
-
-  useEffect(() => {
-    const data = localStorage.getItem("storyData");
-    if (data) {
-      try {
-        setStoryData(JSON.parse(data));
-      } catch (e) {
-        console.error("Failed to parse storyData:", e);
-      }
-    }
-  }, []);
+  const { formData: storyData } = useAppContext();
 
   return (
     <section className="bg-mystic-800 w-full min-h-screen p-4 sm:p-8">
-      <div className="lg:flex items-start gap-x-8 ">
+      <div className="lg:flex items-start gap-x-8 space-y-8">
         <div className="flex-1 w-full">
-          <h2 className="text-xl md:text-2xl text-neutral-200">
-            {storyData?.title}
-          </h2>
+          <div className="flex items-start gap-3">
+            <Link href={"/create"} className="mt-0.5">
+              <ArrowLeft className="stroke-white" />
+            </Link>
+            <h2 className="text-xl md:text-2xl my-0 text-neutral-200">
+              {storyData?.title}
+            </h2>
+          </div>
           <p className="text-neutral-400">{storyData?.description}</p>
 
           {storyData?.tags?.length > 0 ? (
@@ -42,7 +44,7 @@ export default function MyBook() {
               <Image
                 width={350}
                 height={300}
-                className="w-full max-w-2xl h-full rounded-md"
+                className="w-full max-w-2xl h-full max-h-[400px] object-contain bg-mystic-700 rounded-md"
                 src={storyData?.thumbnail}
                 alt={storyData.title}
               />
@@ -84,27 +86,7 @@ export default function MyBook() {
             </div>
           </div>
         </div>
-        <div className="md:max-w-[400px] sticky top-10 ">
-          <div className="flex items-center gap-2">
-            <div className="border-2 border-mystic-blue-900 rounded-full p-0.5">
-              <Image
-                src={
-                  "https://scontent-del1-1.cdninstagram.com/v/t51.2885-19/503272151_18356863138147606_8698245624336229866_n.jpg?_nc_ht=scontent-del1-1.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QEp9EJ7kzXokBDp2OJ5Xe4OwapeVTJJTF4Rh_QNmW619rxurMQvRGyQ11DLw1FEp38&_nc_ohc=7VRPTjfG49EQ7kNvwEpaIGi&_nc_gid=_T8f9RTy0iOf-2kJ1uE4iA&edm=AA5fTDYBAAAA&ccb=7-5&oh=00_AfNU4gfMnEekg-hBup-aK83IEELVRNa-WvN2EplofjtAFg&oe=684A2C5A&_nc_sid=7edfe2"
-                }
-                width={100}
-                height={100}
-                className="w-24 h-24 rounded-full object-cover"
-                alt="Vikas Rajput"
-              />
-            </div>
-            <div>
-              <h3 className="text-white text-lg">Vikas Rajput</h3>
-              <p className="text-neutral-300 text-sm max-w-[250px]">
-                Writer of fantasy and science fiction.
-              </p>
-            </div>
-          </div>
-        </div>
+        <AuthorDetails />
       </div>
     </section>
   );

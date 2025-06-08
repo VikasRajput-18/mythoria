@@ -30,7 +30,7 @@ const CustomTags = ({
         }}
         className="cursor-pointer p-0.5 hover:bg-mystic-600  hover:rounded-full"
       >
-        {!hideIcon && <X size={16} />}
+        {!hideIcon ? <X size={16} /> : null}
       </button>
     </span>
   );
