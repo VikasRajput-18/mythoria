@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useDropzone } from "react-dropzone";
 import { Upload } from "lucide-react";
 import Image from "next/image";
+import { cn } from "../lib/utils";
 
 export const FileUpload = ({
   onChange,

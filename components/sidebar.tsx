@@ -1,12 +1,12 @@
 "use client";
 
-import { SIDEBAR_OPTIONS } from "@/constants/constants";
-import { useAppContext } from "@/context/app-context";
-import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { cn } from "../lib/utils";
+import { useAppContext } from "../context/app-context";
+import { SIDEBAR_OPTIONS } from "../constants/constants";
 
 const Sidebar = () => {
   const pathname = usePathname();

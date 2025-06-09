@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Epilogue, Josefin_Sans as JosefinSans } from "next/font/google";
 import "./globals.css";
-import AppProvider from "@/context/app-context";
+import AppProvider from "../context/app-context";
 
 const epilogueSans = Epilogue({
   variable: "--font-epilogue-sans",

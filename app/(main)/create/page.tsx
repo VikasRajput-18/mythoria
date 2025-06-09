@@ -3,15 +3,14 @@
 import { ChangeEvent, FormEvent, KeyboardEvent } from "react";
 import { Eye, Menu } from "lucide-react";
 import Link from "next/link";
-
-import CustomInput from "@/components/custom-input";
-import CustomSelect from "@/components/custom-select";
-import CustomTags from "@/components/custom-tags";
-import CustomTextArea from "@/components/custom-textarea";
-import CustomToggle from "@/components/custom-toggle";
-import ClientOnlyRTE from "@/components/client-only-RTE";
-import { FileUpload } from "@/components/file-upload";
-import { useAppContext } from "@/context/app-context";
+import ClientOnlyRTE from "../../../components/client-only-RTE";
+import CustomInput from "../../../components/custom-input";
+import CustomSelect from "../../../components/custom-select";
+import CustomTags from "../../../components/custom-tags";
+import CustomTextArea from "../../../components/custom-textarea";
+import CustomToggle from "../../../components/custom-toggle";
+import { FileUpload } from "../../../components/file-upload";
+import { useAppContext } from "../../../context/app-context";
 
 const Create = () => {
   const { toggleSidebar, formData, setFormData, tag, setTag, files, setFiles } =

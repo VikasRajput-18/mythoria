@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, ReactNode, useContext, useState } from "react";
-import { FormTypes, Tag } from "@/types";
+import { FormTypes } from "../types";
 
 export type ContextType = {
   openSidebar: boolean;

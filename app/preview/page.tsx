@@ -1,9 +1,5 @@
 "use client";
-import AuthorDetails from "@/components/author-details";
-import CustomInput from "@/components/custom-input";
-import CustomTags from "@/components/custom-tags";
-import { useAppContext } from "@/context/app-context";
-import { Tag } from "@/types";
+
 import {
   ArrowLeft,
   Bookmark,
@@ -13,6 +9,11 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import AuthorDetails from "../../components/author-details";
+import CustomInput from "../../components/custom-input";
+import CustomTags from "../../components/custom-tags";
+import { useAppContext } from "../../context/app-context";
+import { Tag } from "../../types";
 
 export default function MyBook() {
   const { formData: storyData } = useAppContext();

@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
 import React, { InputHTMLAttributes } from "react";
+import { cn } from "../lib/utils";
 
 type CustomInputProps = {
   value: string;

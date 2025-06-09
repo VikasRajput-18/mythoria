@@ -1,13 +1,13 @@
 "use client";
 
-import PlanLimitBar from "@/components/plan-limit-bar";
-import Story from "@/components/story";
-import { STORIES } from "@/constants/constants";
-import { useAppContext } from "@/context/app-context";
-import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import PlanLimitBar from "../../components/plan-limit-bar";
+import Story from "../../components/story";
+import { STORIES } from "../../constants/constants";
+import { useAppContext } from "../../context/app-context";
+import { cn } from "../../lib/utils";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
