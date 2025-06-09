@@ -1,5 +1,5 @@
 "use client";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { FormTypes } from "../types";
 
@@ -18,6 +18,8 @@ export type ContextType = {
 };
 
 export const AppContext = createContext<ContextType | null>(null);
+
+const queryClient = new QueryClient();
 
 export default function AppProvider({ children }: { children: ReactNode }) {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -50,7 +52,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
         setFiles,
       }}
     >
-      {children}
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </AppContext.Provider>
   );
 }

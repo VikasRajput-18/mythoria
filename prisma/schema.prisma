@@ -18,6 +18,7 @@ model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
+  name      String
   profile   Profile?
   stories   Story[]
   createdAt DateTime @default(now())
@@ -27,7 +28,6 @@ model Profile {
   id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
   userId    Int      @unique
-  name      String?
   bio       String?
   image     String?
   createdAt DateTime @default(now())
@@ -44,4 +44,5 @@ model Story {
   updatedAt  DateTime @updatedAt
   published  Boolean  @default(false)
 }
+
 // npx prisma migrate dev --name updated-models

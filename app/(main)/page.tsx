@@ -8,9 +8,16 @@ import Story from "../../components/story";
 import { STORIES } from "../../constants/constants";
 import { useAppContext } from "../../context/app-context";
 import { cn } from "../../lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { getCurrentUser } from "../../api-service/api";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
+  const { data } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getCurrentUser,
+  });
+
 
   return (
     <div className={cn(`flex-1 p-4 sm:p-8`, openSidebar && "opacity-30")}>

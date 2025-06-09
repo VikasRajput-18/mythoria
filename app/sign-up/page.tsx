@@ -4,25 +4,26 @@ import React, { useState } from "react";
 import CustomInput from "../../components/custom-input";
 import Image from "next/image";
 import Link from "next/link";
-import { login } from "../../api-service/api";
+import { register } from "../../api-service/api";
 import { useMutation } from "@tanstack/react-query";
-
 import { toast } from "sonner";
 import Spinner from "../../components/spinner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
-const SignIn = () => {
+const SignUp = () => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const router = useRouter();
 
-  const loginMutation = useMutation({
-    mutationFn: login,
+  const registerMutation = useMutation({
+    mutationFn: register,
     onSuccess: (data) => {
       toast.success(data.message);
-      router.push("/");
+      router.push("/sign-in");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
@@ -32,13 +33,17 @@ const SignIn = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate({ email, password });
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    registerMutation.mutate({ email, password, name: fullName });
   };
 
   return (
-    <section className="bg-mystic-800 min-h-screen flex items-center p-2 justify-center">
+    <section className="bg-mystic-800 min-h-screen flex items-center justify-center px-2">
       <form
-        className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8  shadow-lg"
+        className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8 shadow-lg"
         onSubmit={handleSubmit}
       >
         <div className="text-center">
@@ -53,11 +58,19 @@ const SignIn = () => {
             Mythoria
           </h3>
           <p className="text-mystic-500 text-sm mt-1">
-            Log in to continue your creative journey on Mythoria.
+            Create your account to begin writing your story.
           </p>
         </div>
 
         <div className="space-y-4 mt-6">
+          <CustomInput
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            label="Enter Name"
+            placeholder="Pablo Escobar"
+            required
+          />
           <CustomInput
             type="email"
             value={email}
@@ -71,25 +84,33 @@ const SignIn = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             label="Password"
-            placeholder="Enter your password"
+            placeholder="Create a strong password"
+            required
+          />
+          <CustomInput
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            label="Confirm Password"
+            placeholder="Re-enter your password"
             required
           />
           <button
             type="submit"
-            disabled={loginMutation.isPending}
+            disabled={registerMutation.isPending}
             className="cursor-pointer w-full text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-2 flex items-center justify-center"
           >
-            {loginMutation.isPending ? <Spinner /> : "Sign In"}
+            {registerMutation.isPending ? <Spinner /> : "Create Account"}
           </button>
         </div>
 
         <div className="mt-6 flex items-center justify-center text-sm">
-          <p className="text-mystic-500 mr-1">Don’t have an account?</p>
+          <p className="text-mystic-500 mr-1">Already have an account?</p>
           <Link
-            href="/sign-up"
+            href="/sign-in"
             className="text-mystic-blue-900 hover:underline font-medium"
           >
-            Create one
+            Sign In
           </Link>
         </div>
       </form>
@@ -97,4 +118,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

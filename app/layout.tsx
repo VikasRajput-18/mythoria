@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Epilogue, Josefin_Sans as JosefinSans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import AppProvider from "../context/app-context";
 
 const epilogueSans = Epilogue({
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body>
         <AppProvider>{children}</AppProvider>
+        <Toaster />
       </body>
     </html>
   );
