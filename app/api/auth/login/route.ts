@@ -1,7 +1,7 @@
 import { prisma } from "../../../../lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import cookie from "cookie";
+import * as cookie from "cookie"; // Updated import
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -44,6 +44,10 @@ export async function POST(req: NextRequest) {
     { message: "Login Successful", userId: user.id },
     { status: 200 }
   );
+
+  if (!cookie || !cookie.serialize) {
+    throw new Error("Cookie module is not loaded correctly");
+  }
 
   res.headers.set(
     "Set-Cookie",
