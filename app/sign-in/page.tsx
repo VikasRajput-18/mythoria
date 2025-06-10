@@ -36,7 +36,7 @@ const SignIn = () => {
   };
 
   return (
-    <section className="bg-mystic-800 min-h-screen flex items-center p-2 justify-center">
+    <section className="bg-mystic-800 min-h-screen flex items-center p-4 justify-center">
       <form
         className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8  shadow-lg"
         onSubmit={handleSubmit}
