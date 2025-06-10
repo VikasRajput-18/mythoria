@@ -27,8 +27,6 @@ export async function POST(req: NextRequest) {
     throw new Error("JWT_SECRET not set in environment");
   }
 
-  console.log("user---", user);
-
   const token = jwt.sign(
     {
       userId: user.id,

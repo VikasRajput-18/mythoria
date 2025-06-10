@@ -12,9 +12,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  console.log({ email, name, password });
   const existingUser = await prisma.user.findUnique({ where: { email } });
-  console.log("-----existingUser--------", existingUser);
 
   if (existingUser) {
     return NextResponse.json(
