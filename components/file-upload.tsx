@@ -55,7 +55,7 @@ export const FileUpload = ({
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <p className="relative z-20 font-bold text-neutral-700 dark:text-neutral-300 text-base">
+          <p className="relative z-20 font-bold text-neutral-300 text-base">
             Upload Thumbnail
           </p>
           <p className="relative z-20 text-neutral-400 text-base mt-2 text-center">
@@ -67,7 +67,7 @@ export const FileUpload = ({
               <motion.div
                 layoutId="file-upload"
                 className={cn(
-                  "relative z-40 bg-white dark:bg-neutral-900 flex flex-col items-start md:h-auto p-4 mt-4 w-full mx-auto rounded-md shadow-sm"
+                  "relative z-40 bg-neutral-900 flex flex-col items-start md:h-auto p-4 mt-4 w-full mx-auto rounded-md shadow-sm"
                 )}
               >
                 <Image
@@ -78,15 +78,15 @@ export const FileUpload = ({
                   className="w-full max-h-60 object-contain rounded-md mb-4"
                 />
                 <div className="flex justify-between w-full items-center gap-4">
-                  <p className="text-base text-neutral-700 dark:text-neutral-300 truncate max-w-xs">
+                  <p className="text-base text-mystic-500 truncate max-w-xs">
                     {file.name}
                   </p>
-                  <p className="rounded-lg px-2 py-1 text-sm dark:bg-neutral-800 dark:text-white">
+                  <p className="rounded-lg px-2 py-1 text-sm bg-mystic-800 text-mystic-500">
                     {(file.size / (1024 * 1024)).toFixed(2)} MB
                   </p>
                 </div>
-                <div className="flex justify-between w-full mt-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  <p className="bg-gray-100 dark:bg-neutral-800 px-1 py-0.5 rounded">
+                <div className="flex justify-between w-full mt-2 text-sm text-mystic-500">
+                  <p className=" bg-mystic-800 px-1 py-0.5 rounded">
                     {file.type}
                   </p>
                   <p>
@@ -98,7 +98,7 @@ export const FileUpload = ({
               <motion.div
                 layoutId="file-upload"
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="relative group-hover/file:shadow-2xl z-40 bg-white dark:bg-neutral-900 flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+                className="relative group-hover/file:shadow-2xl z-40 bg-neutral-900 flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
               >
                 {isDragActive ? (
                   <p className="text-neutral-600 text-center">
@@ -121,7 +121,7 @@ export function GridPattern() {
   const columns = 41;
   const rows = 11;
   return (
-    <div className="flex bg-gray-100 dark:bg-neutral-900 shrink-0 flex-wrap justify-center items-center gap-x-px gap-y-px scale-105">
+    <div className="flex  bg-neutral-900 shrink-0 flex-wrap justify-center items-center gap-x-px gap-y-px scale-105">
       {Array.from({ length: rows }).map((_, row) =>
         Array.from({ length: columns }).map((_, col) => {
           const index = row * columns + col;
@@ -130,8 +130,8 @@ export function GridPattern() {
               key={`${col}-${row}`}
               className={`w-10 h-10 flex shrink-0 rounded-[2px] ${
                 index % 2 === 0
-                  ? "bg-gray-50 dark:bg-neutral-950"
-                  : "bg-gray-50 dark:bg-neutral-950 shadow-[0px_0px_1px_3px_rgba(255,255,255,1)_inset] dark:shadow-[0px_0px_1px_3px_rgba(0,0,0,1)_inset]"
+                  ? "bg-neutral-950"
+                  : "bg-neutral-950 shadow-[0px_0px_1px_3px_rgba(0,0,0,1)_inset]"
               }`}
             />
           );

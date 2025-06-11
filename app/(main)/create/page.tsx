@@ -114,7 +114,7 @@ const Create = () => {
           <label className="text-neutral-300 text-lg font-semibold">
             Thumbnail
           </label>
-          <div className="w-full max-w-4xl border border-dashed bg-white dark:bg-mystic-700 border-neutral-200 dark:border-neutral-800 rounded-lg">
+          <div className="w-full max-w-4xl border border-dashed  bg-mystic-800 border-neutral-800 rounded-lg">
             <FileUpload onChange={handleFileUpload} />
           </div>
         </div>
