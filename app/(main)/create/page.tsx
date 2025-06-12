@@ -1,7 +1,7 @@
 "use client";
 
-import { ChangeEvent, FormEvent, KeyboardEvent } from "react";
-import { Eye, Menu } from "lucide-react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
+import { BookOpenText, Info, Menu, ScrollText } from "lucide-react";
 import Link from "next/link";
 import ClientOnlyRTE from "../../../components/client-only-RTE";
 import CustomInput from "../../../components/custom-input";
@@ -15,6 +15,9 @@ import { useAppContext } from "../../../context/app-context";
 const Create = () => {
   const { toggleSidebar, formData, setFormData, tag, setTag, files, setFiles } =
     useAppContext();
+
+  const [status, setStatus] = useState<"publish" | "draft">("publish");
+  const [type, setType] = useState<"book" | "other">("other");
 
   const handleFileUpload = (files: File[]) => {
     const file = files[0];
@@ -80,11 +83,28 @@ const Create = () => {
           </h1>
         </div>
         <CustomToggle
-          label="Status"
-          value={formData.status}
-          onChange={(newStatus) =>
-            setFormData((prev) => ({ ...prev, status: newStatus }))
-          }
+          value={status}
+          onChange={setStatus}
+          options={[
+            {
+              value: "publish",
+              label: (
+                <div className="flex items-center gap-1">
+                  <span>Publish</span>
+                </div>
+              ),
+              activeClassName: "bg-green-600 text-white",
+            },
+            {
+              value: "draft",
+              label: (
+                <div className="flex items-center gap-1">
+                  <span>Draft</span>
+                </div>
+              ),
+              activeClassName: "bg-rose-600 text-white",
+            },
+          ]}
         />
       </div>
 
@@ -93,6 +113,48 @@ const Create = () => {
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <CustomToggle
+          value={type}
+          onChange={setType}
+          options={[
+            {
+              value: "book",
+              label: (
+                <div className="flex items-center gap-1">
+                  <BookOpenText />
+                </div>
+              ),
+              activeClassName: "bg-green-600 text-white",
+            },
+            {
+              value: "other",
+              label: (
+                <div className="flex items-center gap-1">
+                  <ScrollText />
+                </div>
+              ),
+              activeClassName: "bg-rose-600 text-white",
+            },
+          ]}
+        />
+
+        <div className="flex items-start gap-2 bg-mystic-900 p-3 rounded-lg border border-mystic-600 text-sm text-white">
+          <Info className="w-4 h-4 mt-0.5 text-mystic-500" />
+          <p className="text-neutral-300">
+            <span className="inline-flex items-center gap-1 ">
+              <BookOpenText className="w-4 h-4" />
+              <b>Book</b> will format your story in a classic **book-style
+              page-flip** layout.
+            </span>
+            <br />
+            <span className="inline-flex items-center gap-1 ">
+              <ScrollText className="w-4 h-4" />
+              <b>Scroll</b>
+              lets users read your story in a **modern vertical scroll** format.
+            </span>
+          </p>
+        </div>
+
         <CustomInput
           value={formData.title}
           onChange={handleChange}
