@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
-import { BookOpenText, Info, Menu, ScrollText } from "lucide-react";
+import { BookOpenText, Info, Menu, ScrollText, Trash2 } from "lucide-react";
 import Link from "next/link";
 import ClientOnlyRTE from "../../../components/client-only-RTE";
 import CustomInput from "../../../components/custom-input";
@@ -18,6 +18,12 @@ const Create = () => {
 
   const [status, setStatus] = useState<"publish" | "draft">("publish");
   const [type, setType] = useState<"book" | "other">("other");
+  const [pages, setPages] = useState<{ id: string; content: string }[]>([
+    {
+      id: crypto.randomUUID(),
+      content: "",
+    },
+  ]);
 
   const handleFileUpload = (files: File[]) => {
     const file = files[0];
@@ -41,6 +47,10 @@ const Create = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleDelete = (id: string) => {
+    setPages((prev) => prev.filter((p) => p.id !== id));
+  };
+
   const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
     if (formData.tags.length > 6) return;
     if (e.key === "Enter" && tag.trim() !== "") {
@@ -59,6 +69,16 @@ const Create = () => {
       ...prev,
       tags: prev.tags.filter((tag) => tag.id !== id),
     }));
+  };
+
+  const handlePageChange = (id: string, value: string) => {
+    setPages((prev) =>
+      prev.map((page) => (page.id === id ? { ...page, content: value } : page))
+    );
+  };
+
+  const addNewPage = () => {
+    setPages((prev) => [...prev, { id: crypto.randomUUID(), content: "" }]);
   };
 
   const handleEditorChange = (content: string) => {
@@ -170,7 +190,38 @@ const Create = () => {
           placeholder="Write a short description..."
         />
 
-        <ClientOnlyRTE value={formData.content} onChange={handleEditorChange} />
+        {type === "book" ? (
+          <div className="space-y-6 w-full">
+            {pages.map((page, index) => (
+              <div key={page.id} className="w-full space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-white font-semibold">Page {index + 1}</p>
+                  <Trash2
+                    className="stroke-red-500 cursor-pointer"
+                    onClick={() => handleDelete(page?.id)}
+                  />
+                </div>
+
+                <ClientOnlyRTE
+                  value={page.content}
+                  onChange={(val) => handlePageChange(page.id, val)}
+                />
+              </div>
+            ))}
+            <button
+              onClick={addNewPage}
+              type="button"
+              className="bg-mystic-700 hover:bg-mystic-600 text-white py-2 px-4 rounded-lg mt-2 cursor-pointer"
+            >
+              + Add New Page
+            </button>
+          </div>
+        ) : (
+          <ClientOnlyRTE
+            value={formData.content}
+            onChange={handleEditorChange}
+          />
+        )}
 
         <div>
           <label className="text-neutral-300 text-lg font-semibold">
