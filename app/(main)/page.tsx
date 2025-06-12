@@ -13,14 +13,13 @@ import { getCurrentUser } from "../../api-service/api";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,
   });
 
-
   return (
-    <div className={cn(`flex-1 p-4 sm:p-8`, openSidebar && "opacity-30")}>
+    <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
       <div className="flex items-center gap-2">
         <Menu
           className="stroke-white md:hidden flex-inline cursor-pointer"
@@ -40,7 +39,8 @@ const page = () => {
           Upgrade Plan
         </button>
         <Link
-          href="/create"
+          href={!data?.user ? "/sign-in" : "/create"}
+          aria-disabled={isLoading}
           className="text-white hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-3 sm:px-6 py-2 bg-mystic-blue-900"
         >
           Create New Story

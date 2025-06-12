@@ -69,7 +69,7 @@ const Create = () => {
 
   return (
     <div className="w-full p-4 md:p-8">
-      <div className="flex gap-3  w-full justify-between flex-wrap-reverse">
+      <div className="flex gap-3 w-full justify-between flex-wrap-reverse">
         <div>
           <Menu
             className="stroke-white md:hidden cursor-pointer"

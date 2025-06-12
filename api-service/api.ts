@@ -28,8 +28,20 @@ export const register = async ({ email, password, name }: RegisterType) => {
   return response.data;
 };
 
+export const logout = async () => {
+  try {
+    const response = await axios.post("/api/auth/logout");
+    return response.data; // { message: "Logout Successful" }
+  } catch (error: any) {
+    throw error;
+  }
+};
 // api-service/api.ts
 export const getCurrentUser = async () => {
-  const response = await axios("/api/me", { withCredentials: true });
-  return response?.data;
+  try {
+    const response = await axios("/api/me", { withCredentials: true });
+    return response?.data;
+  } catch (err) {
+    return { user: null }; // fallback if user is not logged in
+  }
 };

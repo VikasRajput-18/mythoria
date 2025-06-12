@@ -36,13 +36,28 @@ model Profile {
 model Story {
   id         Int      @id @default(autoincrement())
   title      String
-  content    String
+  content    String?   // Used for "Other" type
   coverImage String?
+  type       StoryType @default(OTHER)
   author     User     @relation(fields: [authorId], references: [id])
   authorId   Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   published  Boolean  @default(false)
+  pages      Page[]    // Only used if type == BOOK
 }
 
+model Page {
+  id        Int      @id @default(autoincrement())
+  story     Story    @relation(fields: [storyId], references: [id])
+  storyId   Int
+  pageNumber Int
+  content   String   // Rich text content
+  createdAt DateTime @default(now())
+}
+
+enum StoryType {
+  BOOK
+  OTHER // scrollable type
+}
 // npx prisma migrate dev --name updated-models
