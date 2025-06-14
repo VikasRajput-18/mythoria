@@ -34,30 +34,63 @@ model Profile {
 }
 
 model Story {
-  id         Int      @id @default(autoincrement())
-  title      String
-  content    String?   // Used for "Other" type
-  coverImage String?
-  type       StoryType @default(OTHER)
-  author     User     @relation(fields: [authorId], references: [id])
-  authorId   Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  published  Boolean  @default(false)
-  pages      Page[]    // Only used if type == BOOK
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String // short description
+  content     String? // used only for "Other" type
+  coverImage  String?
+  genre       String? // e.g., Fantasy, Adventure
+  audience    AudienceType? // Enum for "general", "teen", "mature"
+  type        StoryType     @default(OTHER)
+  published   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // ✅ Relations
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  pages Page[] // Only for books
+  tags  StoryTag[] // Many-to-many via join model
 }
 
 model Page {
-  id        Int      @id @default(autoincrement())
-  story     Story    @relation(fields: [storyId], references: [id])
-  storyId   Int
+  id         Int      @id @default(autoincrement())
+  story      Story    @relation(fields: [storyId], references: [id])
+  storyId    Int
   pageNumber Int
-  content   String   // Rich text content
-  createdAt DateTime @default(now())
+  content    String // Rich text content
+  createdAt  DateTime @default(now())
 }
 
 enum StoryType {
   BOOK
   OTHER // scrollable type
 }
+
+// ✅ Normalized Tag model
+model Tag {
+  id      Int        @id @default(autoincrement())
+  name    String     @unique
+  stories StoryTag[]
+}
+
+// ✅ Join table for many-to-many
+model StoryTag {
+  story   Story @relation(fields: [storyId], references: [id])
+  storyId Int
+
+  tag   Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+
+  @@id([storyId, tagId]) // composite primary key
+}
+
+// ✅ Enum for audience
+enum AudienceType {
+  GENERAL
+  TEEN
+  MATURE
+}
+
 // npx prisma migrate dev --name updated-models

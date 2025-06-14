@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FormTypes } from "../types";
 
 interface LoginType {
   email: string;
@@ -44,4 +45,26 @@ export const getCurrentUser = async () => {
   } catch (err) {
     return { user: null }; // fallback if user is not logged in
   }
+};
+
+export const addStory = async (data: FormTypes) => {
+  const response = await axios.post("/api/story/add", data, {
+    withCredentials: true,
+  });
+
+  return response.data;
+};
+export const getMyStories = async () => {
+  const response = await axios.get("/api/stories/my-stories", {
+    withCredentials: true,
+  });
+
+  return response.data;
+};
+export const getAllStories = async () => {
+  const response = await axios.get("/api/stories", {
+    withCredentials: true,
+  });
+
+  return response.data;
 };

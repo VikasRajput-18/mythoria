@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { FormTypes } from "../types";
 
+// ✅ Extend your ContextType
 export type ContextType = {
   openSidebar: boolean;
   toggleSidebar: () => void;
@@ -12,9 +13,6 @@ export type ContextType = {
 
   tag: string;
   setTag: React.Dispatch<React.SetStateAction<string>>;
-
-  files: File[];
-  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
 export const AppContext = createContext<ContextType | null>(null);
@@ -32,12 +30,14 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     content: "",
     tags: [],
     audience: "",
-    status: "draft",
+    status: "publish",
+    type: "other",
+    pages: [{ id: crypto.randomUUID(), content: "" }],
     thumbnail: "",
+    files: [],
   });
 
   const [tag, setTag] = useState<string>("");
-  const [files, setFiles] = useState<File[]>([]);
 
   return (
     <AppContext.Provider
@@ -48,8 +48,6 @@ export default function AppProvider({ children }: { children: ReactNode }) {
         setFormData,
         tag,
         setTag,
-        files,
-        setFiles,
       }}
     >
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

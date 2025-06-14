@@ -5,18 +5,26 @@ import Link from "next/link";
 import React from "react";
 import PlanLimitBar from "../../components/plan-limit-bar";
 import Story from "../../components/story";
-import { STORIES } from "../../constants/constants";
 import { useAppContext } from "../../context/app-context";
 import { cn } from "../../lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser } from "../../api-service/api";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getAllStories, getCurrentUser } from "../../api-service/api";
+import Image from "next/image";
+import { StoryType } from "../../types";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useSuspenseQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,
   });
+
+  const { data: allStories, isLoading: isLoading2 } = useSuspenseQuery({
+    queryKey: ["myStories"],
+    queryFn: getAllStories,
+  });
+
+  const stories = allStories?.stories || [];
 
   return (
     <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
@@ -47,11 +55,37 @@ const page = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24">
-        {STORIES.map((story, ind) => {
-          return <Story key={ind} {...story} />;
-        })}
-      </div>
+      {/* ✅ No Stories */}
+      {!isLoading2 && stories.length === 0 && (
+        <div className="pt-20 mt-20 flex flex-col items-center justify-center h-60 text-center">
+          <Image
+            src={"/assets/empty-page.png"}
+            alt="No Story"
+            width={300}
+            height={300}
+            className="object-contain "
+          />
+          <p className="text-lg text-mystic-500 max-w-sm">
+            You haven’t written any stories yet. Start your first masterpiece
+            today!
+          </p>
+        </div>
+      )}
+
+      {/* ✅ Story Grid */}
+      {!isLoading2 && stories?.length > 0 && (
+        <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24">
+          {stories?.map((story: StoryType) => (
+            <Story
+              key={story.id}
+              title={story.title}
+              genre={story.genre}
+              thumbnail={story.coverImage}
+              description={story.description}
+            />
+          ))}
+        </div>
+      )}
       <PlanLimitBar />
     </div>
   );

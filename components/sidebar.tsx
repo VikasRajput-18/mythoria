@@ -7,7 +7,11 @@ import { useEffect, useRef } from "react";
 import { cn } from "../lib/utils";
 import { useAppContext } from "../context/app-context";
 import { SIDEBAR_OPTIONS } from "../constants/constants";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { getCurrentUser, logout } from "../api-service/api";
 
 import {
@@ -25,7 +29,7 @@ const Sidebar = () => {
   const { openSidebar, toggleSidebar } = useAppContext();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,
   });

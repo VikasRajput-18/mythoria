@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent } from "react";
 import { BookOpenText, Info, Menu, ScrollText, Trash2 } from "lucide-react";
 import Link from "next/link";
 import ClientOnlyRTE from "../../../components/client-only-RTE";
@@ -11,19 +11,27 @@ import CustomTextArea from "../../../components/custom-textarea";
 import CustomToggle from "../../../components/custom-toggle";
 import { FileUpload } from "../../../components/file-upload";
 import { useAppContext } from "../../../context/app-context";
+import { useMutation } from "@tanstack/react-query";
+import { addStory } from "../../../api-service/api";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const Create = () => {
-  const { toggleSidebar, formData, setFormData, tag, setTag, files, setFiles } =
-    useAppContext();
+  const { toggleSidebar, formData, setFormData, tag, setTag } = useAppContext();
+  const router = useRouter()
 
-  const [status, setStatus] = useState<"publish" | "draft">("publish");
-  const [type, setType] = useState<"book" | "other">("other");
-  const [pages, setPages] = useState<{ id: string; content: string }[]>([
-    {
-      id: crypto.randomUUID(),
-      content: "",
+  const createStory = useMutation({
+    mutationFn: addStory,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      router.push("/")
     },
-  ]);
+    onError: (error: AxiosError<{ message: string }>) => {
+      const message = error.response?.data?.message || "Something went wrong!";
+      toast.error(message);
+    },
+  });
 
   const handleFileUpload = (files: File[]) => {
     const file = files[0];
@@ -34,8 +42,8 @@ const Create = () => {
       setFormData((prev) => ({
         ...prev,
         thumbnail: reader.result as string,
+        files: [file],
       }));
-      setFiles([file]);
     };
     reader.readAsDataURL(file);
   };
@@ -48,7 +56,10 @@ const Create = () => {
   };
 
   const handleDelete = (id: string) => {
-    setPages((prev) => prev.filter((p) => p.id !== id));
+    setFormData((prev) => ({
+      ...prev,
+      pages: prev.pages.filter((p) => p.id !== id),
+    }));
   };
 
   const handleAddTag = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -72,22 +83,37 @@ const Create = () => {
   };
 
   const handlePageChange = (id: string, value: string) => {
-    setPages((prev) =>
-      prev.map((page) => (page.id === id ? { ...page, content: value } : page))
-    );
+    setFormData((prev) => ({
+      ...prev,
+      pages: prev.pages.map((page) =>
+        page.id === id ? { ...page, content: value } : page
+      ),
+    }));
   };
 
   const addNewPage = () => {
-    setPages((prev) => [...prev, { id: crypto.randomUUID(), content: "" }]);
+    setFormData((prev) => ({
+      ...prev,
+      pages: [...prev.pages, { id: crypto.randomUUID(), content: "" }],
+    }));
   };
 
   const handleEditorChange = (content: string) => {
     setFormData((prev) => ({ ...prev, content }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleStatusChange = (value: "publish" | "draft") => {
+    setFormData((prev) => ({ ...prev, status: value }));
+  };
+
+  const handleTypeChange = (value: "book" | "other") => {
+    setFormData((prev) => ({ ...prev, type: value }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // localStorage.setItem("storyData", JSON.stringify(formData));
+    const { files, ...storyData } = formData;
+    createStory.mutate(storyData);
   };
 
   return (
@@ -103,8 +129,8 @@ const Create = () => {
           </h1>
         </div>
         <CustomToggle
-          value={status}
-          onChange={setStatus}
+          value={formData.status}
+          onChange={handleStatusChange}
           options={[
             {
               value: "publish",
@@ -134,8 +160,8 @@ const Create = () => {
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
         <CustomToggle
-          value={type}
-          onChange={setType}
+          value={formData.type}
+          onChange={handleTypeChange}
           options={[
             {
               value: "book",
@@ -190,9 +216,9 @@ const Create = () => {
           placeholder="Write a short description..."
         />
 
-        {type === "book" ? (
+        {formData.type === "book" ? (
           <div className="space-y-6 w-full">
-            {pages.map((page, index) => (
+            {formData.pages.map((page, index) => (
               <div key={page.id} className="w-full space-y-2">
                 <div className="flex items-center justify-between">
                   <p className="text-white font-semibold">Page {index + 1}</p>
@@ -289,7 +315,7 @@ const Create = () => {
           </Link>
           <button
             type="submit"
-            className="text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-8"
+            className="cursor-pointer text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-8"
           >
             Create
           </button>
