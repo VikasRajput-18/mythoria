@@ -17,7 +17,13 @@ export type ContextType = {
 
 export const AppContext = createContext<ContextType | null>(null);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 export default function AppProvider({ children }: { children: ReactNode }) {
   const [openSidebar, setOpenSidebar] = useState(false);
