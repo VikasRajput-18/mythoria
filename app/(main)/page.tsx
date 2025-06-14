@@ -59,7 +59,7 @@ const page = () => {
       {!isLoading2 && stories.length === 0 && (
         <div className="pt-20 mt-20 flex flex-col items-center justify-center h-60 text-center">
           <Image
-            src={"/assets/empty-page.png"}
+            src={"/assets/empty-stories.png"}
             alt="No Story"
             width={300}
             height={300}

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, KeyboardEvent } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 import { BookOpenText, Info, Menu, ScrollText, Trash2 } from "lucide-react";
 import Link from "next/link";
 import ClientOnlyRTE from "../../../components/client-only-RTE";
@@ -17,8 +17,11 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { uploadImageToCloudinary } from "../../../lib/upload-to-cloudinary";
+import Spinner from "../../../components/spinner";
 
 const Create = () => {
+  // inside your component
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toggleSidebar, formData, setFormData, tag, setTag } = useAppContext();
   const router = useRouter();
 
@@ -26,11 +29,27 @@ const Create = () => {
     mutationFn: addStory,
     onSuccess: (data) => {
       toast.success(data.message);
+      setFormData({
+        title: "",
+        description: "",
+        content: "",
+        thumbnail: "",
+        files: [],
+        pages: [],
+        tags: [],
+        type: "other",
+        genre: "",
+        audience: "",
+        status: "draft",
+      });
+      setTag(""); // ✅ Also reset tag input
       router.push("/");
+      setIsSubmitting(false); // ✅ reset submit state
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
       toast.error(message);
+      setIsSubmitting(false); // ✅ reset submit state
     },
   });
 
@@ -114,17 +133,22 @@ const Create = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    // Start full submit state
+    setIsSubmitting(true);
+
     try {
       let thumbnailUrl = formData.thumbnail;
 
-      // ✅ If user uploaded a new file, upload it to Cloudinary
+      // ✅ If new file uploaded, upload to Cloudinary first
       if (formData.files && formData.files.length > 0) {
         const file = formData.files[0];
         const cloudinaryRes = await uploadImageToCloudinary(file);
+
+        // If upload fails, this will throw and jump to catch
         thumbnailUrl = cloudinaryRes.secure_url;
       }
 
-      // ✅ Create story with final thumbnail URL
+      // ✅ Proceed with create mutation only if upload succeeded
       const { files, ...storyData } = formData;
       createStory.mutate({
         ...storyData,
@@ -133,6 +157,7 @@ const Create = () => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to upload image");
+      setIsSubmitting(false); // ✅ End submit if upload fails
     }
   };
 
@@ -334,10 +359,11 @@ const Create = () => {
             Preview
           </Link>
           <button
+            disabled={isSubmitting}
             type="submit"
-            className="cursor-pointer text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-8"
+            className="cursor-pointer min-w-[120px] text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-8 flex items-center justify-center"
           >
-            Create
+            {isSubmitting ? <Spinner /> : "Create"}
           </button>
         </div>
       </form>
