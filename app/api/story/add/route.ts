@@ -46,8 +46,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
           create: tags.map((tag: Tag) => ({
             tag: {
               connectOrCreate: {
-                where: { name: tag.value },
-                create: { name: tag.value },
+                where: { name: tag.name },
+                create: { name: tag.name },
               },
             },
           })),

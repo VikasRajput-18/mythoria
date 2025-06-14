@@ -8,7 +8,7 @@ export interface FormTypes {
   description: string;
   genre: string;
   content: string;
-  tags: { id: string; value: string }[];
+  tags: Tag[];
   audience: string;
   status: "publish" | "draft";
   type: "book" | "other";
@@ -16,7 +16,6 @@ export interface FormTypes {
   thumbnail: string;
   files?: File[];
 }
-
 
 export interface StoryType {
   id: number;
@@ -31,4 +30,6 @@ export interface StoryType {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   authorId: number;
+  pages: [];
+  tags: Tag[];
 }

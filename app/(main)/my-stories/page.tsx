@@ -3,22 +3,41 @@
 import { Menu, Loader2 } from "lucide-react";
 import React from "react";
 import { useAppContext } from "../../../context/app-context";
-import { useQuery } from "@tanstack/react-query";
-import { getMyStories } from "../../../api-service/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteStory, getMyStories } from "../../../api-service/api";
 import { cn } from "@/lib/utils";
 import PlanLimitBar from "../../../components/plan-limit-bar";
 import Story from "../../../components/story";
 import { StoryType } from "../../../types";
 import Image from "next/image";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 const Page = () => {
+  const queryClient = useQueryClient();
   const { toggleSidebar, openSidebar } = useAppContext();
   const { data, isLoading } = useQuery({
     queryKey: ["stories", "me"],
     queryFn: getMyStories,
   });
 
+  const deleteStoryMutation = useMutation({
+    mutationFn: deleteStory,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["stories"] });
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      const message = error.response?.data?.message || "Something went wrong!";
+      toast.error(message);
+    },
+  });
+
   const stories = data?.stories || [];
+
+  const handleDeleteStory = (id: number) => {
+    deleteStoryMutation.mutate(id);
+  };
 
   return (
     <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
@@ -71,6 +90,8 @@ const Page = () => {
               thumbnail={story.coverImage}
               description={story.description}
               type={story.type}
+              showDelete
+              handleDeleteStory={handleDeleteStory}
             />
           ))}
         </div>

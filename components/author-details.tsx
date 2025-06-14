@@ -2,6 +2,16 @@ import Image from "next/image";
 import React from "react";
 import StoryCard from "./story-card";
 
+interface AuthorState {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface AuthorDetailsProps {
+  author: AuthorState;
+}
+
 export const GenerateButton = () => {
   return (
     <button className="w-full py-5 cursor-pointer rounded-full flex items-center justify-center gap-3 bg-[#1C1A1C] transition-all duration-[450ms] ease-in-out hover:bg-gradient-to-t hover:from-[#A47CF3] hover:to-[#683FEA] hover:shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.4),inset_0px_-4px_0px_0px_rgba(0,0,0,0.2),0px_0px_0px_4px_rgba(255,255,255,0.2),0px_0px_180px_0px_#9917FF] hover:-translate-y-0.5 group">
@@ -20,7 +30,9 @@ export const GenerateButton = () => {
   );
 };
 
-const AuthorDetails = () => {
+const AuthorDetails = ({ author }: AuthorDetailsProps) => {
+  console.log("author", author);
+
   return (
     <div className="md:max-w-[400px] sticky top-10 ">
       <div className="flex items-center gap-2">
@@ -34,7 +46,7 @@ const AuthorDetails = () => {
           />
         </div>
         <div>
-          <h3 className="text-white text-lg">Vikas Rajput</h3>
+          <h3 className="text-white text-lg">{author?.name}</h3>
           <p className="text-neutral-300 text-sm max-w-[250px]">
             Writer of fantasy and science fiction.
           </p>
@@ -44,7 +56,7 @@ const AuthorDetails = () => {
         <GenerateButton />
       </div>
       <div>
-        <h3 className="text-white">Other stories by Vikas Rajput</h3>
+        <h3 className="text-white">Other stories by {author.name}</h3>
         <div className="mt-4 space-y-8">
           <StoryCard
             thumbnail={"/assets/lost_city.png"}

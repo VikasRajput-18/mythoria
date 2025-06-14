@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useAppContext } from "../../../context/app-context";
 import CustomTags from "../../../components/custom-tags";
 import { Tag } from "../../../types";
 import CustomInput from "../../../components/custom-input";
@@ -20,7 +19,6 @@ import { getStoryById } from "../../../api-service/api";
 import { useParams } from "next/navigation";
 
 export default function MyBook() {
-  const { formData: storyData } = useAppContext();
   const { id } = useParams();
 
   // ✅ tell TypeScript: I know it's a string
@@ -114,7 +112,7 @@ export default function MyBook() {
               </div>
             </div>
           </div>
-          <AuthorDetails />
+          <AuthorDetails author={story?.author} />
         </div>
       )}
     </section>

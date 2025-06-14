@@ -54,6 +54,7 @@ export const addStory = async (data: FormTypes) => {
 
   return response.data;
 };
+
 export const getMyStories = async () => {
   try {
     const response = await axios.get("/api/stories/my-stories", {
@@ -80,4 +81,20 @@ export const getStoryById = async (id: string) => {
   } catch (error: any) {
     throw error;
   }
+};
+export const deleteStory = async (id: number) => {
+  try {
+    const response = await axios.delete(`/api/story/${id}`);
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
+};
+
+export const updateStory = async (data: any) => {
+  const response = await axios.put(`/api/story/${data?.storyId}`, data, {
+    withCredentials: true,
+  });
+
+  return response.data;
 };

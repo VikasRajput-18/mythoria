@@ -77,7 +77,7 @@ model Tag {
 
 // ✅ Join table for many-to-many
 model StoryTag {
-  story   Story @relation(fields: [storyId], references: [id])
+  story   Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
   storyId Int
 
   tag   Tag @relation(fields: [tagId], references: [id])

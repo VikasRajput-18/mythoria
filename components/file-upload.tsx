@@ -7,11 +7,14 @@ import { cn } from "../lib/utils";
 
 export const FileUpload = ({
   onChange,
+  value,
 }: {
   onChange?: (files: File[]) => void;
+  value?: string;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const handleFileChange = (newFiles: File[]) => {
     const imageFile = newFiles[0];
@@ -63,7 +66,7 @@ export const FileUpload = ({
           </p>
 
           <div className="relative w-full mt-10 max-w-xl mx-auto">
-            {file ? (
+            {file || value ? (
               <motion.div
                 layoutId="file-upload"
                 className={cn(
@@ -71,28 +74,33 @@ export const FileUpload = ({
                 )}
               >
                 <Image
-                  src={URL.createObjectURL(file)}
+                  src={value ? value : file ? URL.createObjectURL(file) : ""}
                   alt="Uploaded preview"
                   width={300}
                   height={250}
                   className="w-full max-h-60 object-contain rounded-md mb-4"
                 />
-                <div className="flex justify-between w-full items-center gap-4">
-                  <p className="text-base text-mystic-500 truncate max-w-xs">
-                    {file.name}
-                  </p>
-                  <p className="rounded-lg px-2 py-1 text-sm bg-mystic-800 text-mystic-500">
-                    {(file.size / (1024 * 1024)).toFixed(2)} MB
-                  </p>
-                </div>
-                <div className="flex justify-between w-full mt-2 text-sm text-mystic-500">
-                  <p className=" bg-mystic-800 px-1 py-0.5 rounded">
-                    {file.type}
-                  </p>
-                  <p>
-                    Modified: {new Date(file.lastModified).toLocaleDateString()}
-                  </p>
-                </div>
+                {file && (
+                  <>
+                    <div className="flex justify-between w-full items-center gap-4">
+                      <p className="text-base text-mystic-500 truncate max-w-xs">
+                        {file?.name}
+                      </p>
+                      <p className="rounded-lg px-2 py-1 text-sm bg-mystic-800 text-mystic-500">
+                        {(file.size / (1024 * 1024)).toFixed(2)} MB
+                      </p>
+                    </div>
+                    <div className="flex justify-between w-full mt-2 text-sm text-mystic-500">
+                      <p className=" bg-mystic-800 px-1 py-0.5 rounded">
+                        {file.type}
+                      </p>
+                      <p>
+                        Modified:{" "}
+                        {new Date(file.lastModified).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </>
+                )}
               </motion.div>
             ) : (
               <motion.div
