@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface StoryProps {
@@ -6,11 +7,26 @@ interface StoryProps {
   genre: string;
   thumbnail: string;
   description: string;
+  type: string;
+  id: number;
 }
 
-const Story = ({ title, genre, thumbnail, description }: StoryProps) => {
+const Story = ({
+  title,
+  genre,
+  thumbnail,
+  description,
+  type,
+  id,
+}: StoryProps) => {
+  let isBook = type === "BOOK";
+
+  console.log(isBook);
   return (
-    <div className="border border-mystic-400 p-3 rounded-xl bg-mystic-950/40 transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-lg shadow-mystic-600 group cursor-pointer col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2 h-full">
+    <Link
+      href={isBook ? `/book/${id}` : `/story/${id}`}
+      className="border no-underline border-mystic-400 p-3 rounded-xl bg-mystic-950/40 transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-lg shadow-mystic-600 group cursor-pointer col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2 h-full"
+    >
       <div className="w-full rounded-lg overflow-hidden aspect-video relative">
         <Image
           src={thumbnail}
@@ -25,7 +41,7 @@ const Story = ({ title, genre, thumbnail, description }: StoryProps) => {
       </div>
       <h3 className="text-white text-lg font-semibold line-clamp-1">{title}</h3>
       <p className="text-mystic-500 text-sm line-clamp-2">{description}</p>
-    </div>
+    </Link>
   );
 };
 

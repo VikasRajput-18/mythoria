@@ -73,3 +73,11 @@ export const getAllStories = async () => {
     throw error;
   }
 };
+export const getStoryById = async (id: string) => {
+  try {
+    const response = await axios.get(`/api/story/${id}`);
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
+};

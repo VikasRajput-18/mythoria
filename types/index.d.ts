@@ -1,6 +1,6 @@
 export interface Tag {
   id: string;
-  value: string;
+  name: string;
 }
 
 export interface FormTypes {

@@ -65,10 +65,12 @@ const Page = () => {
           {stories.map((story: StoryType) => (
             <Story
               key={story.id}
+              id={story.id}
               title={story.title}
               genre={story.genre}
               thumbnail={story.coverImage}
               description={story.description}
+              type={story.type}
             />
           ))}
         </div>
