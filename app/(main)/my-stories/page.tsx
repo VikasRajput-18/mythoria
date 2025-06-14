@@ -14,7 +14,7 @@ import Image from "next/image";
 const Page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
   const { data, isLoading } = useQuery({
-    queryKey: ["myStories"],
+    queryKey: ["stories", "me"],
     queryFn: getMyStories,
   });
 

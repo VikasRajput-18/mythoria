@@ -5,7 +5,7 @@ import CustomInput from "../../components/custom-input";
 import Image from "next/image";
 import Link from "next/link";
 import { login } from "../../api-service/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from "sonner";
 import Spinner from "../../components/spinner";
@@ -13,6 +13,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 const SignIn = () => {
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,6 +23,7 @@ const SignIn = () => {
     mutationFn: login,
     onSuccess: (data) => {
       toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       router.push("/");
     },
     onError: (error: AxiosError<{ message: string }>) => {

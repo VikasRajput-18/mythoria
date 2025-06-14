@@ -7,7 +7,7 @@ import PlanLimitBar from "../../components/plan-limit-bar";
 import Story from "../../components/story";
 import { useAppContext } from "../../context/app-context";
 import { cn } from "../../lib/utils";
-import { useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAllStories, getCurrentUser } from "../../api-service/api";
 import Image from "next/image";
 import { StoryType } from "../../types";
@@ -20,7 +20,7 @@ const page = () => {
   });
 
   const { data: allStories, isLoading: isLoading2 } = useQuery({
-    queryKey: ["myStories"],
+    queryKey: ["myStories", "all"],
     queryFn: getAllStories,
   });
 

@@ -2,16 +2,12 @@
 
 import { EllipsisVertical, LogOut, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { cn } from "../lib/utils";
 import { useAppContext } from "../context/app-context";
 import { SIDEBAR_OPTIONS } from "../constants/constants";
-import {
-  useMutation,
-  useQueryClient,
-  useQuery,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { getCurrentUser, logout } from "../api-service/api";
 
 import {
@@ -28,7 +24,8 @@ const Sidebar = () => {
   const pathname = usePathname();
   const { openSidebar, toggleSidebar } = useAppContext();
   const sidebarRef = useRef<HTMLDivElement>(null);
-
+  const router = useRouter();
+  console.log(pathname);
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,
@@ -37,7 +34,9 @@ const Sidebar = () => {
     mutationFn: logout,
     onSuccess: (data) => {
       toast.success(data.message);
+      queryClient.clear();
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+      if (pathname !== "/") return router.push("/");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
@@ -70,7 +69,7 @@ const Sidebar = () => {
       ref={sidebarRef}
       className={cn(
         `fixed -left-[400px] bg-mystic-800 md:sticky transition-all duration-200 ease-in-out top-0 w-[350px] min-w-w-[350px] p-8`,
-        openSidebar ? "left-0  h-screen z-[999]" : "h-screen"
+        openSidebar ? "left-0  h-screen z-[99]" : "h-screen"
       )}
     >
       <div className="flex items-center justify-between">
@@ -123,7 +122,7 @@ const Sidebar = () => {
                   <EllipsisVertical className="stroke-white" />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="bg-mystic-700 max-w-[150px] hover:bg-mystic-400">
+              <PopoverContent className="z-[100] bg-mystic-700 max-w-[150px] hover:bg-mystic-400">
                 <button
                   onClick={handleLogout}
                   className="px-4 p-2 text-white flex items-center gap-2 cursor-pointer w-full h-full"
