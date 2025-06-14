@@ -55,16 +55,21 @@ export const addStory = async (data: FormTypes) => {
   return response.data;
 };
 export const getMyStories = async () => {
-  const response = await axios.get("/api/stories/my-stories", {
-    withCredentials: true,
-  });
+  try {
+    const response = await axios.get("/api/stories/my-stories", {
+      withCredentials: true,
+    });
 
-  return response.data;
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
 };
 export const getAllStories = async () => {
-  const response = await axios.get("/api/stories", {
-    withCredentials: true,
-  });
-
-  return response.data;
+  try {
+    const response = await axios.get("/api/stories");
+    return response.data;
+  } catch (error: any) {
+    throw error;
+  }
 };

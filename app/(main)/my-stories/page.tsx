@@ -3,7 +3,7 @@
 import { Menu, Loader2 } from "lucide-react";
 import React from "react";
 import { useAppContext } from "../../../context/app-context";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMyStories } from "../../../api-service/api";
 import { cn } from "@/lib/utils";
 import PlanLimitBar from "../../../components/plan-limit-bar";
@@ -13,7 +13,7 @@ import Image from "next/image";
 
 const Page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
-  const { data, isLoading } = useSuspenseQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["myStories"],
     queryFn: getMyStories,
   });
