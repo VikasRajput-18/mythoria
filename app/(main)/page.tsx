@@ -74,7 +74,7 @@ const page = () => {
 
       {/* ✅ Story Grid */}
       {!isLoading2 && stories?.length > 0 && (
-        <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24">
+        <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24 items-stretch">
           {stories?.map((story: StoryType) => (
             <Story
               key={story.id}

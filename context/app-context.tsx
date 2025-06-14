@@ -32,7 +32,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     audience: "",
     status: "publish",
     type: "other",
-    pages: [{ id: crypto.randomUUID(), content: "" }],
+    pages: [{ id: String(Date.now()), content: "" }],
     thumbnail: "",
     files: [],
   });

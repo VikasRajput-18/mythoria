@@ -16,16 +16,17 @@ import { addStory } from "../../../api-service/api";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { uploadImageToCloudinary } from "../../../lib/upload-to-cloudinary";
 
 const Create = () => {
   const { toggleSidebar, formData, setFormData, tag, setTag } = useAppContext();
-  const router = useRouter()
+  const router = useRouter();
 
   const createStory = useMutation({
     mutationFn: addStory,
     onSuccess: (data) => {
       toast.success(data.message);
-      router.push("/")
+      router.push("/");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
@@ -66,7 +67,7 @@ const Create = () => {
     if (formData.tags.length > 6) return;
     if (e.key === "Enter" && tag.trim() !== "") {
       e.preventDefault();
-      const newTag = { id: crypto.randomUUID(), value: tag.trim() };
+      const newTag = { id: String(Date.now()), value: tag.trim() };
       setFormData((prev) => ({
         ...prev,
         tags: [...prev.tags, newTag],
@@ -94,7 +95,7 @@ const Create = () => {
   const addNewPage = () => {
     setFormData((prev) => ({
       ...prev,
-      pages: [...prev.pages, { id: crypto.randomUUID(), content: "" }],
+      pages: [...prev.pages, { id: String(Date.now()), content: "" }],
     }));
   };
 
@@ -112,8 +113,27 @@ const Create = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const { files, ...storyData } = formData;
-    createStory.mutate(storyData);
+
+    try {
+      let thumbnailUrl = formData.thumbnail;
+
+      // ✅ If user uploaded a new file, upload it to Cloudinary
+      if (formData.files && formData.files.length > 0) {
+        const file = formData.files[0];
+        const cloudinaryRes = await uploadImageToCloudinary(file);
+        thumbnailUrl = cloudinaryRes.secure_url;
+      }
+
+      // ✅ Create story with final thumbnail URL
+      const { files, ...storyData } = formData;
+      createStory.mutate({
+        ...storyData,
+        thumbnail: thumbnailUrl,
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to upload image");
+    }
   };
 
   return (

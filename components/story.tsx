@@ -10,7 +10,7 @@ interface StoryProps {
 
 const Story = ({ title, genre, thumbnail, description }: StoryProps) => {
   return (
-    <div className="border border-mystic-400 p-3 rounded-xl bg-mystic-950/40 transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-lg shadow-mystic-600 group cursor-pointer col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2">
+    <div className="border border-mystic-400 p-3 rounded-xl bg-mystic-950/40 transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-lg shadow-mystic-600 group cursor-pointer col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2 h-full">
       <div className="w-full rounded-lg overflow-hidden aspect-video relative">
         <Image
           src={thumbnail}
