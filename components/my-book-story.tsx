@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { getStoryById } from "../api-service/api";
@@ -19,6 +19,7 @@ const MyBookStory = () => {
   const flipBookRef = useRef<any>(null);
   const storyId = id as string;
 
+  const [usePortrait, setUsePortrait] = useState(false); // spread = pair of pages
   const [currentSpread, setCurrentSpread] = useState(0); // spread = pair of pages
   const [totalSpreads, setTotalSpreads] = useState(0);
   const [goToInput, setGoToInput] = useState("");
@@ -28,6 +29,20 @@ const MyBookStory = () => {
     queryFn: () => getStoryById(storyId),
     enabled: !!storyId,
   });
+
+  // ✅ Dynamically control usePortrait based on screen width
+  useEffect(() => {
+    const checkWidth = () => {
+      if (window.innerWidth < 768) {
+        setUsePortrait(true);
+      } else {
+        setUsePortrait(false);
+      }
+    };
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   const handleFlip = () => {
     if (flipBookRef.current) {
@@ -76,7 +91,7 @@ const MyBookStory = () => {
           <Loader2 className="h-20 w-20 animate-spin text-gray-600" />
         </div>
       ) : (
-        <div className="flex flex-col space-y-4">
+        <div className="flex w-full sm:w-max flex-col space-y-4">
           <HTMLFlipBook
             startPage={0}
             // width={400}
@@ -90,7 +105,7 @@ const MyBookStory = () => {
             maxHeight={800}
             drawShadow={true}
             flippingTime={800}
-            usePortrait={false}
+            usePortrait={usePortrait}
             startZIndex={1}
             autoSize={true}
             useMouseEvents={true}
