@@ -7,6 +7,7 @@ import StoryForm from "../../../../components/story-form";
 import { getStoryById, updateStory } from "../../../../api-service/api";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useAppContext } from "../../../../context/app-context";
 
 export default function Edit() {
   const queryClient = useQueryClient();
@@ -14,6 +15,7 @@ export default function Edit() {
   const params = useParams();
   const storyId = params.id as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setFormData, setTag } = useAppContext();
 
   const { data: story, isLoading } = useQuery({
     queryKey: ["story", storyId],
@@ -24,6 +26,20 @@ export default function Edit() {
     mutationFn: updateStory,
     onSuccess: () => {
       toast.success("Updated!");
+      setFormData({
+        title: "",
+        description: "",
+        content: "",
+        thumbnail: "",
+        files: [],
+        pages: [],
+        tags: [],
+        type: "other",
+        genre: "",
+        audience: "",
+        status: "draft",
+      });
+      setTag(""); // ✅ Also reset tag input
       setIsSubmitting(false);
       queryClient.invalidateQueries({ queryKey: ["stories", "myStories"] });
       router.push("/");

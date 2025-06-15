@@ -1,8 +1,8 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Loader2, Menu } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import PlanLimitBar from "../../components/plan-limit-bar";
 import Story from "../../components/story";
 import { useAppContext } from "../../context/app-context";
@@ -11,17 +11,22 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllStories, getCurrentUser } from "../../api-service/api";
 import Image from "next/image";
 import { StoryType } from "../../types";
+import CustomInput from "../../components/custom-input";
+import useDebounce from "../../hooks/use-debounce";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
+  const [search, setSearch] = useState("");
   const { data, isLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,
   });
 
+  const debouncedValue = useDebounce({ value: search, delay: 300 });
+
   const { data: allStories, isLoading: isLoading2 } = useQuery({
-    queryKey: ["stories", "all"],
-    queryFn: getAllStories,
+    queryKey: ["stories", "all", debouncedValue],
+    queryFn: () => getAllStories(debouncedValue),
   });
 
   const stories = allStories?.stories || [];
@@ -42,18 +47,35 @@ const page = () => {
         stories, comics, and magical manuscripts.
       </p>
 
-      <div className="flex items-center justify-end gap-4 mt-4">
-        <button className="text-white cursor-pointer hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold bg-mystic-400 rounded-lg px-3 sm:px-6 py-2">
-          Upgrade Plan
-        </button>
-        <Link
-          href={!data?.user ? "/sign-in" : "/create"}
-          aria-disabled={isLoading}
-          className="text-white hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-3 sm:px-6 py-2 bg-mystic-blue-900"
-        >
-          Create New Story
-        </Link>
+      <div className="flex items-center flex-wrap-reverse justify-between gap-4 mt-4">
+        <div className="max-w-sm w-full">
+          <CustomInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            name="search"
+            placeholder="Discover myths, tales, and secrets..."
+          />
+        </div>
+        <div className="flex items-center gap-4">
+          <button className="text-white cursor-pointer hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold bg-mystic-400 rounded-lg px-3 sm:px-6 py-2">
+            Upgrade Plan
+          </button>
+          <Link
+            href={!data?.user ? "/sign-in" : "/create"}
+            aria-disabled={isLoading}
+            className="text-white hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-3 sm:px-6 py-2 bg-mystic-blue-900"
+          >
+            Create New Story
+          </Link>
+        </div>
       </div>
+
+      {/* ✅ Loading Spinner */}
+      {isLoading2 && (
+        <div className="flex justify-center items-center h-60">
+          <Loader2 className="h-20 w-20 animate-spin text-mystic-500" />
+        </div>
+      )}
 
       {/* ✅ No Stories */}
       {!isLoading2 && stories.length === 0 && (

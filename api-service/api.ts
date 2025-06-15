@@ -66,9 +66,9 @@ export const getMyStories = async () => {
     throw error;
   }
 };
-export const getAllStories = async () => {
+export const getAllStories = async (search: string) => {
   try {
-    const response = await axios.get("/api/stories");
+    const response = await axios.get(`/api/stories?search=${search}`);
     return response.data;
   } catch (error: any) {
     throw error;
