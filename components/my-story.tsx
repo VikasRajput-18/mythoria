@@ -32,6 +32,8 @@ const MyStory = () => {
     queryFn: () => getStoryById(storyId),
     enabled: !!storyId,
   });
+
+
   return (
     <section className="bg-mystic-800 w-full min-h-screen p-4 sm:p-8">
       {/* ✅ Loading Spinner */}

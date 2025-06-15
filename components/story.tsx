@@ -47,7 +47,7 @@ const Story = ({
           alt={title}
           className="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-all duration-200 ease-in-out"
         />
-        <span className="inline-block text-xs font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2">
+        <span className="inline-block text-xs font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
           {genre}
         </span>
         {showDelete ? (

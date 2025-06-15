@@ -22,7 +22,7 @@ import { AxiosError } from "axios";
 const Sidebar = () => {
   const queryClient = useQueryClient();
   const pathname = usePathname();
-  const { openSidebar, toggleSidebar } = useAppContext();
+  const { openSidebar, toggleSidebar, setOpenSidebar } = useAppContext();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { data } = useQuery({
@@ -87,7 +87,7 @@ const Sidebar = () => {
               <Link
                 href={item.href}
                 key={item.key}
-                onClick={toggleSidebar}
+                onClick={() => setOpenSidebar(false)}
                 className={`flex items-center no-underline transition-all duration-200 ease-in-out rounded-md px-3 py-3 hover:bg-mystic-400 gap-2 cursor-pointer ${
                   isActive ? "bg-mystic-400" : ""
                 }`}

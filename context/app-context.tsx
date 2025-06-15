@@ -1,11 +1,12 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 import { FormTypes } from "../types";
 
 // ✅ Extend your ContextType
 export type ContextType = {
   openSidebar: boolean;
+  setOpenSidebar :  Dispatch<SetStateAction<boolean>>
   toggleSidebar: () => void;
 
   formData: FormTypes;
@@ -54,6 +55,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
         setFormData,
         tag,
         setTag,
+        setOpenSidebar
       }}
     >
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

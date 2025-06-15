@@ -76,7 +76,7 @@ body {
   }
 
   blockquote {
-    @apply border-l-4 border-mystic-500 pl-4 italic text-mystic-300 text-white;
+    @apply border-l-4 border-mystic-500 pl-4 italic text-mystic-300;
   }
 
   code {
@@ -103,4 +103,13 @@ body {
   .jodit-wysiwyg code {
     @apply text-white;
   }
+}
+
+.prose img {
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 200px !important;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
 }

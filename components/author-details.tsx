@@ -43,7 +43,7 @@ const AuthorDetails = ({ author }: AuthorDetailsProps) => {
             alt="Vikas Rajput"
           />
         </div>
-        <div>
+        <div className="flex-1">
           <h3 className="text-white text-lg">{author?.name}</h3>
           <p className="text-neutral-300 text-sm max-w-[250px]">
             Writer of fantasy and science fiction.
