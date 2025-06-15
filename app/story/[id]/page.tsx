@@ -1,5 +1,4 @@
 import { getStoryById } from "../../../api-service/api";
-import MyBook from "../../preview/page";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const story = await getStoryById(params.id);
@@ -34,5 +33,5 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 }
 
 export default function Page({ params }: { params: { id: string } }) {
-  return <MyBook />;
+  return <MyStory />;
 }
