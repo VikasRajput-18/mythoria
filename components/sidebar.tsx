@@ -25,7 +25,6 @@ const Sidebar = () => {
   const { openSidebar, toggleSidebar } = useAppContext();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  console.log(pathname);
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,

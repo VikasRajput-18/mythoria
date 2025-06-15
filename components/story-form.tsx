@@ -381,13 +381,18 @@ interface StoryFormProps {
   mode: "create" | "edit";
   onSubmit: (data: FormTypes) => void;
   initialData?: StoryType;
+  isSubmitting: boolean;
+  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const StoryForm = ({ mode, onSubmit, initialData }: StoryFormProps) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const StoryForm = ({
+  mode,
+  onSubmit,
+  initialData,
+  isSubmitting,
+  setIsSubmitting,
+}: StoryFormProps) => {
   const { toggleSidebar, formData, setFormData, tag, setTag } = useAppContext();
-
-
 
   // ✅ Initialize formData for edit mode
   useEffect(() => {
@@ -415,7 +420,6 @@ const StoryForm = ({ mode, onSubmit, initialData }: StoryFormProps) => {
   const handleFileUpload = (files: File[]) => {
     const file = files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData((prev) => ({
@@ -511,8 +515,6 @@ const StoryForm = ({ mode, onSubmit, initialData }: StoryFormProps) => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to upload image");
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -653,7 +655,10 @@ const StoryForm = ({ mode, onSubmit, initialData }: StoryFormProps) => {
             Thumbnail
           </label>
           <div className="w-full max-w-4xl border border-dashed bg-mystic-800 border-neutral-800 rounded-lg">
-            <FileUpload onChange={handleFileUpload} value={formData.thumbnail} />
+            <FileUpload
+              onChange={handleFileUpload}
+              value={formData.thumbnail}
+            />
           </div>
         </div>
 

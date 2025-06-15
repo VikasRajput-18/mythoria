@@ -15,6 +15,7 @@ export interface FormTypes {
   pages: { id: string; content: string }[];
   thumbnail: string;
   files?: File[];
+  id?: string;
 }
 
 export interface StoryType {

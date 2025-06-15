@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import AuthorDetails from "../../components/author-details";
 import CustomInput from "../../components/custom-input";
 import CustomTags from "../../components/custom-tags";
 import { useAppContext } from "../../context/app-context";
@@ -35,7 +34,12 @@ export default function MyBook() {
           {storyData?.tags?.length > 0 ? (
             <div className="mt-2 flex flex-wrap gap-2">
               {storyData?.tags?.map((tag: Tag) => (
-                <CustomTags key={tag.id} {...tag} hideIcon />
+                <CustomTags
+                  key={tag.id}
+                  id={tag.id}
+                  value={tag.name}
+                  hideIcon
+                />
               ))}
             </div>
           ) : null}
@@ -87,7 +91,6 @@ export default function MyBook() {
             </div>
           </div>
         </div>
-        <AuthorDetails />
       </div>
     </section>
   );

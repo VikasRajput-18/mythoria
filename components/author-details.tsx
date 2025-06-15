@@ -31,7 +31,6 @@ export const GenerateButton = () => {
 };
 
 const AuthorDetails = ({ author }: AuthorDetailsProps) => {
-  console.log("author", author);
 
   return (
     <div className="md:max-w-[400px] sticky top-10 ">

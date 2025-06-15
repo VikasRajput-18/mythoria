@@ -91,8 +91,8 @@ export const deleteStory = async (id: number) => {
   }
 };
 
-export const updateStory = async (data: any) => {
-  const response = await axios.put(`/api/story/${data?.storyId}`, data, {
+export const updateStory = async (data: FormTypes) => {
+  const response = await axios.put(`/api/story/${data?.id}`, data, {
     withCredentials: true,
   });
 
