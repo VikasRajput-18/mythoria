@@ -1,7 +1,8 @@
 import { getStoryById } from "../../../api-service/api";
+import MyStory from "../../../components/my-story";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const story = await getStoryById(params.id);
+  const story = await getStoryById(params?.id, true);
 
   if (!story) {
     return {

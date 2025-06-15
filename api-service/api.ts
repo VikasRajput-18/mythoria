@@ -74,14 +74,25 @@ export const getAllStories = async (search: string) => {
     throw error;
   }
 };
-export const getStoryById = async (id: string) => {
-  try {
-    const response = await axios.get(`/api/story/${id}`);
-    return response.data;
-  } catch (error: any) {
-    throw error;
-  }
+// export const getStoryById = async (id: string) => {
+//   try {
+//     const response = await axios.get(`/api/story/${id}`);
+//     return response.data;
+//   } catch (error: any) {
+//     throw error;
+//   }
+// };
+
+
+export const getStoryById = async (id: string, isServer = false) => {
+  const baseURL = isServer
+    ? process.env.NEXT_PUBLIC_BASE_URL
+    : '';
+
+  const response = await axios.get(`${baseURL}/api/story/${id}`);
+  return response.data;
 };
+
 export const deleteStory = async (id: number) => {
   try {
     const response = await axios.delete(`/api/story/${id}`);
