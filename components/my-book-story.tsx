@@ -79,6 +79,8 @@ const MyBookStory = () => {
         <div className="flex flex-col space-y-4">
           <HTMLFlipBook
             startPage={0}
+            // width={400}
+            // height={600}
             width={400}
             height={600}
             size="fixed"
@@ -98,7 +100,7 @@ const MyBookStory = () => {
             //   clickEventForward={true}
             maxShadowOpacity={0.5}
             showCover={true}
-            mobileScrollSupport={false}
+            mobileScrollSupport={true}
             ref={flipBookRef}
             style={{}}
             onFlip={handleFlip}
