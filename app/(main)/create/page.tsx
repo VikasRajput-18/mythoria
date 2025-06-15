@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ import { useAppContext } from "../../../context/app-context";
 import { useState } from "react";
 
 const Create = () => {
-  // inside your component
+  const queryClient = useQueryClient();
   const { setFormData, setTag } = useAppContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -34,18 +34,24 @@ const Create = () => {
         status: "draft",
       });
       setTag(""); // ✅ Also reset tag input
-      setIsSubmitting(false)
+      setIsSubmitting(false);
+      queryClient.invalidateQueries({ queryKey: ["stories", "myStories"] });
       router.push("/");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
-      setIsSubmitting(false)
+      setIsSubmitting(false);
       toast.error(message);
     },
   });
 
   return (
-    <StoryForm mode="create" onSubmit={(data) => createStory.mutate(data)} setIsSubmitting={setIsSubmitting} isSubmitting={isSubmitting} />
+    <StoryForm
+      mode="create"
+      onSubmit={(data) => createStory.mutate(data)}
+      setIsSubmitting={setIsSubmitting}
+      isSubmitting={isSubmitting}
+    />
   );
 };
 

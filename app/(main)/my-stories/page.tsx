@@ -17,7 +17,7 @@ const Page = () => {
   const queryClient = useQueryClient();
   const { toggleSidebar, openSidebar } = useAppContext();
   const { data, isLoading } = useQuery({
-    queryKey: ["stories", "me"],
+    queryKey: ["myStories", "me"],
     queryFn: getMyStories,
   });
 
@@ -25,7 +25,7 @@ const Page = () => {
     mutationFn: deleteStory,
     onSuccess: (data) => {
       toast.success(data.message);
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
+      queryClient.invalidateQueries({ queryKey: ["myStories"] });
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter, useParams } from "next/navigation";
 import StoryForm from "../../../../components/story-form";
@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 export default function Edit() {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const params = useParams();
   const storyId = params.id as string;
@@ -24,6 +25,7 @@ export default function Edit() {
     onSuccess: () => {
       toast.success("Updated!");
       setIsSubmitting(false);
+      queryClient.invalidateQueries({ queryKey: ["stories", "myStories"] });
       router.push("/");
     },
     onError: () => {

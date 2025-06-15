@@ -20,7 +20,7 @@ const page = () => {
   });
 
   const { data: allStories, isLoading: isLoading2 } = useQuery({
-    queryKey: ["myStories", "all"],
+    queryKey: ["stories", "all"],
     queryFn: getAllStories,
   });
 
