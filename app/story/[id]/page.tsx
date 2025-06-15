@@ -1,8 +1,11 @@
+import { prisma } from "../../../lib/prisma";
 import MyStory from "../../../components/my-story";
-import { getStoryByIdForMeta } from "../../../lib/meta-actions";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const story = await getStoryByIdForMeta(params?.id);
+  const story = await prisma.story.findUnique({
+    where: { id: Number(params.id) },
+    include: { author: true, tags: true },
+  });
 
   if (!story) {
     return {
@@ -18,7 +21,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       description: story.description,
       images: [
         {
-          url: story.coverImage!, // must be absolute URL!
+          url: story.coverImage!, // make sure this is absolute, e.g. https://yourdomain.com/...
           width: 800,
           height: 600,
         },

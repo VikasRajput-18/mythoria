@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
 import { useQuery } from "@tanstack/react-query";
 import {
   Loader2,
-  Link,
   ArrowLeft,
   Heart,
   MessageCircle,
@@ -18,6 +17,7 @@ import AuthorDetails from "./author-details";
 import CustomInput from "./custom-input";
 import CustomTags from "./custom-tags";
 import Image from "next/image";
+import Link from "next/link";
 
 const MyStory = () => {
   const { id } = useParams();
@@ -46,11 +46,13 @@ const MyStory = () => {
               <Link href={"/"} className="mt-0.5">
                 <ArrowLeft className="stroke-white" />
               </Link>
-              <h2 className="text-xl md:text-2xl my-0 text-neutral-200">
+              <h2 className="text-base sm:text-xl md:text-2xl my-0 text-neutral-200">
                 {story?.title}
               </h2>
             </div>
-            <p className="text-neutral-400">{story?.description}</p>
+            <p className="text-neutral-400 text-xs sm:text-base">
+              {story?.description}
+            </p>
 
             {story?.tags?.length > 0 ? (
               <div className="mt-2 flex flex-wrap gap-2">
@@ -93,21 +95,21 @@ const MyStory = () => {
                 className="w-full max-w-full"
               />
               <div className="flex items-center mt-4 justify-between">
-                <button className="cursor-pointer flex items-center gap-1">
+                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
                   <Heart className="stroke-mystic-500 hover:stroke-rose-500" />
-                  <p className="text-mystic-500">198</p>
+                  <p className="text-mystic-500 ">198</p>
                 </button>
-                <button className="cursor-pointer flex items-center gap-1">
+                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
                   <MessageCircle className="stroke-mystic-500 hover:stroke-white" />
-                  <p className="text-mystic-500">198</p>
+                  <p className="text-mystic-500 ">198</p>
                 </button>
-                <button className="cursor-pointer flex items-center gap-1">
+                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
                   <Share2 className="stroke-mystic-500 hover:stroke-blue-500" />
-                  <p className="text-mystic-500">198</p>
+                  <p className="text-mystic-500 ">198</p>
                 </button>
-                <button className="cursor-pointer flex items-center gap-1">
+                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
                   <Bookmark className="stroke-mystic-500 hover:stroke-orange-400" />
-                  <p className="text-mystic-500">198</p>
+                  <p className="text-mystic-500 ">198</p>
                 </button>
               </div>
             </div>

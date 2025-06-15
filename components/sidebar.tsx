@@ -87,6 +87,7 @@ const Sidebar = () => {
               <Link
                 href={item.href}
                 key={item.key}
+                onClick={toggleSidebar}
                 className={`flex items-center no-underline transition-all duration-200 ease-in-out rounded-md px-3 py-3 hover:bg-mystic-400 gap-2 cursor-pointer ${
                   isActive ? "bg-mystic-400" : ""
                 }`}
