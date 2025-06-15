@@ -169,7 +169,7 @@ const MyBookStory = () => {
           </HTMLFlipBook>
 
           {/* Pagination Controls */}
-          <div className="flex items-center justify-center mt-6 space-x-4">
+          <div className="flex items-center justify-center mt-6 space-x-4 flex-wrap gap-2">
             <button
               onClick={goPrev}
               disabled={currentSpread === 0}
