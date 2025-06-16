@@ -1,22 +1,32 @@
 "use client";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2, Menu } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
+import { getAllStories, getCurrentUser } from "../../api-service/api";
+import CustomInput from "../../components/custom-input";
 import PlanLimitBar from "../../components/plan-limit-bar";
 import Story from "../../components/story";
 import { useAppContext } from "../../context/app-context";
-import { cn } from "../../lib/utils";
-import { useQuery } from "@tanstack/react-query";
-import { getAllStories, getCurrentUser } from "../../api-service/api";
-import Image from "next/image";
-import { StoryType } from "../../types";
-import CustomInput from "../../components/custom-input";
 import useDebounce from "../../hooks/use-debounce";
+import { cn } from "../../lib/utils";
+import { StoryType } from "../../types";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const { data, isLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: getCurrentUser,
@@ -25,11 +35,13 @@ const page = () => {
   const debouncedValue = useDebounce({ value: search, delay: 300 });
 
   const { data: allStories, isLoading: isLoading2 } = useQuery({
-    queryKey: ["stories", "all", debouncedValue],
-    queryFn: () => getAllStories(debouncedValue),
+    queryKey: ["stories", debouncedValue, page],
+    queryFn: () => getAllStories(debouncedValue, page),
+    placeholderData: (prev) => prev,
   });
 
   const stories = allStories?.stories || [];
+  const totalPages = allStories?.totalPages;
 
   return (
     <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
@@ -95,21 +107,68 @@ const page = () => {
       )}
 
       {/* ✅ Story Grid */}
-      {!isLoading2 && stories?.length > 0 && (
-        <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24 items-stretch">
-          {stories?.map((story: StoryType) => (
-            <Story
-              key={story.id}
-              id={story.id}
-              title={story.title}
-              genre={story.genre}
-              thumbnail={story.coverImage}
-              description={story.description}
-              type={story.type}
-            />
-          ))}
-        </div>
-      )}
+      <div>
+        {!isLoading2 && stories?.length > 0 && (
+          <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24 items-stretch">
+            {stories?.map((story: StoryType) => (
+              <Story
+                key={story.id}
+                id={story.id}
+                title={story.title}
+                genre={story.genre}
+                thumbnail={story.coverImage}
+                description={story.description}
+                type={story.type}
+              />
+            ))}
+          </div>
+        )}
+        {!isLoading2 && stories?.length > 0 && (
+          <Pagination className="">
+            <PaginationContent className="list-none ">
+              <PaginationItem
+                onClick={() => setPage((prev) => (prev <= 1 ? 1 : prev - 1))}
+              >
+                <PaginationPrevious
+                  href="#"
+                  className="text-mystic-500 no-underline"
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }).map((i, ind) => {
+                return (
+                  <PaginationItem
+                    key={ind + 1}
+                    onClick={() => setPage(ind + 1)}
+                    className={`${
+                      ind + 1 === page
+                        ? "bg-white text-mystic-300 rounded-lg flex items-center justify-center font-bold"
+                        : "text-mystic-500"
+                    }`}
+                  >
+                    <PaginationLink
+                      className="text-mystic-500 no-underline"
+                      href="#"
+                    >
+                      {ind + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+
+              <PaginationItem
+                onClick={() =>
+                  setPage((prev) => (prev < totalPages ? prev + 1 : totalPages))
+                }
+              >
+                <PaginationNext
+                  href="#"
+                  className="text-mystic-500 no-underline"
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
+      </div>
       <PlanLimitBar />
     </div>
   );

@@ -56,7 +56,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Track color */
+  background: var(--color-mystic-800); /* Track color */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -71,7 +71,7 @@
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
+  scrollbar-color: #888 var(--color-mystic-800);
 }
 
 body {

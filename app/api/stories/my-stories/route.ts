@@ -5,6 +5,12 @@ import { prisma } from "../../../../lib/prisma";
 export async function GET(req: NextRequest) {
   try {
     const userId = verifyUser(req); // ✅ reusable check
+    const searchParams = new URL(req.url).searchParams;
+    const search = searchParams.get("search") || "";
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+
+    const skip = (page - 1) * limit;
 
     if (!userId) {
       return NextResponse.json(
@@ -13,18 +19,39 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const stories = await prisma.story.findMany({
-      where: {
-        authorId: userId,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const [stories, total] = await Promise.all([
+      prisma.story.findMany({
+        where: {
+          authorId: userId,
+          title: {
+            contains: search as string,
+            mode: "insensitive", // optional: case-insensitive
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+      prisma.story.count({
+        where: {
+          authorId: userId,
+          title: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      }),
+    ]);
 
     return NextResponse.json(
       {
         stories,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
       },
       { status: 200 }
     );

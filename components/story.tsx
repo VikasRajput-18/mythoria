@@ -75,8 +75,8 @@ const Story = ({
           </div>
         ) : null}
       </div>
-      <h3 className="text-white text-lg font-semibold line-clamp-1">{title}</h3>
-      <p className="text-mystic-500 text-sm line-clamp-2">{description}</p>
+      <h3 className="text-white text-base sm:text-lg font-semibold line-clamp-1">{title}</h3>
+      <p className="text-mystic-500 text-xs sm:text-base line-clamp-2">{description}</p>
     </div>
   );
 };

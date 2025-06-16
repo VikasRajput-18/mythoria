@@ -55,20 +55,25 @@ export const addStory = async (data: FormTypes) => {
   return response.data;
 };
 
-export const getMyStories = async () => {
+export const getMyStories = async (search: string, page: number = 1) => {
   try {
-    const response = await axios.get("/api/stories/my-stories", {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `/api/stories/my-stories?search=${search}&limit=10&page=${page}`,
+      {
+        withCredentials: true,
+      }
+    );
 
     return response.data;
   } catch (error: any) {
     throw error;
   }
 };
-export const getAllStories = async (search: string) => {
+export const getAllStories = async (search: string, page: number = 1) => {
   try {
-    const response = await axios.get(`/api/stories?search=${search}`);
+    const response = await axios.get(
+      `/api/stories?search=${search}&limit=10&page=${page}`
+    );
     return response.data;
   } catch (error: any) {
     throw error;
@@ -83,11 +88,8 @@ export const getAllStories = async (search: string) => {
 //   }
 // };
 
-
 export const getStoryById = async (id: string, isServer = false) => {
-  const baseURL = isServer
-    ? process.env.NEXT_PUBLIC_BASE_URL
-    : '';
+  const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL : "";
 
   const response = await axios.get(`${baseURL}/api/story/${id}`);
   return response.data;
