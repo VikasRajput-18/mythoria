@@ -49,7 +49,7 @@ const MyBookStory = () => {
         >
           {/* Cover Page */}
           <div className="p-3 md:p-8 overflow-hidden flex flex-col justify-center items-center bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin">
-            <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 text-[#5b4636] font-josefin">
+            <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 !text-[#5b4636] font-josefin">
               {story.title}
             </h1>
             <p className="text-[#7a6248] mb-4 font-josefin text-xs sm:text-base">
@@ -63,10 +63,10 @@ const MyBookStory = () => {
           </div>
 
           {/* Content Pages */}
-          {story.pages.map((page: Page) => (
+          {story?.pages.map((page: Page) => (
             <div
               key={page.id}
-              className="p-3 md:p-8 bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin text-[#5b4636] prose max-w-none leading-relaxed overflow-auto"
+              className="p-3 md:p-8 bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin !text-[#5b4636] prose max-w-none leading-relaxed overflow-auto"
               dangerouslySetInnerHTML={{ __html: page.content }}
             ></div>
           ))}

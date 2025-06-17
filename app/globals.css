@@ -11,6 +11,8 @@
   --color-mystic-400: #293038;
   --color-mystic-300: #403d54;
   --color-mystic-blue-900: #1466b8;
+
+  --color-book-800: #5b4636;
 }
 
 :root {
@@ -110,6 +112,9 @@ body {
   ul {
     @apply list-disc list-inside text-white my-2;
   }
+  p {
+    @apply text-xs sm:text-base;
+  }
 
   ol {
     @apply list-decimal list-inside text-white my-2;
@@ -126,6 +131,15 @@ body {
   .jodit-wysiwyg blockquote,
   .jodit-wysiwyg code {
     @apply text-white;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply !text-book-800;
   }
 }
 

@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import dynamic from "next/dynamic";
@@ -68,10 +66,10 @@ const ClientOnlyRTE = ({
         "undo",
         "redo",
         "eraser",
+        "align",
       ],
       style: {
         backgroundColor: "#1f1c26",
-        color: "#ffffff",
       },
       height: 400,
     }),
