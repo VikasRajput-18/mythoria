@@ -107,7 +107,7 @@ const MyStory = () => {
                 <LikeButton
                   storyId={story?.id}
                   initialLiked={story?.like?.some(
-                    (l: any) => l?.id === data?.user?.id
+                    (l: any) => l?.userId === data?.user?.id
                   )}
                   initialCount={story?.like?.length}
                 />

@@ -49,7 +49,9 @@ export async function GET(
             createdAt: "asc",
           },
         },
-        like: { select: { id: true } }, // ✅ New
+        like: {
+          include: { user: true }, // ✅ fix here
+        },
       },
     });
 
