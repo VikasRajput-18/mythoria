@@ -33,4 +33,5 @@ export interface StoryType {
   authorId: number;
   pages: [];
   tags: Tag[];
+  views: number;
 }

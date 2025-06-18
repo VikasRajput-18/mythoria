@@ -119,6 +119,7 @@ const page = () => {
                 thumbnail={story.coverImage}
                 description={story.description}
                 type={story.type}
+                view={story.views}
               />
             ))}
           </div>

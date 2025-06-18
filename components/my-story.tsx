@@ -2,25 +2,28 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
-  Loader2,
   ArrowLeft,
-  Heart,
+  Bookmark,
+  Loader2,
   MessageCircle,
   Share2,
-  Bookmark,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
-import { getStoryById } from "../api-service/api";
+import { getCurrentUser, getStoryById } from "../api-service/api";
 import { Tag } from "../types";
 import AuthorDetails from "./author-details";
 import CustomInput from "./custom-input";
 import CustomTags from "./custom-tags";
-import Image from "next/image";
-import Link from "next/link";
+import LikeButton from "./like-button";
 
 const MyStory = () => {
   const { id } = useParams();
+  const { data } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getCurrentUser,
+  });
 
   // ✅ tell TypeScript: I know it's a string
   const storyId = id as string;
@@ -32,7 +35,6 @@ const MyStory = () => {
     queryFn: () => getStoryById(storyId),
     enabled: !!storyId,
   });
-
 
   return (
     <section className="bg-mystic-800 w-full min-h-screen p-4 sm:p-8">
@@ -52,7 +54,7 @@ const MyStory = () => {
                 {story?.title}
               </h2>
             </div>
-            <p className="text-neutral-400 text-xs sm:text-base">
+            <p className="text-neutral-400 text-[15px] sm:text-base">
               {story?.description}
             </p>
 
@@ -97,19 +99,28 @@ const MyStory = () => {
                 className="w-full max-w-full"
               />
               <div className="flex items-center mt-4 justify-between">
-                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
+                {/* <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1">
                   <Heart className="stroke-mystic-500 hover:stroke-rose-500" />
                   <p className="text-mystic-500 ">198</p>
-                </button>
-                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
+                </button> */}
+
+                <LikeButton
+                  storyId={story?.id}
+                  initialLiked={story?.like?.some(
+                    (l: any) => l?.id === data?.user?.id
+                  )}
+                  initialCount={story?.like?.length}
+                />
+
+                <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1">
                   <MessageCircle className="stroke-mystic-500 hover:stroke-white" />
                   <p className="text-mystic-500 ">198</p>
                 </button>
-                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
+                <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1">
                   <Share2 className="stroke-mystic-500 hover:stroke-blue-500" />
                   <p className="text-mystic-500 ">198</p>
                 </button>
-                <button className="cursor-pointer text-xs sm:text-base flex items-center gap-1">
+                <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1">
                   <Bookmark className="stroke-mystic-500 hover:stroke-orange-400" />
                   <p className="text-mystic-500 ">198</p>
                 </button>

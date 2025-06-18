@@ -79,15 +79,6 @@ export const getAllStories = async (search: string, page: number = 1) => {
     throw error;
   }
 };
-// export const getStoryById = async (id: string) => {
-//   try {
-//     const response = await axios.get(`/api/story/${id}`);
-//     return response.data;
-//   } catch (error: any) {
-//     throw error;
-//   }
-// };
-
 export const getStoryById = async (id: string, isServer = false) => {
   const baseURL = isServer ? process.env.NEXT_PUBLIC_BASE_URL : "";
 
@@ -109,5 +100,15 @@ export const updateStory = async (data: FormTypes) => {
     withCredentials: true,
   });
 
+  return response.data;
+};
+export const likeStory = async (storyId: number) => {
+  const response = await axios.post(
+    `/api/story/${storyId}/like`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };

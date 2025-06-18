@@ -1,7 +1,8 @@
-import { PenLine, Trash2Icon } from "lucide-react";
+import { Eye, PenLine, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { formatViews } from "../lib/upload-to-cloudinary";
 
 interface StoryProps {
   title: string;
@@ -11,6 +12,7 @@ interface StoryProps {
   type: string;
   id: number;
   showDelete?: boolean;
+  view?: number;
   handleDeleteStory?: (id: number) => void;
 }
 
@@ -22,6 +24,7 @@ const Story = ({
   type,
   id,
   showDelete,
+  view,
   handleDeleteStory,
 }: StoryProps) => {
   const router = useRouter();
@@ -37,7 +40,7 @@ const Story = ({
           router.push(`/story/${id}`);
         }
       }}
-      className="border no-underline border-mystic-400 p-3 rounded-xl bg-mystic-950/40 transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-lg shadow-mystic-600 group cursor-pointer col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 space-y-2 h-full"
+      className="border no-underline border-mystic-400 p-3 rounded-xl bg-mystic-950/40 transition-all duration-200 ease-in-out hover:scale-95 hover:shadow-lg shadow-mystic-600 group cursor-pointer col-span-12 md:col-span-6 lg:col-span-4 2xl:col-span-3 space-y-2 h-full"
     >
       <div className="w-full rounded-lg overflow-hidden aspect-video relative">
         <Image
@@ -47,9 +50,17 @@ const Story = ({
           alt={title}
           className="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-all duration-200 ease-in-out"
         />
-        <span className="inline-block text-xs font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
+        <span className="inline-block text-[15px] font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
           {genre}
         </span>
+        {!showDelete && (
+          <div
+            className={`absolute bottom-2 left-2 flex items-center gap-2 bg-mystic-700 px-2 rounded-md`}
+          >
+            <Eye className="text-white size-4" />
+            <p className="text-white mt-1 text-[15px]">{formatViews(view!)}</p>
+          </div>
+        )}
         {showDelete ? (
           <div className="flex items-center gap-1 absolute right-2 top-2">
             <button
@@ -75,8 +86,12 @@ const Story = ({
           </div>
         ) : null}
       </div>
-      <h3 className="text-white text-base sm:text-lg font-semibold line-clamp-1">{title}</h3>
-      <p className="text-mystic-500 text-xs sm:text-base line-clamp-2">{description}</p>
+      <h3 className="text-white text-base sm:text-lg font-semibold line-clamp-1">
+        {title}
+      </h3>
+      <p className="text-mystic-500 text-[15px] sm:text-base line-clamp-2">
+        {description}
+      </p>
     </div>
   );
 };

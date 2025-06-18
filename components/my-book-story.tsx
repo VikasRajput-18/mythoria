@@ -75,7 +75,7 @@ const MyBookStory = () => {
             <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 !text-[#5b4636] font-josefin">
               {story.title}
             </h1>
-            <p className="text-[#7a6248] mb-4 font-josefin text-[14px] sm:text-base">
+            <p className="text-[#7a6248] mb-4 font-josefin text-[15px] sm:text-base">
               {story.description}
             </p>
             <img
@@ -87,11 +87,18 @@ const MyBookStory = () => {
 
           {/* Content Pages */}
           {story?.pages.map((page: Page) => (
+            // <div
+            //   key={page.id}
+            //   className="p-3 md:p-8 bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin !text-[#5b4636] prose max-w-none leading-relaxed overflow-auto"
+            //   dangerouslySetInnerHTML={{ __html: page.content }}
+            // ></div>
             <div
               key={page.id}
-              className="p-3 md:p-8 bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin !text-[#5b4636] prose max-w-none leading-relaxed overflow-auto"
-              dangerouslySetInnerHTML={{ __html: page.content }}
-            ></div>
+              className="relative p-3 md:p-8 bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin !text-[#5b4636] prose max-w-none leading-relaxed overflow-auto"
+            >
+              {/* Page HTML content */}
+              <div dangerouslySetInnerHTML={{ __html: page.content }} />
+            </div>
           ))}
 
           {/* About Author Page */}

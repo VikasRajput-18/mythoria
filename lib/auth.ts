@@ -4,11 +4,11 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
-export function verifyUser(req: NextRequest) {
+export function verifyUser(req: NextRequest , errMsg = "Unauthorized: No token") {
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
-    throw new Error("Unauthorized: No token");
+    throw new Error(errMsg);
   }
 
   try {

@@ -24,6 +24,9 @@ export async function GET(req: NextRequest) {
         },
         skip,
         take: limit,
+        include: {
+          like: { select: { id: true } }, // ✅ New
+        },
       }),
       prisma.story.count({
         where: {

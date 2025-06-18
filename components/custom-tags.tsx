@@ -17,7 +17,7 @@ const CustomTags = ({
   return (
     <span
       key={id}
-      className="bg-mystic-700 text-xs sm:text-base text-white px-3 py-1 rounded-full flex items-center gap-2 break-words border-[1px] border-mystic-600"
+      className="bg-mystic-700 text-[15px] sm:text-base text-white px-3 py-1 rounded-full flex items-center gap-2 break-words border-[1px] border-mystic-600"
     >
       {value}
 
