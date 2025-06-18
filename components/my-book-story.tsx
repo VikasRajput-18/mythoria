@@ -1,11 +1,15 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Info, Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { getStoryById } from "../api-service/api";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@radix-ui/react-popover";
 
 type Page = {
   id: number;
@@ -27,6 +31,25 @@ const MyBookStory = () => {
 
   return (
     <section className="bg-mystic-800 w-full p-4 sm:p-8 h-screen overflow-hidden flex justify-center items-center">
+      <Popover>
+        <PopoverTrigger asChild>
+          <button
+            className="absolute top-4 right-4 p-2 rounded-full bg-mystic-600 hover:bg-mystic-500 transition-colors z-50"
+            aria-label="Story Info"
+          >
+            <Info className="w-5 h-5 text-white" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="max-w-xs text-sm z-50 bg-mystic-700 p-4 rounded-xl">
+          <h3 className="text-base font-semibold mb-2">Story Tips:</h3>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Swipe or click to flip pages.</li>
+            <li>Use full screen for a better experience.</li>
+            <li>Scroll if content overflows.</li>
+          </ul>
+        </PopoverContent>
+      </Popover>
+
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
           <Loader2 className="h-20 w-20 animate-spin text-gray-600" />
@@ -52,7 +75,7 @@ const MyBookStory = () => {
             <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 !text-[#5b4636] font-josefin">
               {story.title}
             </h1>
-            <p className="text-[#7a6248] mb-4 font-josefin text-xs sm:text-base">
+            <p className="text-[#7a6248] mb-4 font-josefin text-[14px] sm:text-base">
               {story.description}
             </p>
             <img
