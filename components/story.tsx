@@ -50,16 +50,21 @@ const Story = ({
           alt={title}
           className="w-full h-full object-cover rounded-lg group-hover:scale-110 transition-all duration-200 ease-in-out"
         />
-        <span className="inline-block text-[15px] font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
-          {genre}
-        </span>
+
         {!showDelete && (
-          <div
-            className={`absolute bottom-2 left-2 flex items-center gap-2 bg-mystic-700 px-2 rounded-md`}
-          >
-            <Eye className="text-white size-4" />
-            <p className="text-white mt-1 text-[15px]">{formatViews(view!)}</p>
-          </div>
+          <>
+            <span className="inline-block text-[15px] font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
+              {genre}
+            </span>
+            <div
+              className={`absolute bottom-2 left-2 flex items-center gap-2 bg-mystic-700 px-2 rounded-md`}
+            >
+              <Eye className="text-white size-4" />
+              <p className="text-white mt-1 text-[15px]">
+                {formatViews(view!)}
+              </p>
+            </div>
+          </>
         )}
         {showDelete ? (
           <div className="flex items-center gap-1 absolute right-2 top-2">

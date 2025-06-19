@@ -32,7 +32,7 @@ const Page = () => {
   const debouncedValue = useDebounce({ value: search, delay: 300 });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["myStories", "me", debouncedValue, page],
+    queryKey: ["myStories", debouncedValue, page],
     queryFn: () => getMyStories(debouncedValue, page),
     placeholderData: (prev) => prev,
   });
@@ -108,7 +108,7 @@ const Page = () => {
       <div>
         {!isLoading && stories?.length > 0 && (
           <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24">
-            {stories.map((story: StoryType) => (
+            {stories?.map((story: StoryType) => (
               <Story
                 key={story.id}
                 id={story.id}

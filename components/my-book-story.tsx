@@ -1,15 +1,18 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Info, Loader2 } from "lucide-react";
+import { Info, Loader2, SquareMenu } from "lucide-react";
 import { useParams } from "next/navigation";
 import HTMLFlipBook from "react-pageflip";
-import { getStoryById } from "../api-service/api";
+import { getCurrentUser, getStoryById } from "../api-service/api";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from "@radix-ui/react-popover";
+import LikeButton from "./like-button";
+import { useState } from "react";
+import { useUserContext } from "../context/user-context";
 
 type Page = {
   id: number;
@@ -19,7 +22,10 @@ type Page = {
 
 const MyBookStory = () => {
   const { id } = useParams();
+  const [showMenu, setShowMenu] = useState(false);
   const storyId = id as string;
+
+  const { user } = useUserContext();
 
   const { data: story, isLoading } = useQuery({
     queryKey: ["singleStory", storyId],
@@ -49,6 +55,35 @@ const MyBookStory = () => {
           </ul>
         </PopoverContent>
       </Popover>
+      <div className="absolute top-4 left-4">
+        <div className="relative">
+          <button
+            className="p-2 rounded-full cursor-pointer bg-mystic-600 hover:bg-mystic-500 transition-colors z-50"
+            aria-label="Story Info"
+            onClick={() => setShowMenu((prev) => !prev)}
+          >
+            <SquareMenu className="w-5 h-5 text-white" />
+          </button>
+          <div
+            className={`absolute ${
+              showMenu ? "left-12 scale-100" : "scale-0 left-0"
+            } transition-all duration-200 ease-in-out top-0 bg-mystic-700 rounded-xl`}
+          >
+            <div
+              className="p-2 rounded-full cursor-pointer hover:bg-mystic-500 transition-colors z-50"
+              aria-label="Story Info"
+            >
+              <LikeButton
+                storyId={Number(storyId)}
+                initialLiked={story?.like?.some(
+                  (l: any) => l?.userId === user?.id
+                )}
+                initialCount={story?.like?.length}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-full">

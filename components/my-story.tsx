@@ -17,13 +17,11 @@ import AuthorDetails from "./author-details";
 import CustomInput from "./custom-input";
 import CustomTags from "./custom-tags";
 import LikeButton from "./like-button";
+import { useUserContext } from "../context/user-context";
 
 const MyStory = () => {
   const { id } = useParams();
-  const { data } = useQuery({
-    queryKey: ["profile"],
-    queryFn: getCurrentUser,
-  });
+  const { user } = useUserContext();
 
   // ✅ tell TypeScript: I know it's a string
   const storyId = id as string;
@@ -99,15 +97,10 @@ const MyStory = () => {
                 className="w-full max-w-full"
               />
               <div className="flex items-center mt-4 justify-between">
-                {/* <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1">
-                  <Heart className="stroke-mystic-500 hover:stroke-rose-500" />
-                  <p className="text-mystic-500 ">198</p>
-                </button> */}
-
                 <LikeButton
                   storyId={story?.id}
                   initialLiked={story?.like?.some(
-                    (l: any) => l?.userId === data?.user?.id
+                    (l: any) => l?.userId === user?.id
                   )}
                   initialCount={story?.like?.length}
                 />

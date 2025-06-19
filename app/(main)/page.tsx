@@ -22,15 +22,13 @@ import { useAppContext } from "../../context/app-context";
 import useDebounce from "../../hooks/use-debounce";
 import { cn } from "../../lib/utils";
 import { StoryType } from "../../types";
+import { useUserContext } from "../../context/user-context";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
+  const { user, isLoading } = useUserContext();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useQuery({
-    queryKey: ["profile"],
-    queryFn: getCurrentUser,
-  });
 
   const debouncedValue = useDebounce({ value: search, delay: 300 });
 
@@ -73,7 +71,7 @@ const page = () => {
             Upgrade Plan
           </button>
           <Link
-            href={!data?.user ? "/sign-in" : "/create"}
+            href={!user ? "/sign-in" : "/create"}
             aria-disabled={isLoading}
             className="text-white hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-3 sm:px-6 py-2 bg-mystic-blue-900"
           >

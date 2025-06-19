@@ -3,6 +3,7 @@ import { Epilogue, Josefin_Sans as JosefinSans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import AppProvider from "../context/app-context";
+import UserProvider from "../context/user-context";
 
 const epilogueSans = Epilogue({
   variable: "--font-epilogue-sans",
@@ -56,7 +57,9 @@ export default function RootLayout({
       className={`${epilogueSans.className} ${josefinSans.variable} antialiased`}
     >
       <body>
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <UserProvider>{children}</UserProvider>
+        </AppProvider>
         <Toaster />
       </body>
     </html>

@@ -1,6 +1,6 @@
 "use client";
 
-import { EllipsisVertical, LogOut, X } from "lucide-react";
+import { EllipsisVertical, LogIn, LogOut, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -18,17 +18,15 @@ import {
 import Image from "next/image";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useUserContext } from "../context/user-context";
 
 const Sidebar = () => {
   const queryClient = useQueryClient();
   const pathname = usePathname();
   const { openSidebar, toggleSidebar, setOpenSidebar } = useAppContext();
+  const { user } = useUserContext();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const { data } = useQuery({
-    queryKey: ["profile"],
-    queryFn: getCurrentUser,
-  });
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: (data) => {
@@ -98,21 +96,19 @@ const Sidebar = () => {
             );
           })}
         </div>
-        {!!data?.user && (
+        {!!user ? (
           <div className=" w-full flex items-center  gap-x-4">
             <div className="flex items-center gap-2">
               <Image
                 src={"/assets/mythoria.png"}
-                alt={data?.user?.name}
+                alt={user?.name}
                 width={60}
                 height={60}
                 className="rounded-full border border-mystic-blue-900 p-0.5 object-cover"
               />
               <div>
-                <p className="text-white text-lg font-semibold">
-                  {data?.user?.name}
-                </p>
-                <p className="text-mystic-500">{data?.user?.email}</p>
+                <p className="text-white text-lg font-semibold">{user?.name}</p>
+                <p className="text-mystic-500">{user?.email}</p>
               </div>
             </div>
 
@@ -133,6 +129,15 @@ const Sidebar = () => {
               </PopoverContent>
             </Popover>
           </div>
+        ) : (
+          <Link
+            href={"/sign-in"}
+            onClick={() => setOpenSidebar(false)}
+            className={`flex items-center no-underline transition-all duration-200 ease-in-out rounded-md px-3 py-3 hover:bg-mystic-400 gap-2 cursor-pointer`}
+          >
+            <LogIn className="stroke-white " />
+            <p className="text-white">Login</p>
+          </Link>
         )}
       </div>
     </aside>

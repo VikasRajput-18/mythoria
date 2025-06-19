@@ -113,7 +113,7 @@ body {
     @apply list-disc list-inside text-white my-2;
   }
   p {
-    @apply text-[14px] sm:text-base ;
+    @apply text-[15px] sm:text-base ;
   }
 
   ol {
