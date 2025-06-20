@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { likeStory } from "../api-service/api";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { likeStory } from "../api-service/api";
 
 export default function LikeButton({
   storyId,
@@ -34,7 +34,7 @@ export default function LikeButton({
     },
   });
 
-  const toggleLike = async () => {
+  const toggleLike = () => {
     likeStoryMutation.mutate(storyId);
   };
 

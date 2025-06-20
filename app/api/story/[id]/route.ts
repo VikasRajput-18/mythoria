@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { verifyUser } from "../../../../lib/auth";
-import story from "../../../../components/story";
 
 export async function GET(
   req: NextRequest,
@@ -52,7 +51,7 @@ export async function GET(
           },
         },
         _count: {
-          select: { like: true }, // ✅ gets count only
+          select: { like: true, comments: true }, // ✅ gets count only
         },
         like: currentUserId
           ? {
@@ -71,6 +70,7 @@ export async function GET(
       {
         ...story,
         likeCount: story._count.like,
+        commentCount: story._count.comments,
         likedByMe: story.like ? story.like.length > 0 : false,
         tags: story.tags.map((t) => ({ id: t.tag.id, name: t.tag.name })),
       },

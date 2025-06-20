@@ -112,3 +112,25 @@ export const likeStory = async (storyId: number) => {
   );
   return response.data;
 };
+export const addComment = async ({
+  storyId,
+  commentText,
+}: {
+  storyId: string;
+  commentText: string;
+}) => {
+  const response = await axios.post(
+    `/api/story/${storyId}/comment`,
+    { commentText },
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+export const getCommentsByStoryId = async (storyId: string) => {
+  const response = await axios.get(`/api/story/${storyId}/comment`, {
+    withCredentials: true,
+  });
+  return response.data;
+};

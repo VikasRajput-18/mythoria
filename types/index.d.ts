@@ -35,3 +35,13 @@ export interface StoryType {
   tags: Tag[];
   views: number;
 }
+
+export interface CommentType {
+  author: {
+    name: string;
+  };
+  content: string;
+  storyId: number;
+  id: number;
+  createdAt: string;
+}
