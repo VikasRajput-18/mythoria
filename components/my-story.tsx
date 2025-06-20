@@ -11,17 +11,16 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getCurrentUser, getStoryById } from "../api-service/api";
+import { getStoryById } from "../api-service/api";
+import { useUserContext } from "../context/user-context";
 import { Tag } from "../types";
 import AuthorDetails from "./author-details";
 import CustomInput from "./custom-input";
 import CustomTags from "./custom-tags";
 import LikeButton from "./like-button";
-import { useUserContext } from "../context/user-context";
 
 const MyStory = () => {
   const { id } = useParams();
-  const { user } = useUserContext();
 
   // ✅ tell TypeScript: I know it's a string
   const storyId = id as string;
@@ -99,10 +98,8 @@ const MyStory = () => {
               <div className="flex items-center mt-4 justify-between">
                 <LikeButton
                   storyId={story?.id}
-                  initialLiked={story?.like?.some(
-                    (l: any) => l?.userId === user?.id
-                  )}
-                  initialCount={story?.like?.length}
+                  initialLiked={story?.likedByMe}
+                  initialCount={story?.likeCount}
                 />
 
                 <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1">

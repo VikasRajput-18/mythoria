@@ -1,14 +1,13 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical, LogIn, LogOut, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { cn } from "../lib/utils";
-import { useAppContext } from "../context/app-context";
 import { SIDEBAR_OPTIONS } from "../constants/constants";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { getCurrentUser, logout } from "../api-service/api";
+import { useAppContext } from "../context/app-context";
+import { cn } from "../lib/utils";
 
 import {
   Popover,
@@ -16,30 +15,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Image from "next/image";
-import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { useUserContext } from "../context/user-context";
 
 const Sidebar = () => {
-  const queryClient = useQueryClient();
   const pathname = usePathname();
   const { openSidebar, toggleSidebar, setOpenSidebar } = useAppContext();
-  const { user } = useUserContext();
+  const { user, logoutMutation } = useUserContext();
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: (data) => {
-      toast.success(data.message);
-      queryClient.clear();
-      queryClient.invalidateQueries({ queryKey: ["profile"] });
-      if (pathname !== "/") return router.push("/");
-    },
-    onError: (error: AxiosError<{ message: string }>) => {
-      const message = error.response?.data?.message || "Something went wrong!";
-      toast.error(message);
-    },
-  });
 
   const handleLogout = async () => {
     logoutMutation.mutate();

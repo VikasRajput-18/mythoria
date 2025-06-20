@@ -53,7 +53,7 @@ const Story = ({
 
         {!showDelete && (
           <>
-            <span className="inline-block text-[15px] font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
+            <span className="inline-block text-xs font-medium bg-mystic-300 text-white px-2 py-0.5 rounded-full absolute top-2 left-2 truncate max-w-[140px]">
               {genre}
             </span>
             <div

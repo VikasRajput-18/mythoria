@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   if (!token || !process.env.JWT_SECRET) {
-    return NextResponse.json({ user: null }, { status: 401 });
+    return NextResponse.json({ user: null }, { status: 200 }); // <-- always 200
   }
 
   try {
@@ -26,11 +26,11 @@ export async function GET(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json({ user: null }, { status: 404 });
+      return NextResponse.json({ user: null }, { status: 200 }); // <-- always 200
     }
 
-    return NextResponse.json({ user });
+    return NextResponse.json({ user }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ user: null }, { status: 401 });
+    return NextResponse.json({ user: null }, { status: 200 }); // <-- always 200
   }
 }

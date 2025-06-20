@@ -6,8 +6,9 @@ import { useRouter, useParams } from "next/navigation";
 import StoryForm from "../../../../components/story-form";
 import { getStoryById, updateStory } from "../../../../api-service/api";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "../../../../context/app-context";
+import { useUserContext } from "../../../../context/user-context";
 
 export default function Edit() {
   const queryClient = useQueryClient();
@@ -16,6 +17,7 @@ export default function Edit() {
   const storyId = params.id as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setFormData, setTag } = useAppContext();
+  const { user } = useUserContext();
 
   const { data: story, isLoading } = useQuery({
     queryKey: ["story", storyId],
@@ -49,6 +51,12 @@ export default function Edit() {
       toast.error("Update failed");
     },
   });
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/sign-in");
+    }
+  }, []);
 
   if (isLoading)
     return (

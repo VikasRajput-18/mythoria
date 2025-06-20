@@ -7,13 +7,14 @@ import { toast } from "sonner";
 import { addStory } from "../../../api-service/api";
 import StoryForm from "../../../components/story-form";
 import { useAppContext } from "../../../context/app-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUserContext } from "../../../context/user-context";
 
 const Create = () => {
   const queryClient = useQueryClient();
   const { setFormData, setTag } = useAppContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const { user } = useUserContext();
   const router = useRouter();
 
   const createStory = useMutation({
@@ -44,6 +45,12 @@ const Create = () => {
       toast.error(message);
     },
   });
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/sign-in");
+    }
+  }, []);
 
   return (
     <StoryForm

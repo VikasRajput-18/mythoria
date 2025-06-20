@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { verifyUser } from "../../../../lib/auth";
+import story from "../../../../components/story";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  let currentUserId: number | null = null;
   try {
     const { id } = await params;
-
+    currentUserId = verifyUser(req); // ✅ works if JWT exists
     if (!id) {
       return NextResponse.json(
         { message: "Missing story id" },
@@ -49,9 +51,15 @@ export async function GET(
             createdAt: "asc",
           },
         },
-        like: {
-          include: { user: true }, // ✅ fix here
+        _count: {
+          select: { like: true }, // ✅ gets count only
         },
+        like: currentUserId
+          ? {
+              where: { userId: currentUserId },
+              select: { id: true },
+            }
+          : false, // ⛔️ don’t fetch if anonymous
       },
     });
 
@@ -62,6 +70,8 @@ export async function GET(
     return NextResponse.json(
       {
         ...story,
+        likeCount: story._count.like,
+        likedByMe: story.like ? story.like.length > 0 : false,
         tags: story.tags.map((t) => ({ id: t.tag.id, name: t.tag.name })),
       },
       { status: 200 }
