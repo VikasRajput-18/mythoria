@@ -52,14 +52,16 @@ const MyStory = () => {
   } = useQuery({
     queryKey: ["comments", storyId],
     queryFn: () => getCommentsByStoryId(storyId),
-    enabled: false, // run on demand only
+    enabled: !!storyId, // run on demand only
+    placeholderData: (prev) => prev,
   });
 
   const addCommentMutation = useMutation({
     mutationFn: addComment,
     onSuccess: (data) => {
       toast.success(data.message);
-      queryClient.invalidateQueries({ queryKey: ["singleStory"] });
+      queryClient.invalidateQueries({ queryKey: ["singleStory", storyId] });
+      queryClient.invalidateQueries({ queryKey: ["comments", storyId] });
       setCommentText("");
     },
     onError: (error: AxiosError<{ message: string }>) => {
@@ -71,11 +73,6 @@ const MyStory = () => {
   const handleAddComment = () => {
     if (!commentText) return toast.warning("Comment cannot be empty");
     addCommentMutation.mutate({ storyId, commentText });
-  };
-
-  const handleGetComments = () => {
-    if (!storyId) return;
-    refetchComments();
   };
 
   const comments = commentsList?.comments || [];
@@ -103,7 +100,7 @@ const MyStory = () => {
             </p>
 
             {story?.tags?.length > 0 ? (
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className="mt-2 flex flex-wrap gap-2 ">
                 {story?.tags?.map((tag: Tag) => (
                   <CustomTags
                     key={tag.id}
@@ -162,10 +159,7 @@ const MyStory = () => {
                   initialCount={story?.likeCount}
                 />
 
-                <button
-                  onClick={handleGetComments}
-                  className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1 group"
-                >
+                <button className="cursor-pointer text-[15px] sm:text-base flex items-center gap-1 group">
                   <MessageCircle className="stroke-mystic-500 group-hover:stroke-white" />
                   <p className="text-mystic-500 group-hover:text-white">
                     {story?.commentCount}
@@ -187,7 +181,7 @@ const MyStory = () => {
                 </div>
               ) : (
                 comments?.length > 0 && (
-                  <div className="bg-mystic-700 p-4 mt-4 rounded-lg ">
+                  <div className="bg-mystic-700 p-4 mt-4 rounded-lg space-y-2">
                     <p className="text-white text-lg md:text-xl font-semibold border-b border-mystic-600 pb-2 mb-4">
                       Comments ({story?.commentCount})
                     </p>
