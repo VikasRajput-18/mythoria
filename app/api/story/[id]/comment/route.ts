@@ -43,7 +43,6 @@ export async function POST(
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { message: "Something went wrong." },
       { status: 500 }
@@ -78,6 +77,7 @@ export async function GET(
         author: {
           select: {
             name: true,
+            id: true,
           },
         },
       },
@@ -85,7 +85,6 @@ export async function GET(
 
     return NextResponse.json({ comments }, { status: 200 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { message: "Something went wrong." },
       { status: 500 }

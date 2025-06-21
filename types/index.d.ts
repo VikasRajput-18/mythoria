@@ -39,6 +39,7 @@ export interface StoryType {
 export interface CommentType {
   author: {
     name: string;
+    id: number;
   };
   content: string;
   storyId: number;

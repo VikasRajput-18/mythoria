@@ -239,7 +239,6 @@ export async function PUT(
 
     return NextResponse.json({ message: "Story Updated" }, { status: 200 });
   } catch (error) {
-    console.error("PUT error:", error);
     return NextResponse.json(
       { message: "Something went wrong." },
       { status: 500 }

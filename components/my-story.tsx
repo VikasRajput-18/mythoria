@@ -18,7 +18,7 @@ import {
   getCommentsByStoryId,
   getStoryById,
 } from "../api-service/api";
-import { CommentType, Tag } from "../types";
+import { Tag } from "../types";
 import AuthorDetails from "./author-details";
 import CustomInput from "./custom-input";
 import CustomTags from "./custom-tags";
@@ -27,7 +27,7 @@ import { useState } from "react";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import Spinner from "./spinner";
-import { timeAgo } from "../lib/upload-to-cloudinary";
+import Comments from "./comments";
 
 const MyStory = () => {
   const { id } = useParams();
@@ -45,11 +45,7 @@ const MyStory = () => {
     enabled: !!storyId,
   });
 
-  const {
-    data: commentsList,
-    refetch: refetchComments,
-    isFetching: isFetchingComments,
-  } = useQuery({
+  const { data: commentsList, isLoading: isCommentLoading } = useQuery({
     queryKey: ["comments", storyId],
     queryFn: () => getCommentsByStoryId(storyId),
     enabled: !!storyId, // run on demand only
@@ -175,45 +171,17 @@ const MyStory = () => {
                 </button>
               </div>
 
-              {isFetchingComments ? (
+              {isCommentLoading ? (
                 <div className="flex items-center justify-center mt-4">
                   <Spinner />
                 </div>
               ) : (
-                comments?.length > 0 && (
-                  <div className="bg-mystic-700 p-4 mt-4 rounded-lg space-y-2">
-                    <p className="text-white text-lg md:text-xl font-semibold border-b border-mystic-600 pb-2 mb-4">
-                      Comments ({story?.commentCount})
-                    </p>
-                    {comments?.map((comment: CommentType) => {
-                      return (
-                        <div key={comment?.id} className="">
-                          <div className="flex items-center gap-2">
-                            <div>
-                              <Image
-                                src={"/assets/mythoria.png"}
-                                alt={comment?.author?.name}
-                                width={80}
-                                height={80}
-                                className="w-14 h-14 rounded-full object-cover border border-mystic-blue-900"
-                              />
-                            </div>
-                            <div>
-                              <p className="text-mystic-500 text-xs flex items-center">
-                                {comment?.author?.name}{" "}
-                                <Dot className="stroke-mystic-500" />
-                                {timeAgo(comment.createdAt)}
-                              </p>
-                              <p className="text-neutral-200">
-                                {comment?.content}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )
+                <Comments
+                  comments={comments}
+                  commentCount={story?.commentCount}
+                  storyId={storyId}
+                  storyAuthorId={story?.author?.id}
+                />
               )}
             </div>
           </div>

@@ -134,3 +134,12 @@ export const getCommentsByStoryId = async (storyId: string) => {
   });
   return response.data;
 };
+export const deleteComment = async ({ storyId, commentId }: { storyId: number, commentId: number }) => {
+  const response = await axios.delete(
+    `/api/story/${storyId}/comment/${commentId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
