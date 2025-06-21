@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FormTypes } from "../types";
+import { ProfileFormTypes } from "../components/profile-form";
 
 interface LoginType {
   email: string;
@@ -128,18 +129,31 @@ export const addComment = async ({
   );
   return response.data;
 };
-export const getCommentsByStoryId = async (storyId: string) => {
-  const response = await axios.get(`/api/story/${storyId}/comment`, {
+export const getCommentsByStoryId = async (storyId: string , limit : number = 1, skip :number = 0 ) => {
+  const response = await axios.get(`/api/story/${storyId}/comment?limit=${limit}&skip=${skip}`, {
     withCredentials: true,
   });
   return response.data;
 };
-export const deleteComment = async ({ storyId, commentId }: { storyId: number, commentId: number }) => {
+export const deleteComment = async ({
+  storyId,
+  commentId,
+}: {
+  storyId: number;
+  commentId: number;
+}) => {
   const response = await axios.delete(
     `/api/story/${storyId}/comment/${commentId}`,
     {
       withCredentials: true,
     }
   );
+  return response.data;
+};
+
+export const updateProfile = async (data: ProfileFormTypes) => {
+  const response = await axios.post(`/api/profile`, data, {
+    withCredentials: true,
+  });
   return response.data;
 };

@@ -16,6 +16,10 @@ export interface UserTypes {
   id: number;
   name: string;
   email: string;
+  profile?: {
+    bio?: string;
+    image?: string;
+  };
 }
 
 // 2️⃣ Define Context shape

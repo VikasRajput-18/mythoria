@@ -1,10 +1,10 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import {
   ArrowLeft,
   Bookmark,
-  Dot,
   Loader2,
   MessageCircle,
   Send,
@@ -13,26 +13,29 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
   addComment,
   getCommentsByStoryId,
   getStoryById,
 } from "../api-service/api";
-import { Tag } from "../types";
+import { CommentType, Tag } from "../types";
 import AuthorDetails from "./author-details";
+import Comments from "./comments";
 import CustomInput from "./custom-input";
 import CustomTags from "./custom-tags";
 import LikeButton from "./like-button";
-import { useState } from "react";
-import { AxiosError } from "axios";
-import { toast } from "sonner";
 import Spinner from "./spinner";
-import Comments from "./comments";
 
 const MyStory = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const [commentText, setCommentText] = useState("");
+  const [limit] = useState(10);
+  const [skip, setSkip] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [comments, setComments] = useState<CommentType[] | []>([]);
 
   // ✅ tell TypeScript: I know it's a string
   const storyId = id as string;
@@ -46,8 +49,8 @@ const MyStory = () => {
   });
 
   const { data: commentsList, isLoading: isCommentLoading } = useQuery({
-    queryKey: ["comments", storyId],
-    queryFn: () => getCommentsByStoryId(storyId),
+    queryKey: ["comments", storyId, limit, skip],
+    queryFn: () => getCommentsByStoryId(storyId, limit, skip),
     enabled: !!storyId, // run on demand only
     placeholderData: (prev) => prev,
   });
@@ -66,12 +69,41 @@ const MyStory = () => {
     },
   });
 
+  const handleLoadMore = () => {
+    setSkip((prev) => prev + limit);
+  };
+
   const handleAddComment = () => {
     if (!commentText) return toast.warning("Comment cannot be empty");
     addCommentMutation.mutate({ storyId, commentText });
   };
 
-  const comments = commentsList?.comments || [];
+  // const comments = commentsList?.comments || [];
+
+  useEffect(() => {
+    // If storyId changes, reset all
+    setComments([]);
+    setSkip(0);
+  }, [storyId]);
+
+  useEffect(() => {
+    if (commentsList?.comments) {
+      // If skip === 0 -> reset
+      if (skip === 0) {
+        setComments(commentsList.comments);
+      } else {
+        // merge + dedupe
+        setComments((prev) => {
+          const incomingIds = new Set(
+            commentsList.comments.map((c: CommentType) => c.id)
+          );
+          const filteredPrev = prev.filter((c) => !incomingIds.has(c.id));
+          return [...filteredPrev, ...commentsList.comments];
+        });
+      }
+      setTotalCount(commentsList.totalCount);
+    }
+  }, [commentsList, skip]);
 
   return (
     <section className="bg-mystic-800 w-full min-h-screen p-4 sm:p-8">
@@ -181,6 +213,11 @@ const MyStory = () => {
                   commentCount={story?.commentCount}
                   storyId={storyId}
                   storyAuthorId={story?.author?.id}
+                  loadMoreFn={handleLoadMore}
+                  totalCount={totalCount}
+                  limit={limit}
+                  skip={skip}
+                  setComments={setComments}
                 />
               )}
             </div>

@@ -1,5 +1,5 @@
 import { Dot, Trash2Icon } from "lucide-react";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { timeAgo } from "../lib/upload-to-cloudinary";
 import { CommentType } from "../types";
 import Image from "next/image";
@@ -14,6 +14,11 @@ type CommentsProps = {
   commentCount: number;
   storyId: string;
   storyAuthorId: number;
+  totalCount?: number;
+  limit?: number;
+  skip?: number;
+  loadMoreFn?: () => void;
+  setComments: Dispatch<SetStateAction<[] | CommentType[]>>;
 };
 
 const Comments = ({
@@ -21,6 +26,11 @@ const Comments = ({
   storyId,
   comments,
   commentCount = 0,
+  totalCount = 0,
+  limit,
+  skip,
+  loadMoreFn,
+  setComments,
 }: CommentsProps) => {
   const { user } = useUserContext();
   const queryClient = useQueryClient();
@@ -29,7 +39,9 @@ const Comments = ({
     onSuccess: (data) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["singleStory", storyId] });
-      queryClient.invalidateQueries({ queryKey: ["comments", storyId] });
+      queryClient.invalidateQueries({
+        queryKey: ["comments", storyId, limit, skip],
+      });
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
@@ -38,6 +50,11 @@ const Comments = ({
   });
 
   const handleDeleteComment = (storyId: number, commentId: number) => {
+    // Optimistically update local list:
+    setComments((prev: CommentType[]) =>
+      prev.filter((c: CommentType) => c.id !== commentId)
+    );
+    // Fire mutation:
     deleteCommentMutation.mutate({ storyId, commentId });
   };
 
@@ -50,10 +67,12 @@ const Comments = ({
         {comments?.map((comment: CommentType) => {
           return (
             <div key={comment?.id} className="">
-              <div className="flex items-center gap-2">
+              <div className="flex items-start gap-2">
                 <div>
                   <Image
-                    src={"/assets/mythoria.png"}
+                    src={
+                      comment?.author?.profile?.image || "/assets/mythoria.png"
+                    }
                     alt={comment?.author?.name}
                     width={80}
                     height={80}
@@ -88,6 +107,15 @@ const Comments = ({
             </div>
           );
         })}
+
+        {comments?.length < totalCount && (
+          <button
+            onClick={loadMoreFn}
+            className="text-mystic-500 mt-6 cursor-pointer"
+          >
+            Load More...
+          </button>
+        )}
       </div>
     )
   );

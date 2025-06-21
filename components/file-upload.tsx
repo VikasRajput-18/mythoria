@@ -8,13 +8,16 @@ import { cn } from "../lib/utils";
 export const FileUpload = ({
   onChange,
   value,
+  headerText = "Upload Thumbnail",
+  uploadProfile,
 }: {
   onChange?: (files: File[]) => void;
   value?: string;
+  headerText?: string;
+  uploadProfile?: boolean;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
 
   const handleFileChange = (newFiles: File[]) => {
     const imageFile = newFiles[0];
@@ -58,12 +61,16 @@ export const FileUpload = ({
         </div>
 
         <div className="flex flex-col items-center justify-center">
-          <p className="relative z-20 font-bold text-neutral-300 text-base">
-            Upload Thumbnail
-          </p>
-          <p className="relative z-20 text-neutral-400 text-base mt-2 text-center">
-            Drag and drop or click to upload a single image
-          </p>
+          {!uploadProfile && (
+            <>
+              <p className="relative z-20 font-bold text-neutral-300 text-base">
+                {headerText}
+              </p>
+              <p className="relative z-20 text-neutral-400 text-base mt-2 text-center">
+                Drag and drop or click to upload a single image
+              </p>
+            </>
+          )}
 
           <div className="relative w-full mt-10 max-w-xl mx-auto">
             {file || value ? (
@@ -83,7 +90,7 @@ export const FileUpload = ({
                 {file && (
                   <>
                     <div className="flex justify-between w-full items-center gap-4">
-                      <p className="text-base text-mystic-500 truncate max-w-xs">
+                      <p className="text-base text-mystic-500 truncate max-w-[200px]">
                         {file?.name}
                       </p>
                       <p className="rounded-lg px-2 py-1 text-sm bg-mystic-800 text-mystic-500">

@@ -1,14 +1,17 @@
+import { cn } from "@/lib/utils";
 import React, { TextareaHTMLAttributes } from "react";
 
 type CustomTextAreaProps = {
   value: string;
   label?: string;
   className?: string;
+  inputClassName?: string;
 } & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const CustomTextArea = ({
   label,
   className = "",
+  inputClassName = "",
   value,
   ...props
 }: CustomTextAreaProps) => {
@@ -21,9 +24,8 @@ const CustomTextArea = ({
       )}
       <textarea
         value={value}
+        className={cn("bg-mystic-700 rounded-md px-3 py-3 placeholder:text-mystic-500 border border-mystic-300 outline-none text-white" , inputClassName )}
         {...props}
-        className="bg-mystic-700 rounded-md px-3 py-3 placeholder:text-mystic-500 border border-mystic-300 outline-none text-white"
-        rows={3}
       />
     </div>
   );

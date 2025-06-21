@@ -1,7 +1,6 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
-import { EllipsisVertical, LogIn, LogOut, X } from "lucide-react";
+import { EllipsisVertical, LogIn, LogOut, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -82,7 +81,7 @@ const Sidebar = () => {
           <div className=" w-full flex items-center  gap-x-4">
             <div className="flex items-center gap-2">
               <Image
-                src={"/assets/mythoria.png"}
+                src={user?.profile?.image || "/assets/mythoria.png"}
                 alt={user?.name}
                 width={60}
                 height={60}
@@ -100,14 +99,23 @@ const Sidebar = () => {
                   <EllipsisVertical className="stroke-white" />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="z-[100] bg-mystic-700 max-w-[150px] hover:bg-mystic-400">
-                <button
-                  onClick={handleLogout}
-                  className="px-4 p-2 text-white flex items-center gap-2 cursor-pointer w-full h-full"
-                >
-                  <LogOut />
-                  Logout
-                </button>
+              <PopoverContent className="z-[100] border-0 shadow-none overflow-hidden">
+                <div className="w-full rounded-lg overflow-hidden">
+                  <Link
+                    href={"/profile"}
+                    className="no-underline px-4 p-2 text-white flex items-center gap-2 cursor-pointer w-full h-full  bg-mystic-700  hover:bg-mystic-400 hover:text-white"
+                  >
+                    <User />
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-4 p-2 text-white flex items-center gap-2 cursor-pointer w-full h-full  bg-mystic-700  hover:bg-mystic-400"
+                  >
+                    <LogOut />
+                    Logout
+                  </button>
+                </div>
               </PopoverContent>
             </Popover>
           </div>

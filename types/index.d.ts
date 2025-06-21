@@ -40,6 +40,10 @@ export interface CommentType {
   author: {
     name: string;
     id: number;
+    profile?: {
+      image?: string;
+      bio?: string;
+    };
   };
   content: string;
   storyId: number;

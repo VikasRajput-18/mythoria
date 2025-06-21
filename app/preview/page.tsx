@@ -1,15 +1,10 @@
 "use client";
 
 import {
-  ArrowLeft,
-  Bookmark,
-  Heart,
-  MessageCircle,
-  Share2,
+  ArrowLeft
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import CustomInput from "../../components/custom-input";
 import CustomTags from "../../components/custom-tags";
 import { useAppContext } from "../../context/app-context";
 import { Tag } from "../../types";
@@ -64,32 +59,7 @@ export default function MyBook() {
             />
           )}
 
-          <div className="mt-8 w-full">
-            <CustomInput
-              value={""}
-              onChange={() => {}}
-              placeholder="Add Comment"
-              className="w-full max-w-full"
-            />
-            <div className="flex items-center mt-4 justify-between">
-              <button className="cursor-pointer flex items-center gap-1">
-                <Heart className="stroke-mystic-500 hover:stroke-rose-500" />
-                <p className="text-mystic-500">198</p>
-              </button>
-              <button className="cursor-pointer flex items-center gap-1">
-                <MessageCircle className="stroke-mystic-500 hover:stroke-white" />
-                <p className="text-mystic-500">198</p>
-              </button>
-              <button className="cursor-pointer flex items-center gap-1">
-                <Share2 className="stroke-mystic-500 hover:stroke-blue-500" />
-                <p className="text-mystic-500">198</p>
-              </button>
-              <button className="cursor-pointer flex items-center gap-1">
-                <Bookmark className="stroke-mystic-500 hover:stroke-orange-400" />
-                <p className="text-mystic-500">198</p>
-              </button>
-            </div>
-          </div>
+        
         </div>
       </div>
     </section>

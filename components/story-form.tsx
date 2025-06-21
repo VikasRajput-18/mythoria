@@ -54,8 +54,6 @@ const StoryForm = ({
         files: [],
       });
     }
-
-
   }, [mode, initialData, setFormData]);
 
   const handleFileUpload = (files: File[]) => {
@@ -154,8 +152,8 @@ const StoryForm = ({
         thumbnail: thumbnailUrl,
       });
     } catch (err) {
-      console.error(err);
       toast.error("Failed to upload image");
+      setIsSubmitting(false);
     }
   };
 
@@ -354,7 +352,7 @@ const StoryForm = ({
 
         <div className="flex items-center gap-4 justify-end">
           <Link
-            href={"/preview"}
+            href={formData.type === "book" ? "/book-preview" : "/preview"}
             className="text-mystic-800 no-underline hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-white mt-8"
           >
             Preview

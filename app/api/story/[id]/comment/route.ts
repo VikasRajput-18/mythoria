@@ -68,7 +68,15 @@ export async function GET(
       );
     }
 
+    const { searchParams } = new URL(req.url);
+    const limit = Number(searchParams.get("limit")) || 10;
+    const skip = Number(searchParams.get("skip")) || 0;
     const storyId = Number(id);
+
+    const totalCount = await prisma.comment.count({
+      where: { storyId },
+    });
+
     const comments = await prisma.comment.findMany({
       where: {
         storyId,
@@ -78,12 +86,23 @@ export async function GET(
           select: {
             name: true,
             id: true,
+            profile: {
+              select: {
+                image: true,
+                bio: true,
+              },
+            },
           },
         },
       },
+      take: limit,
+      skip: skip,
+      orderBy: {
+        createdAt: "desc", // or "asc" if you want oldest first
+      },
     });
 
-    return NextResponse.json({ comments }, { status: 200 });
+    return NextResponse.json({ totalCount, comments }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Something went wrong." },

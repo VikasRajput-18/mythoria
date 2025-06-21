@@ -6,6 +6,10 @@ interface AuthorState {
   id: number;
   name: string;
   email: string;
+  profile?: {
+    image?: string;
+    bio?: string;
+  };
 }
 
 interface AuthorDetailsProps {
@@ -32,22 +36,24 @@ export const GenerateButton = () => {
 
 const AuthorDetails = ({ author }: AuthorDetailsProps) => {
   return (
-    <div className="md:max-w-[400px] sticky top-10 ">
+    <div className="w-full lg:max-w-[400px] sticky top-10 ">
       <div className="flex items-center gap-2">
         <div className="border-2 border-mystic-blue-900 rounded-full p-0.5">
           <Image
-            src={"/assets/mythoria.png"}
+            src={author?.profile?.image || "/assets/mythoria.png"}
             width={100}
             height={100}
             className="w-24 h-24 rounded-full object-cover"
-            alt="Vikas Rajput"
+            alt={author?.name}
           />
         </div>
         <div className="flex-1">
           <h3 className="text-white text-lg">{author?.name}</h3>
-          <p className="text-neutral-300 text-sm max-w-[250px]">
-            Writer of fantasy and science fiction.
-          </p>
+          {author?.profile?.bio && (
+            <p className="text-neutral-300 text-sm lg:max-w-[250px]">
+              {author?.profile?.bio}
+            </p>
+          )}
         </div>
       </div>
       <div className="mt-4 w-full flex justify-end">
