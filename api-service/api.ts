@@ -172,3 +172,7 @@ export const fetchAuthors = async (search: string) => {
   });
   return response.data;
 };
+export const fetchAuthorsWithId = async (id: string) => {
+  const response = await axios.get(`/api/authors/${id}`);
+  return response.data;
+};

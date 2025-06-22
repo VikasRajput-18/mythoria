@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface AuthorState {
@@ -35,8 +36,11 @@ export const GenerateButton = () => {
 
 const AuthorDetails = ({ author }: AuthorDetailsProps) => {
   return (
-    <div className="w-full lg:max-w-[400px] sticky top-10 ">
-      <div className="flex items-center gap-2">
+    <div className="w-full lg:max-w-[400px] sticky top-10">
+      <Link
+        href={`/authors/${author.id}`}
+        className="flex items-center gap-2  no-underline  hover:opacity-80"
+      >
         <div className="border-2 border-mystic-blue-900 rounded-full p-0.5">
           <Image
             src={author?.profile?.image || "/assets/mythoria.png"}
@@ -54,7 +58,7 @@ const AuthorDetails = ({ author }: AuthorDetailsProps) => {
             </p>
           )}
         </div>
-      </div>
+      </Link>
       <div className="mt-4 w-full flex justify-end">
         <GenerateButton />
       </div>

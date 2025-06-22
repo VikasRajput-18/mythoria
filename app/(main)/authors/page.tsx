@@ -66,7 +66,7 @@ const Authors = () => {
                 key={author?.id}
                 className="col-span-4 md:col-span-2 lg:col-span-1 no-underline hover:opacity-75 transition-all duration-200 ease-in-out border border-transparent p-4 hover:border-mystic-400 rounded-lg shadow-none hover:shadow-2xl"
               >
-                <div className="w-40 md:w-64 h-40 md:h-64 rounded-full mx-auto overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
+                <div className="w-40 md:w-52 h-40 md:h-52 rounded-full mx-auto overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
                   <Image
                     src={author.image || "/assets/mythoria.png"}
                     alt={author.name}

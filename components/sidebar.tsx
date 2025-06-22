@@ -61,7 +61,15 @@ const Sidebar = () => {
         <div className="flex-1 h-full space-y-5">
           {SIDEBAR_OPTIONS.map((item) => {
             const { icon: Icon } = item;
-            const isActive = pathname === item.href;
+            let isActive = false;
+
+            if (item.href === "/") {
+              // Exact match for Home
+              isActive = pathname === "/";
+            } else {
+              // For other routes, match prefix
+              isActive = pathname.startsWith(item.href);
+            }
             return (
               <Link
                 href={item.href}
