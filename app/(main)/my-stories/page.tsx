@@ -22,13 +22,15 @@ import Story from "../../../components/story";
 import { useAppContext } from "../../../context/app-context";
 import useDebounce from "../../../hooks/use-debounce";
 import { StoryType } from "../../../types";
+import DeletePopup from "../../../components/delete-popup";
 
 const Page = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const { toggleSidebar, openSidebar } = useAppContext();
-
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedStory, setSelectedStory] = useState<{storyId : number , title : string} | null>(null);
   const debouncedValue = useDebounce({ value: search, delay: 300 });
 
   const { data, isLoading } = useQuery({
@@ -51,6 +53,21 @@ const Page = () => {
 
   const stories = data?.stories || [];
   const totalPages = data?.totalPages;
+
+  // Open confirmation
+  const confirmDeleteStory = ({
+    storyId,
+    title,
+  }: {
+    storyId: number;
+    title: string;
+  }) => {
+    setSelectedStory({
+      storyId,
+      title,
+    });
+    setShowDialog(true);
+  };
 
   const handleDeleteStory = (id: number) => {
     deleteStoryMutation.mutate(id);
@@ -118,7 +135,7 @@ const Page = () => {
                 description={story.description}
                 type={story.type}
                 showDelete
-                handleDeleteStory={handleDeleteStory}
+                handleDeleteStory={(storyId) => confirmDeleteStory(storyId)}
               />
             ))}
           </div>
@@ -171,6 +188,13 @@ const Page = () => {
       </div>
 
       <PlanLimitBar />
+
+      <DeletePopup
+        setShowDialog={setShowDialog}
+        showDialog={showDialog}
+        selectedStory={selectedStory}
+        handleDeleteStory={handleDeleteStory}
+      />
     </div>
   );
 };

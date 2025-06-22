@@ -62,7 +62,7 @@ model Story {
 
 model Page {
   id         Int      @id @default(autoincrement())
-  story      Story    @relation(fields: [storyId], references: [id])
+  story      Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
   storyId    Int
   pageNumber Int
   content    String // Rich text content
@@ -81,13 +81,13 @@ model Comment {
 
 model Like {
   id        Int      @id @default(autoincrement())
-  story     Story    @relation(fields: [storyId], references: [id])
+  story     Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
   storyId   Int
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime @default(now())
 
-  @@unique([storyId, userId] , name: "userId_storyId") // ✅ ensures one like per user per story
+  @@unique([storyId, userId], name: "userId_storyId") // ✅ ensures one like per user per story
 }
 
 enum StoryType {

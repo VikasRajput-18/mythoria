@@ -13,7 +13,13 @@ interface StoryProps {
   id: number;
   showDelete?: boolean;
   view?: number;
-  handleDeleteStory?: (id: number) => void;
+  handleDeleteStory?: ({
+    storyId,
+    title,
+  }: {
+    storyId: number;
+    title: string;
+  }) => void;
 }
 
 const Story = ({
@@ -81,7 +87,7 @@ const Story = ({
               onClick={(e) => {
                 if (handleDeleteStory) {
                   e.stopPropagation();
-                  handleDeleteStory(id);
+                  handleDeleteStory({ storyId: id, title: title });
                 }
               }}
               className=" cursor-pointer rounded-full p-2 bg-rose-800"

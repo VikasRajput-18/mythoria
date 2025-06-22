@@ -80,14 +80,16 @@ const Sidebar = () => {
         {!!user ? (
           <div className=" w-full flex items-center  gap-x-4">
             <div className="flex items-center gap-2">
-              <Image
-                src={user?.profile?.image || "/assets/mythoria.png"}
-                alt={user?.name}
-                width={60}
-                height={60}
-                className="rounded-full border border-mystic-blue-900 p-0.5 object-cover"
-              />
-              <div>
+              <div className="w-16 h-16 rounded-full overflow-hidden border border-mystic-blue-900 p-0.5">
+                <Image
+                  src={user?.profile?.image || "/assets/mythoria.png"}
+                  alt={user?.name}
+                  width={60}
+                  height={60}
+                  className="rounded-full  object-cover"
+                />
+              </div>
+              <div className="flex-1 ">
                 <p className="text-white text-lg font-semibold">{user?.name}</p>
                 <p className="text-mystic-500">{user?.email}</p>
               </div>
