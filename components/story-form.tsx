@@ -15,6 +15,7 @@ import CustomTextArea from "./custom-textarea";
 import CustomToggle from "./custom-toggle";
 import { FileUpload } from "./file-upload";
 import Spinner from "./spinner";
+import Overlay from "./overlay";
 
 interface StoryFormProps {
   mode: "create" | "edit";
@@ -159,6 +160,7 @@ const StoryForm = ({
 
   return (
     <div className="w-full p-4 md:p-8">
+      {isSubmitting ? <Overlay /> : null}
       <div className="flex gap-3 w-full justify-between flex-wrap-reverse">
         <div>
           <Menu
