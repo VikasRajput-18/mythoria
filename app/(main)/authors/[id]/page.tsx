@@ -40,7 +40,7 @@ const AuthorPage = () => {
               onClick={toggleSidebar}
             />
           </div>
-          <div className="flex items-start gap-6 flex-wrap">
+          <div className="flex items-start gap-6 flex-wrap flex-col md:flex-row">
             <div className="w-40 md:w-52 h-40 md:h-52 rounded-full overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
               <Image
                 src={author?.profile?.image || "/assets/mythoria.png"}
