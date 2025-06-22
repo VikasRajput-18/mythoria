@@ -20,6 +20,7 @@ const Authors = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["authors", debouncedValue],
     queryFn: () => fetchAuthors(debouncedValue),
+    placeholderData: (prev) => prev,
   });
 
   const authors = data?.authors || [];
