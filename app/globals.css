@@ -102,7 +102,7 @@ body {
   }
 
   blockquote {
-    @apply border-l-4 border-mystic-500 pl-4 italic text-mystic-300;
+    @apply border-l-4 border-mystic-500 pl-4 italic text-mystic-500;
   }
 
   code {
@@ -113,7 +113,7 @@ body {
     @apply list-disc list-inside text-white my-2;
   }
   p {
-    @apply text-[15px] sm:text-base ;
+    @apply text-[15px] sm:text-base;
   }
 
   ol {
@@ -133,12 +133,12 @@ body {
     @apply text-white;
   }
 
-  .prose h1,
-  .prose h2,
-  .prose h3,
-  .prose h4,
-  .prose h5,
-  .prose h6 {
+  .book__story .prose h1,
+  .book__story .prose h2,
+  .book__story .prose h3,
+  .book__story .prose h4,
+  .book__story .prose h5,
+  .book__story .prose h6 {
     @apply !text-book-800;
   }
 }

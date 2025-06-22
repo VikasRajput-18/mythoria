@@ -32,7 +32,7 @@ const MyBookStory = () => {
   });
 
   return (
-    <section className="bg-mystic-800 w-full p-4 sm:p-8 h-screen overflow-hidden flex justify-center items-center">
+    <section className="bg-mystic-800 w-full p-4 sm:p-8 h-screen overflow-hidden flex justify-center items-center book__story">
       <Popover>
         <PopoverTrigger asChild>
           <button

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import StoryCard from "./story-card";
 
 interface AuthorState {
   id: number;
@@ -58,21 +57,6 @@ const AuthorDetails = ({ author }: AuthorDetailsProps) => {
       </div>
       <div className="mt-4 w-full flex justify-end">
         <GenerateButton />
-      </div>
-      <div>
-        <h3 className="text-white">Other stories by {author.name}</h3>
-        <div className="mt-4 space-y-8">
-          <StoryCard
-            thumbnail={"/assets/lost_city.png"}
-            title="The Lost City"
-            genre="Fantasy"
-          />
-          <StoryCard
-            thumbnail={"/assets/curse_of_the_cursed.png"}
-            title="Curse of the Cursed"
-            genre="Horror"
-          />
-        </div>
       </div>
     </div>
   );

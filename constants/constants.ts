@@ -1,4 +1,10 @@
-import { House, Book, BookPlus, CreditCard } from "lucide-react";
+import {
+  House,
+  Book,
+  BookPlus,
+  CreditCard,
+  BookUser,
+} from "lucide-react";
 
 export const SIDEBAR_OPTIONS = [
   {
@@ -18,6 +24,12 @@ export const SIDEBAR_OPTIONS = [
     label: "Create Story",
     icon: BookPlus,
     href: "/create",
+  },
+  {
+    key: "authors",
+    label: "Authors",
+    icon: BookUser,
+    href: "/authors",
   },
   {
     key: "upgrade",

@@ -50,3 +50,12 @@ export interface CommentType {
   id: number;
   createdAt: string;
 }
+
+export interface AuthorType {
+  id: number;
+  name: string;
+  bio?: string;
+  image?: string;
+  email: string;
+  storyCount: number;
+}
