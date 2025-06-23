@@ -67,11 +67,44 @@ const ClientOnlyRTE = ({
         "redo",
         "eraser",
         "align",
+        "source", // ✅ Enable raw HTML source editing
       ],
       style: {
         backgroundColor: "#1f1c26",
       },
       height: 400,
+      events: {
+        afterPaste: (editor: any) => {
+          // wrap selected text as <pre><code>
+          const sel = editor?.selection?.sel;
+          if (sel && sel.rangeCount > 0) {
+            const range = sel.getRangeAt(0);
+            const selectedText = range.toString();
+            const codeNode = editor.createInside.element("code");
+            codeNode.setAttribute("class", "language-js");
+            codeNode.textContent = selectedText;
+
+            const preNode = editor.createInside.element("pre");
+            preNode.appendChild(codeNode);
+
+            range.deleteContents();
+            range.insertNode(preNode);
+          }
+        },
+        beforeGetValueFromEditor: (editor: any) => {
+          if (!editor || !editor.editorDocument) return;
+
+          const doc = editor.editorDocument;
+          doc.querySelectorAll("pre").forEach((pre: HTMLElement) => {
+            if (pre.querySelector("code")) return;
+            const code = doc.createElement("code");
+            code.className = "language-js";
+            code.innerHTML = pre.innerHTML;
+            pre.innerHTML = "";
+            pre.appendChild(code);
+          });
+        },
+      },
     }),
     [placeholder]
   );
@@ -81,13 +114,36 @@ const ClientOnlyRTE = ({
       <label className="text-neutral-300 text-lg font-semibold mb-2 block">
         Story Content
       </label>
-      <JoditEditor
+      {/* <JoditEditor
         ref={editor}
         value={value}
         config={config}
         tabIndex={1}
         // ✅ `onBlur` triggers onChange with updated content
         onBlur={(newContent) => onChange(newContent)}
+      /> */}
+
+      <JoditEditor
+        ref={editor}
+        value={value}
+        config={config}
+        tabIndex={1}
+        onBlur={(newContent) => {
+          // Post-process: fix any <pre> to wrap in <code>
+          const temp = document.createElement("div");
+          temp.innerHTML = newContent;
+
+          temp.querySelectorAll("pre").forEach((pre: HTMLElement) => {
+            if (pre.querySelector("code")) return;
+            const code = document.createElement("code");
+            code.className = "language-js";
+            code.innerHTML = pre.innerHTML;
+            pre.innerHTML = "";
+            pre.appendChild(code);
+          });
+
+          onChange(temp.innerHTML);
+        }}
       />
     </div>
   );

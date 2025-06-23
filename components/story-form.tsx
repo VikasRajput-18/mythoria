@@ -257,6 +257,8 @@ const StoryForm = ({
           label="Short Description"
           name="description"
           placeholder="Write a short description..."
+          rows={5}
+          className="resize-none"
         />
 
         {formData.type === "book" ? (

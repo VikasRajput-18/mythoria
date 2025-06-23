@@ -106,7 +106,7 @@ body {
   }
 
   code {
-    @apply bg-mystic-800 text-white;
+    @apply bg-transparent text-white;
   }
 
   ul {
@@ -150,4 +150,37 @@ body {
   display: block;
   margin: 0 auto;
   object-fit: contain;
+  overflow: auto; /* so you can scroll horizontally */
+  white-space: pre; /* so code does NOT wrap by default */
+}
+
+pre {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 0.4rem 1rem !important;
+  /* overflow-x: auto;
+  position: relative; */
+}
+/* 📄 styles/globals.css or app/globals.css */
+pre,
+pre code {
+  word-break: break-word;
+}
+
+.copy-btn {
+  background: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+@layer base {
+  /* ✅ Fix Prism blocks to wrap lines instead of scroll */
+  pre[class*="language-"],
+  pre[class*="language-"] code {
+    white-space: pre-wrap !important; /* ✅ wrap lines */
+    word-break: break-word !important; /* ✅ break long words */
+    overflow-wrap: break-word !important;
+  }
 }

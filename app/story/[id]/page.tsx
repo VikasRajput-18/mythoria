@@ -1,6 +1,7 @@
 import { prisma } from "../../../lib/prisma";
 import MyStory from "../../../components/my-story";
 
+
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const { id } = await params;
   const story = await prisma.story.findUnique({
