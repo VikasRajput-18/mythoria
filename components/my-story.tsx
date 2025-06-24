@@ -201,7 +201,6 @@ const MyStory = () => {
               ) : null}
             </div>
 
-            {/* Rich Text Content */}
             {/* {story?.content && (
               <div
                 className="prose prose-sm prose-invert max-w-none text-neutral-100"
