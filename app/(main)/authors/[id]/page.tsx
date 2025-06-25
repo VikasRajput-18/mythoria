@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { Menu } from "lucide-react";
+import { ArrowLeft, Menu } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { fetchAuthorsWithId } from "../../../../api-service/api";
@@ -34,6 +34,11 @@ const AuthorPage = () => {
         </div>
       ) : (
         <>
+          <div className="mb-3 p-2 hover:bg-mystic-700 rounded-full w-max">
+            <Link href={"/authors"} className="">
+              <ArrowLeft className="stroke-white" />
+            </Link>
+          </div>
           <div className="flex items-center gap-2">
             <Menu
               className="stroke-white md:hidden flex-inline cursor-pointer"
@@ -59,7 +64,7 @@ const AuthorPage = () => {
                   {author?.profile?.bio}
                 </p>
               ) : null}
-              <div className=" max-w-md w-full mt-6">
+              <div className="min-w-3xs max-w-md w-full mt-6">
                 <GenerateButton />
               </div>
             </div>
@@ -71,16 +76,16 @@ const AuthorPage = () => {
               return (
                 <Link
                   href={isBook ? `/book/${story?.id}` : `/story/${story?.id}`}
-                  className="col-span-12 md:col-span-6 2xl:col-span-4 p-1 hover:opacity-80 border border-transparent rounded-xl hover:border-mystic-300"
+                  className="col-span-12 md:col-span-6 2xl:col-span-4 hover:opacity-80  rounded-xl "
                   key={story?.id}
                 >
-                  <div className="w-full h-full max-w-[450px]  md:h-[450px] rounded-xl overflow-hidden  relative">
+                  <div className="w-full h-full max-w-[450px] md:h-[450px] p-1  rounded-xl overflow-hidden border border-transparent hover:border-mystic-300 relative">
                     <Image
                       src={story?.coverImage}
                       alt={story?.title}
                       width={350}
                       height={450}
-                      className="w-full h-full bg-mystic-400 mask-b-from-0.5"
+                      className="w-full h-full bg-mystic-700 mask-b-from-0.5 object-contain rounded-lg"
                     />
                     <div className="absolute bottom-4 z-10 px-2 w-full">
                       <h2 className="truncate text-white text-lg">

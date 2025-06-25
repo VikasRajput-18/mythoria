@@ -46,14 +46,14 @@ const Sidebar = () => {
     <aside
       ref={sidebarRef}
       className={cn(
-        `fixed -left-[400px] bg-mystic-800 md:sticky transition-all duration-200 ease-in-out top-0 w-[350px] min-w-w-[350px] p-8`,
+        `fixed -left-[400px] bg-mystic-800 xl:sticky transition-all duration-200 ease-in-out top-0 w-[350px] min-w-w-[350px] p-8`,
         openSidebar ? "left-0  h-screen z-[99]" : "h-screen"
       )}
     >
       <div className="flex items-center justify-between">
         <h1 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h1>
         <X
-          className="stroke-white md:hidden cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out"
+          className="stroke-white xl:hidden cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out"
           onClick={toggleSidebar}
         />
       </div>

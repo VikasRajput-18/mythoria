@@ -30,7 +30,10 @@ const Page = () => {
   const [page, setPage] = useState(1);
   const { toggleSidebar, openSidebar } = useAppContext();
   const [showDialog, setShowDialog] = useState(false);
-  const [selectedStory, setSelectedStory] = useState<{storyId : number , title : string} | null>(null);
+  const [selectedStory, setSelectedStory] = useState<{
+    storyId: number;
+    title: string;
+  } | null>(null);
   const debouncedValue = useDebounce({ value: search, delay: 300 });
 
   const { data, isLoading } = useQuery({
@@ -77,7 +80,7 @@ const Page = () => {
     <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
       <div className="flex items-center gap-2">
         <Menu
-          className="stroke-white md:hidden flex-inline cursor-pointer"
+          className="stroke-white xl:hidden flex-inline cursor-pointer"
           onClick={toggleSidebar}
         />
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">

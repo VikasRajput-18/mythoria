@@ -29,7 +29,7 @@ const Authors = () => {
     <section className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
       <div className="flex items-center gap-2">
         <Menu
-          className="stroke-white md:hidden flex-inline cursor-pointer"
+          className="stroke-white xl:hidden flex-inline cursor-pointer"
           onClick={toggleSidebar}
         />
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -58,13 +58,13 @@ const Authors = () => {
           <Spinner className="w-10 h-10" />{" "}
         </div>
       ) : authors?.length > 0 ? (
-        <div className="grid grid-cols-4  mt-8 items-stretch">
+        <div className="grid grid-cols-12  mt-8 items-stretch">
           {authors.map((author: AuthorType) => {
             return (
               <Link
                 href={`/authors/${author.id}`}
                 key={author?.id}
-                className="col-span-4 md:col-span-2 lg:col-span-1 no-underline hover:opacity-75 transition-all duration-200 ease-in-out border border-transparent p-4 hover:border-mystic-400 rounded-lg shadow-none hover:shadow-2xl"
+                className="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 no-underline hover:opacity-75 transition-all duration-200 ease-in-out border border-transparent p-4 hover:border-mystic-400 rounded-lg shadow-none hover:shadow-2xl"
               >
                 <div className="w-40 md:w-52 h-40 md:h-52 rounded-full mx-auto overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
                   <Image
