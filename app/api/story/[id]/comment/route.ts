@@ -56,10 +56,10 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const userId = await verifyUser(req, "You must be logged in see comments.");
-    if (!userId) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    // const userId = await verifyUser(req, "You must be logged in see comments.");
+    // if (!userId) {
+      // return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    // }
 
     if (!id) {
       return NextResponse.json(
