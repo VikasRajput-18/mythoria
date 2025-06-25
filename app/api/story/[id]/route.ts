@@ -2,14 +2,103 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { verifyUser } from "../../../../lib/auth";
 
+// export async function GET(
+//   req: NextRequest,
+//   { params }: { params: { id: string } }
+// ) {
+//   let currentUserId: number | null = null;
+//   try {
+//     const { id } = await params;
+//     currentUserId = verifyUser(req); // ✅ works if JWT exists
+//     if (!id) {
+//       return NextResponse.json(
+//         { message: "Missing story id" },
+//         { status: 400 }
+//       );
+//     }
+
+//     // ✅ 1️⃣ Increment views
+//     await prisma.story.update({
+//       where: { id: Number(id) },
+//       data: { views: { increment: 1 } },
+//     });
+
+//     const story = await prisma.story.findFirst({
+//       where: {
+//         id: Number(id),
+//       },
+//       include: {
+//         tags: {
+//           select: {
+//             tag: {
+//               select: {
+//                 id: true,
+//                 name: true,
+//               },
+//             },
+//           },
+//         },
+//         author: {
+//           select: {
+//             id: true,
+//             name: true,
+//             email: true,
+//             profile: {
+//               select: {
+//                 image: true,
+//                 bio: true,
+//               },
+//             },
+//           },
+//         },
+//         pages: {
+//           orderBy: {
+//             createdAt: "asc",
+//           },
+//         },
+//         _count: {
+//           select: { like: true, comments: true }, // ✅ gets count only
+//         },
+//         like: currentUserId
+//           ? {
+//               where: { userId: currentUserId },
+//               select: { id: true },
+//             }
+//           : false, // ⛔️ don’t fetch if anonymous
+//       },
+//     });
+
+//     if (!story) {
+//       return NextResponse.json({ message: "No Story Found" }, { status: 404 });
+//     }
+
+//     return NextResponse.json(
+//       {
+//         ...story,
+//         likeCount: story._count.like,
+//         commentCount: story._count.comments,
+//         likedByMe: story.like ? story.like.length > 0 : false,
+//         tags: story.tags.map((t) => ({ id: t.tag.id, name: t.tag.name })),
+//       },
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     return NextResponse.json(
+//       { message: "Something went wrong." },
+//       { status: 500 }
+//     );
+//   }
+// }
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   let currentUserId: number | null = null;
+
   try {
-    const { id } = await params;
-    currentUserId = verifyUser(req); // ✅ works if JWT exists
+    // 1. Extract ID from params
+    const { id } = params;
+
     if (!id) {
       return NextResponse.json(
         { message: "Missing story id" },
@@ -17,12 +106,25 @@ export async function GET(
       );
     }
 
-    // ✅ 1️⃣ Increment views
+    // 2. Decode token to get userId (if available)
+    const token = req.cookies.get("token")?.value;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number };
+        currentUserId = decoded.id;
+      } catch (err) {
+        // Invalid or expired token → treat as anonymous
+        currentUserId = null;
+      }
+    }
+
+    // 3. Increment story views
     await prisma.story.update({
       where: { id: Number(id) },
       data: { views: { increment: 1 } },
     });
 
+    // 4. Fetch story with optional like info
     const story = await prisma.story.findFirst({
       where: {
         id: Number(id),
@@ -57,14 +159,14 @@ export async function GET(
           },
         },
         _count: {
-          select: { like: true, comments: true }, // ✅ gets count only
+          select: { like: true, comments: true },
         },
         like: currentUserId
           ? {
               where: { userId: currentUserId },
               select: { id: true },
             }
-          : false, // ⛔️ don’t fetch if anonymous
+          : false,
       },
     });
 
@@ -83,6 +185,7 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
+    console.error("Error in GET /story/:id", error);
     return NextResponse.json(
       { message: "Something went wrong." },
       { status: 500 }
