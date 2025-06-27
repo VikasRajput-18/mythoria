@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     title: "Mythoria – Craft & Discover Magical Stories",
     description:
       "Mythoria is a mystical storytelling platform where creators write comics, manga, manhwa, and magical tales with a page-flip reading experience.",
-    url: "https://mythoria-sable.vercel.app",
+    url: "https://mythoria-stories.com",
     siteName: "Mythoria",
     images: [
       {
-        url: "https://mythoria-sable.vercel.app/assets/mythoria.jpg", // 🔁 Replace with actual logo URL
+        url: "https://mythoria-stories.com/assets/mythoria.jpg", // 🔁 Replace with actual logo URL
         width: 1200,
         height: 630,
         alt: "Mythoria Logo",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Mythoria – Craft & Discover Magical Stories",
     description:
       "Craft, read, and explore magical stories in a beautiful page-flip experience.",
-    images: ["https://mythoria-sable.vercel.app/assets/mythoria.jpg"], // 🔁 Replace if needed
+    images: ["https://mythoria-stories.com/assets/mythoria.jpg"], // 🔁 Replace if needed
   },
 };
 
@@ -56,6 +56,13 @@ export default function RootLayout({
       lang="en"
       className={`${epilogueSans.className} ${josefinSans.variable} antialiased`}
     >
+      <head>
+        {/* ✅ Google Site Verification Meta */}
+        <meta
+          name="google-site-verification"
+          content={process.env.NEXT_PUBLIC_GSC_VERIFICATION}
+        />
+      </head>
       <body>
         <AppProvider>
           <UserProvider>{children}</UserProvider>
