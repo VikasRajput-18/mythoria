@@ -62,6 +62,21 @@ export default function RootLayout({
           name="google-site-verification"
           content={process.env.NEXT_PUBLIC_GSC_VERIFICATION}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              url: "https://mythoria-stories.com",
+              name: "Mythoria",
+              logo: "https://mythoria-stories.com/assets/mythoria.jpg",
+              // sameAs: [
+              //   "https://www.linkedin.com/company/mythoria",
+              // ],
+            }),
+          }}
+        />
       </head>
       <body>
         <AppProvider>
