@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import Spinner from "../../components/spinner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import OtpScreen from "../../components/otp";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
@@ -17,9 +18,22 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // const [showDialog, setShowDialog] = useState(true);
+
   const router = useRouter();
 
   const registerMutation = useMutation({
+    mutationFn: register,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      router.push("/sign-in");
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      const message = error.response?.data?.message || "Something went wrong!";
+      toast.error(message);
+    },
+  });
+  const sendOtpMutation = useMutation({
     mutationFn: register,
     onSuccess: (data) => {
       toast.success(data.message);
@@ -37,11 +51,19 @@ const SignUp = () => {
       toast.error("Passwords do not match");
       return;
     }
-    registerMutation.mutate({ email, password, name: fullName });
+    // registerMutation.mutate({ email, password, name: fullName });
   };
 
   return (
     <section className="bg-mystic-800 min-h-screen flex items-center justify-center p-4">
+      {/* <OtpScreen
+        showDialog={showDialog}
+        setShowDialog={setShowDialog}
+        onVerify={(otp) => {
+          console.log("Verified OTP:", otp);
+          // ✅ Continue registration here
+        }}
+      /> */}
       <form
         className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8 shadow-lg"
         onSubmit={handleSubmit}

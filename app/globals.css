@@ -158,8 +158,8 @@ pre {
   background: #1e1e1e;
   border-radius: 8px;
   padding: 0.4rem 1rem !important;
-  /* overflow-x: auto;
-  position: relative; */
+  overflow-x: auto;
+  position: relative;
 }
 /* 📄 styles/globals.css or app/globals.css */
 pre,

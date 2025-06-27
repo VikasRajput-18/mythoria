@@ -28,10 +28,6 @@ import CustomTags from "./custom-tags";
 import LikeButton from "./like-button";
 import Spinner from "./spinner";
 
-import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
-import "prismjs/themes/prism-okaidia.css";
-
 const MyStory = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
@@ -108,51 +104,6 @@ const MyStory = () => {
       setTotalCount(commentsList.totalCount);
     }
   }, [commentsList, skip]);
-
-  useEffect(() => {
-    // 1️⃣ Ensure all <code> blocks have language class
-    document.querySelectorAll("pre code").forEach((block) => {
-      if (!block.className.includes("language-")) {
-        block.className = "language-js"; // fallback to JS
-      }
-    });
-    Prism.highlightAll();
-
-    document.querySelectorAll("pre").forEach((pre) => {
-      // If already has a button, skip
-      if (pre.querySelector(".copy-btn")) return;
-
-      // Create button
-      const button = document.createElement("button");
-      button.innerText = "Copy";
-      button.className = "copy-btn";
-      Object.assign(button.style, {
-        position: "absolute",
-        top: "0.5rem",
-        right: "0.5rem",
-        padding: "0.2rem 0.6rem",
-        fontSize: "0.8rem",
-        background: "#444",
-        color: "#fff",
-        border: "none",
-        borderRadius: "4px",
-        cursor: "pointer",
-      });
-
-      button.onclick = () => {
-        // Only copy the <code> text inside <pre>
-        const code = pre.querySelector("code")?.innerText || "";
-        navigator.clipboard.writeText(code).then(() => {
-          button.innerText = "Copied!";
-          setTimeout(() => (button.innerText = "Copy"), 1500);
-        });
-      };
-
-      // Add relative position to pre to position button
-      pre.style.position = "relative";
-      pre.appendChild(button);
-    });
-  }, [story?.content]);
 
   return (
     <section className="bg-mystic-800 w-full min-h-screen p-4 sm:p-8">
