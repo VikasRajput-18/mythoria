@@ -102,7 +102,7 @@ body {
   }
 
   blockquote {
-    @apply border-l-4 border-mystic-500 pl-4 italic text-mystic-500;
+    @apply border-l-4 border-book-800 pl-4 italic text-book-800;
   }
 
   code {

@@ -67,9 +67,9 @@ export default function RootLayout({
           content="Mythoria, stories, comics, manga, manhwa, magical tales, page-flip reading, write comics, storytelling platform"
         ></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <link rel="canonical" href="https://mythoria-stories.com" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="manifest.json" />
 
         <script
           type="application/ld+json"
