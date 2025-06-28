@@ -60,9 +60,9 @@ const BookPreview = () => {
       >
         {/* Cover Page */}
         <div className="p-3 md:p-8 overflow-hidden flex flex-col justify-center items-center bg-[#fdf6e3] border-2 border-[#c4b69f] shadow-inner w-full h-full font-josefin">
-          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 !text-[#5b4636] font-josefin">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 !text-[#5b4636] font-josefin">
             {story.title}
-          </h1>
+          </h2>
           <p className="text-[#7a6248] mb-4 font-josefin text-[15px] sm:text-base">
             {story?.description}
           </p>

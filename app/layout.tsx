@@ -20,11 +20,11 @@ const josefinSans = JosefinSans({
 export const metadata: Metadata = {
   title: "Mythoria – Craft & Discover Magical Stories",
   description:
-    "Mythoria is a mystical storytelling platform where creators write comics, manga, manhwa, and magical tales with a page-flip reading experience. Read and publish stories like never before.",
+    "Mythoria is a mystical storytelling platform for writers and readers. Create and publish comics, manga, manhwa, fantasy stories, and magical tales with a unique page-flip reading experience. Join Mythoria to discover, craft, and share your own stories online.",
   openGraph: {
     title: "Mythoria – Craft & Discover Magical Stories",
     description:
-      "Mythoria is a mystical storytelling platform where creators write comics, manga, manhwa, and magical tales with a page-flip reading experience.",
+      "Mythoria is a mystical storytelling platform for writers and readers. Create and publish comics, manga, manhwa, fantasy stories, and magical tales with a unique page-flip reading experience. Join Mythoria to discover, craft, and share your own stories online.",
     url: "https://mythoria-stories.com",
     siteName: "Mythoria",
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         url: "https://mythoria-stories.com/assets/mythoria.png", // 🔁 Replace with actual logo URL
         width: 1200,
         height: 630,
-        alt: "Mythoria Logo",
+        alt: "Mythoria Logo - Craft and Discover Magical Stories",
       },
     ],
     type: "website",
@@ -62,6 +62,14 @@ export default function RootLayout({
           name="google-site-verification"
           content={process.env.NEXT_PUBLIC_GSC_VERIFICATION}
         />
+        <meta
+          name="keywords"
+          content="Mythoria, stories, comics, manga, manhwa, magical tales, page-flip reading, write comics, storytelling platform"
+        ></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="canonical" href="https://mythoria-stories.com" />
+
         <link rel="icon" href="/assets/mythoria.png" type="image/png" />
         <script
           type="application/ld+json"

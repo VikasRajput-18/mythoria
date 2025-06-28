@@ -16,9 +16,9 @@ const ProfilePage = () => {
           className="stroke-white xl:hidden flex-inline cursor-pointer"
           onClick={toggleSidebar}
         />
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
           Welcome back, {user?.name}! ✨
-        </h1>
+        </h2>
       </div>
       <p className="sm:text-lg max-w-2xl text-mystic-500">
         Keep your profile up to date and let readers know more about you — your

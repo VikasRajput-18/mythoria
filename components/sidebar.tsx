@@ -51,7 +51,7 @@ const Sidebar = () => {
       )}
     >
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h1>
+        <h2 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h2>
         <X
           className="stroke-white xl:hidden cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out"
           onClick={toggleSidebar}

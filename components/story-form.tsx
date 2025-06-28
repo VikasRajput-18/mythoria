@@ -167,9 +167,9 @@ const StoryForm = ({
             className="stroke-white md:hidden cursor-pointer"
             onClick={toggleSidebar}
           />
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
             {mode === "create" ? "Create a new story" : "Edit story"}
-          </h1>
+          </h2>
         </div>
         <CustomToggle
           value={formData.status}

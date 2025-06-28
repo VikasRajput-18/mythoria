@@ -56,9 +56,9 @@ const AuthorPage = () => {
               />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
                 {author?.name}
-              </h1>
+              </h2>
               {author?.profile?.bio ? (
                 <p className="sm:text-lg max-w-2xl text-mystic-500 text-left">
                   {author?.profile?.bio}
