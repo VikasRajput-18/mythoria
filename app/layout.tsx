@@ -62,6 +62,7 @@ export default function RootLayout({
           name="google-site-verification"
           content={process.env.NEXT_PUBLIC_GSC_VERIFICATION}
         />
+        <link rel="icon" href="/assets/mythoria.png" type="image/png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
