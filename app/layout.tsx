@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: "Mythoria",
     images: [
       {
-        url: "https://mythoria-stories.com/assets/mythoria.jpg", // 🔁 Replace with actual logo URL
+        url: "https://mythoria-stories.com/assets/mythoria.png", // 🔁 Replace with actual logo URL
         width: 1200,
         height: 630,
         alt: "Mythoria Logo",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Mythoria – Craft & Discover Magical Stories",
     description:
       "Craft, read, and explore magical stories in a beautiful page-flip experience.",
-    images: ["https://mythoria-stories.com/assets/mythoria.jpg"], // 🔁 Replace if needed
+    images: ["https://mythoria-stories.com/assets/mythoria.png"], // 🔁 Replace if needed
   },
 };
 
@@ -70,10 +70,7 @@ export default function RootLayout({
               "@type": "Organization",
               url: "https://mythoria-stories.com",
               name: "Mythoria",
-              logo: "https://mythoria-stories.com/assets/mythoria.jpg",
-              // sameAs: [
-              //   "https://www.linkedin.com/company/mythoria",
-              // ],
+              logo: "https://mythoria-stories.com/assets/mythoria.png",
             }),
           }}
         />

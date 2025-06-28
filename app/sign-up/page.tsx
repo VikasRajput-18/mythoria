@@ -51,7 +51,7 @@ const SignUp = () => {
       toast.error("Passwords do not match");
       return;
     }
-    // registerMutation.mutate({ email, password, name: fullName });
+    registerMutation.mutate({ email, password, name: fullName });
   };
 
   return (
