@@ -81,7 +81,19 @@ export default function RootLayout({
         {/* Favicon - Consider adding multiple sizes */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+        <link
+          rel="icon"
+          href="/favicon-32x32.png"
+          type="image/png"
+          sizes="32x32"
+        />
+        <link
+          rel="icon"
+          href="/favicon-16x16.png"
+          sizes="16x16"
+          type="image/png"
+        />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
         {/* Web App Manifest - Good for PWA */}
         <link rel="manifest" href="/manifest.json" />
@@ -91,6 +103,24 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Mythoria",
+                    item: "https://mythoria-stories.com",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "My Stories",
+                    item: "https://mythoria-stories.com/my-stories",
+                  },
+                ],
+              },
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
