@@ -18,34 +18,33 @@ const josefinSans = JosefinSans({
 });
 
 export const metadata: Metadata = {
-  title: "Mythoria | Craft & Discover Magical Stories", // Brand name first
+  title: "Mythoria Stories | Craft & Discover Magical Stories", // Brand name first, if preferred
   description:
     "Mythoria - The premier platform for magical storytelling. Create and read comics, manga, manhwa, and fantasy stories with our unique page-flip experience.",
   openGraph: {
-    title: "Mythoria | Craft & Discover Magical Stories", // Brand name first
+    title: "Mythoria Stories | Craft & Discover Magical Stories", // Brand name first, if preferred
     description:
       "Mythoria - The premier platform for magical storytelling. Create and read comics, manga, manhwa, and fantasy stories with our unique page-flip experience.",
     url: "https://mythoria-stories.com",
-    siteName: "Mythoria",
+    siteName: "Mythoria Stories", // ⭐ Changed from "Mythoria" to "Mythoria Stories"
     images: [
       {
-        url: "https://mythoria-stories.com/assets/mythoria.webp", // 🔁 Replace with actual logo URL
+        url: "https://mythoria-stories.com/assets/mythoria.webp",
         width: 1200,
         height: 630,
-        alt: "Mythoria Logo - Craft and Discover Magical Stories",
+        alt: "Mythoria Stories Logo - Craft and Discover Magical Stories", // ⭐ Updated alt text
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mythoria | Craft & Discover Magical Stories", // Brand name first
+    title: "Mythoria Stories | Craft & Discover Magical Stories", // Brand name first, if preferred
     description:
       "Mythoria - The premier platform for magical storytelling. Create and read comics, manga, manhwa, and fantasy stories with our unique page-flip experience.",
-    images: ["https://mythoria-stories.com/assets/mythoria.webp"], // 🔁 Replace if needed
+    images: ["https://mythoria-stories.com/assets/mythoria.webp"],
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -81,8 +80,8 @@ export default function RootLayout({
 
         {/* Favicon - Consider adding multiple sizes */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
 
         {/* Web App Manifest - Good for PWA */}
         <link rel="manifest" href="/manifest.json" />
@@ -95,7 +94,7 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                name: "Mythoria",
+                name: "Mythoria Stories", // ⭐ Changed
                 url: "https://mythoria-stories.com",
                 potentialAction: {
                   "@type": "SearchAction",
@@ -107,7 +106,7 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                name: "Mythoria",
+                name: "Mythoria Stories", // ⭐ Changed
                 url: "https://mythoria-stories.com",
                 logo: "https://mythoria-stories.com/assets/mythoria.webp",
                 sameAs: [
