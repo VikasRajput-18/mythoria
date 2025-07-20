@@ -18,31 +18,49 @@ const josefinSans = JosefinSans({
 });
 
 export const metadata: Metadata = {
-  title: "Mythoria Stories | Craft & Discover Magical Stories", // Brand name first, if preferred
+  title: {
+    default: "Mythoria Stories | Create & Read Fantasy Books, Comics & Manga",
+    template: "%s | Mythoria Stories", // For dynamic page titles
+  },
   description:
-    "Mythoria - The premier platform for magical storytelling. Create and read comics, manga, manhwa, and fantasy stories with our unique page-flip experience.",
+    "Create, read and share magical stories, books, comics and manga. Mythoria offers the best platform for fantasy storytelling with a unique page-flip experience.",
+  keywords: [
+    "Mythoria",
+    "Mythoria stories",
+    "fantasy stories",
+    "create books online",
+    "comic creator",
+    "manga maker",
+    "story platform",
+    "read stories online",
+    "digital storytelling",
+    "webcomics platform",
+  ],
   openGraph: {
-    title: "Mythoria Stories | Craft & Discover Magical Stories", // Brand name first, if preferred
+    title: "Mythoria Stories | Fantasy Books & Comics Creator",
     description:
-      "Mythoria - The premier platform for magical storytelling. Create and read comics, manga, manhwa, and fantasy stories with our unique page-flip experience.",
+      "The premier platform for creating and reading magical stories, books, comics and manga. Start your storytelling journey today!",
     url: "https://mythoria-stories.com",
-    siteName: "Mythoria Stories", // ⭐ Changed from "Mythoria" to "Mythoria Stories"
+    siteName: "Mythoria Stories",
     images: [
       {
         url: "https://mythoria-stories.com/assets/mythoria.webp",
         width: 1200,
         height: 630,
-        alt: "Mythoria Stories Logo - Craft and Discover Magical Stories", // ⭐ Updated alt text
+        alt: "Create and Read Stories on Mythoria - The Ultimate Storytelling Platform",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mythoria Stories | Craft & Discover Magical Stories", // Brand name first, if preferred
+    title: "Mythoria Stories | Where Stories Come to Life",
     description:
-      "Mythoria - The premier platform for magical storytelling. Create and read comics, manga, manhwa, and fantasy stories with our unique page-flip experience.",
+      "Platform for creating and reading fantasy stories, books, comics and manga. Join our community of storytellers!",
     images: ["https://mythoria-stories.com/assets/mythoria.webp"],
+  },
+  alternates: {
+    canonical: "https://mythoria-stories.com",
   },
 };
 export default function RootLayout({
@@ -99,6 +117,25 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
 
         {/* Improved Schema.org markup */}
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Mythoria Stories",
+              url: "https://mythoria-stories.com",
+              potentialAction: {
+                "@type": "SearchAction",
+                target:
+                  "https://mythoria-stories.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
