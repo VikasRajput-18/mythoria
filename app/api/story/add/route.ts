@@ -18,9 +18,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
       thumbnail,
     } = await req.json();
 
-    if (!title || !description || !type || !status) {
+    if (!title || !description || !type || !status || !audience || !thumbnail) {
       return NextResponse.json(
-        { message: "Title,description, type, and status are required." },
+        {
+          message:
+            "Title,description,thumbnail, type,audience and status are required.",
+        },
         { status: 400 }
       );
     }
@@ -37,7 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         audience: audience.toUpperCase(),
         type: type.toUpperCase(),
         content: type === "other" ? content : null,
-        coverImage: thumbnail ?? null,
+        coverImage: thumbnail,
         published: isPublished,
         author: { connect: { id: Number(userId) } },
 

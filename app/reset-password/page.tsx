@@ -1,30 +1,26 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 import CustomInput from "../../components/custom-input";
-import Image from "next/image";
-import Link from "next/link";
-import { login } from "../../api-service/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { toast } from "sonner";
 import Spinner from "../../components/spinner";
-import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { resetPassword } from "../../api-service/api";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
+import Link from "next/link";
 
-const SignIn = () => {
-  const queryClient = useQueryClient();
+const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const router = useRouter();
 
-  const loginMutation = useMutation({
-    mutationFn: login,
+  const resetPasswordMutation = useMutation({
+    mutationFn: resetPassword,
     onSuccess: (data) => {
       toast.success(data.message);
-      queryClient.invalidateQueries({ queryKey: ["profile"] });
-      router.push("/");
+      router.push("/sign-in");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       const message = error.response?.data?.message || "Something went wrong!";
@@ -34,7 +30,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate({ email, password });
+    resetPasswordMutation.mutate({ email, password });
   };
 
   return (
@@ -55,7 +51,7 @@ const SignIn = () => {
             Mythoria
           </h3>
           <p className="text-mystic-500 text-sm mt-1">
-            Log in to continue your creative journey on Mythoria.
+            Set a new password and get back to your adventure.
           </p>
         </div>
 
@@ -72,35 +68,27 @@ const SignIn = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            label="Password"
-            placeholder="Enter your password"
+            label="New Password"
+            placeholder="Create a strong new password"
             required
           />
 
-          <div className="w-full flex items-center justify-end">
-            <Link
-              href={"/reset-password"}
-              className="text-sm no-underline text-mystic-500 hover:text-mystic-500"
-            >
-              Forgot Password?
-            </Link>
-          </div>
           <button
             type="submit"
-            disabled={loginMutation.isPending}
+            disabled={resetPasswordMutation.isPending}
             className="cursor-pointer w-full text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-2 flex items-center justify-center"
           >
-            {loginMutation.isPending ? <Spinner /> : "Sign In"}
+            {resetPasswordMutation.isPending ? <Spinner /> : "Reset Password"}
           </button>
         </div>
 
         <div className="mt-6 flex items-center justify-center text-sm">
-          <p className="text-mystic-500 mr-1">Don’t have an account?</p>
+          <p className="text-mystic-500 mr-1">New to Mythoria?</p>
           <Link
             href="/sign-up"
             className="text-mystic-blue-900 hover:underline font-medium"
           >
-            Create one
+            Create an account
           </Link>
         </div>
       </form>
@@ -108,4 +96,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;

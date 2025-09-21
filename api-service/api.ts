@@ -38,6 +38,25 @@ export const logout = async () => {
     throw error;
   }
 };
+
+// reset password
+
+export const resetPassword = async ({ email, password }: LoginType) => {
+  try {
+    const response = await axios.patch(
+      "/api/auth/reset-password",
+      {
+        email,
+        newPassword : password,
+      },
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // api-service/api.ts
 export const getCurrentUser = async () => {
   try {
