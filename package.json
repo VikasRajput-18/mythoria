@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "postinstall": "prisma generate",
-     "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@babel/parser": "^7.27.5",
@@ -19,6 +19,7 @@
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
+    "@react-email/render": "^1.2.3",
     "@tanstack/react-query": "^5.80.6",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
@@ -39,6 +40,7 @@
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
     "react-pageflip": "^2.0.3",
+    "resend": "^6.1.0",
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.0",
     "ws": "^8.18.2"

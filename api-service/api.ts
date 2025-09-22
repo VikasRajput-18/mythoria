@@ -41,13 +41,18 @@ export const logout = async () => {
 
 // reset password
 
-export const resetPassword = async ({ email, password }: LoginType) => {
+export const resetPassword = async ({
+  email,
+  password,
+  otp,
+}: LoginType & { otp: string }) => {
   try {
     const response = await axios.patch(
       "/api/auth/reset-password",
       {
         email,
-        newPassword : password,
+        newPassword: password,
+        otp,
       },
       { withCredentials: true }
     );
@@ -64,6 +69,15 @@ export const getCurrentUser = async () => {
     return response?.data;
   } catch (err) {
     return { user: null }; // fallback if user is not logged in
+  }
+};
+
+export const sendOtp = async ({ email }: { email: string }) => {
+  try {
+    const { data } = await axios.post("/api/auth/send-otp", { email });
+    return data;
+  } catch (error) {
+    throw error;
   }
 };
 

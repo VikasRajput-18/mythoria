@@ -24,6 +24,9 @@ model User {
   createdAt DateTime  @default(now())
   Comment   Comment[]
   Like      Like[]
+
+  resetOtp String?
+  otpExpiry DateTime?
 }
 
 model Profile {

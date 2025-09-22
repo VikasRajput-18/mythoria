@@ -5,21 +5,36 @@ import React, { useState } from "react";
 import CustomInput from "../../components/custom-input";
 import Spinner from "../../components/spinner";
 import { useMutation } from "@tanstack/react-query";
-import { resetPassword } from "../../api-service/api";
+import { resetPassword, sendOtp } from "../../api-service/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import Link from "next/link";
+import OtpScreen from "../../components/otp";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const [showOtpDialog, setShowOtpDialog] = useState(false);
 
-  const resetPasswordMutation = useMutation({
+  // 1️⃣ Send OTP Mutation
+  const sendOtpMutation = useMutation({
+    mutationFn: sendOtp,
+    onSuccess: () => {
+      toast.success("OTP sent to your email!");
+      setShowOtpDialog(true);
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+    },
+  });
+
+  const verifyOtpMutation = useMutation({
     mutationFn: resetPassword,
     onSuccess: (data) => {
       toast.success(data.message);
+      setShowOtpDialog(false);
       router.push("/sign-in");
     },
     onError: (error: AxiosError<{ message: string }>) => {
@@ -28,16 +43,24 @@ const ResetPassword = () => {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleVerifyOtp = async (otp: string) => {
+    verifyOtpMutation.mutate({ email, password, otp });
+  };
+
+  const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    resetPasswordMutation.mutate({ email, password });
+    if (!email || !password) {
+      toast.error("Please enter email and new password!");
+      return;
+    }
+    sendOtpMutation.mutate({ email });
   };
 
   return (
     <section className="bg-mystic-800 min-h-screen flex items-center p-4 justify-center">
       <form
         className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8  shadow-lg"
-        onSubmit={handleSubmit}
+        onSubmit={handleSendOtp}
       >
         <div className="text-center">
           <Image
@@ -75,10 +98,10 @@ const ResetPassword = () => {
 
           <button
             type="submit"
-            disabled={resetPasswordMutation.isPending}
+            disabled={sendOtpMutation.isPending}
             className="cursor-pointer w-full text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-2 flex items-center justify-center"
           >
-            {resetPasswordMutation.isPending ? <Spinner /> : "Reset Password"}
+            {sendOtpMutation.isPending ? <Spinner /> : "Reset Password"}
           </button>
         </div>
 
@@ -92,6 +115,12 @@ const ResetPassword = () => {
           </Link>
         </div>
       </form>
+      <OtpScreen
+        showDialog={showOtpDialog}
+        setShowDialog={setShowOtpDialog}
+        onVerify={handleVerifyOtp}
+        loading={verifyOtpMutation.isPending}
+      />
     </section>
   );
 };

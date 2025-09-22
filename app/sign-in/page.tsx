@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
-import CustomInput from "../../components/custom-input";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useState } from "react";
 import { login } from "../../api-service/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import CustomInput from "../../components/custom-input";
 
-import { toast } from "sonner";
-import Spinner from "../../components/spinner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import Spinner from "../../components/spinner";
 
 const SignIn = () => {
   const queryClient = useQueryClient();

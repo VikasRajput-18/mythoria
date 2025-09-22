@@ -15,14 +15,21 @@ import {
 
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import React, { Dispatch, SetStateAction, useState } from "react";
+import Spinner from "./spinner";
 
 interface OtpScreenProps {
   showDialog: boolean;
   setShowDialog: Dispatch<SetStateAction<boolean>>;
   onVerify: (otp: string) => void; // 🔐 optional callback
+  loading?: boolean;
 }
 
-const OtpScreen = ({ showDialog, setShowDialog, onVerify }: OtpScreenProps) => {
+const OtpScreen = ({
+  showDialog,
+  setShowDialog,
+  onVerify,
+  loading,
+}: OtpScreenProps) => {
   const [otp, setOtp] = useState("");
 
   const handleVerify = () => {
@@ -30,14 +37,16 @@ const OtpScreen = ({ showDialog, setShowDialog, onVerify }: OtpScreenProps) => {
       alert("Please enter a valid 6-digit OTP");
       return;
     }
-
     onVerify?.(otp); // Optional callback to parent
-    setShowDialog(false);
   };
 
   return (
-    <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent className="bg-mystic-800 text-white border-0">
+    <Dialog open={showDialog} onOpenChange={setShowDialog} modal>
+      <DialogContent
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()} // optional: prevent ESC from closing
+        className="bg-mystic-800 text-white border-0"
+      >
         <DialogHeader>
           <DialogTitle className="text-white text-lg sm:text-xl">
             Verify your email
@@ -64,9 +73,10 @@ const OtpScreen = ({ showDialog, setShowDialog, onVerify }: OtpScreenProps) => {
 
         <button
           onClick={handleVerify}
-          className="mt-4 w-full bg-mystic-700 border border-mystic-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-mystic-blue-800 transition duration-200 ease-in-out"
+          disabled={loading}
+          className="mt-4 w-full bg-mystic-700 border border-mystic-500 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-mystic-blue-800 transition duration-200 ease-in-out flex items-center justify-center"
         >
-          Verify OTP
+          {loading ? <Spinner /> : "Verify OTP"}
         </button>
       </DialogContent>
     </Dialog>
