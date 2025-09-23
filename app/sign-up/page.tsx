@@ -1,26 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
-import CustomInput from "../../components/custom-input";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { register } from "../../api-service/api";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
-import Spinner from "../../components/spinner";
-import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "sonner";
+import { register, sendSignUpOtp } from "../../api-service/api";
+import CustomInput from "../../components/custom-input";
 import OtpScreen from "../../components/otp";
+import Spinner from "../../components/spinner";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // const [showDialog, setShowDialog] = useState(true);
+  const [showOtpDialog, setShowOtpDialog] = useState(false);
 
   const router = useRouter();
+
+  // 1️⃣ Send OTP Mutation
+  const sendOtpMutation = useMutation({
+    mutationFn: sendSignUpOtp,
+    onSuccess: () => {
+      toast.success("OTP sent to your email!");
+      setShowOtpDialog(true);
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+    },
+  });
 
   const registerMutation = useMutation({
     mutationFn: register,
@@ -33,40 +44,29 @@ const SignUp = () => {
       toast.error(message);
     },
   });
-  const sendOtpMutation = useMutation({
-    mutationFn: register,
-    onSuccess: (data) => {
-      toast.success(data.message);
-      router.push("/sign-in");
-    },
-    onError: (error: AxiosError<{ message: string }>) => {
-      const message = error.response?.data?.message || "Something went wrong!";
-      toast.error(message);
-    },
-  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleVerifyOtp = async (otp: string) => {
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-    registerMutation.mutate({ email, password, name: fullName });
+    registerMutation.mutate({ email, password, name: fullName, otp });
+  };
+
+  const handleSendOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password || !fullName) {
+      toast.error("Please enter name, email and password!");
+      return;
+    }
+    sendOtpMutation.mutate({ email, name: fullName, password });
   };
 
   return (
     <section className="bg-mystic-800 min-h-screen flex items-center justify-center p-4">
-      {/* <OtpScreen
-        showDialog={showDialog}
-        setShowDialog={setShowDialog}
-        onVerify={(otp) => {
-          console.log("Verified OTP:", otp);
-          // ✅ Continue registration here
-        }}
-      /> */}
       <form
         className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8 shadow-lg"
-        onSubmit={handleSubmit}
+        onSubmit={handleSendOtp}
       >
         <div className="text-center">
           <Image
@@ -119,10 +119,10 @@ const SignUp = () => {
           />
           <button
             type="submit"
-            disabled={registerMutation.isPending}
+            disabled={sendOtpMutation.isPending}
             className="cursor-pointer w-full text-white hover:opacity-85 transition hover:scale-95 font-bold rounded-lg px-6 py-3 bg-mystic-blue-900 mt-2 flex items-center justify-center"
           >
-            {registerMutation.isPending ? <Spinner /> : "Create Account"}
+            {sendOtpMutation.isPending ? <Spinner /> : "Create Account"}
           </button>
         </div>
 
@@ -136,6 +136,13 @@ const SignUp = () => {
           </Link>
         </div>
       </form>
+
+      <OtpScreen
+        showDialog={showOtpDialog}
+        setShowDialog={setShowOtpDialog}
+        onVerify={handleVerifyOtp}
+        loading={registerMutation.isPending}
+      />
     </section>
   );
 };

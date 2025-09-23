@@ -20,14 +20,36 @@ export const login = async ({ email, password }: LoginType) => {
   return response.data;
 };
 
-export const register = async ({ email, password, name }: RegisterType) => {
-  const response = await axios.post("/api/auth/register", {
+export const sendSignUpOtp = async ({
+  email,
+  password,
+  name,
+}: RegisterType) => {
+  const response = await axios.post("/api/auth/sign-up-otp", {
     email,
     password,
     name,
   });
 
   return response.data;
+};
+
+export const register = async ({
+  email,
+  otp,
+}: {
+  email: string;
+  password: string;
+  name: string;
+  otp: string;
+}) => {
+  // verify OTP
+  const { data } = await axios.post(
+    "/api/auth/register",
+    { email, otp },
+    { withCredentials: true }
+  );
+  return data;
 };
 
 export const logout = async () => {

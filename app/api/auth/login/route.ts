@@ -23,6 +23,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // block if not verified
+  if (!user.isVerified) {
+    return NextResponse.json(
+      { message: "Email not verified. Please check your inbox for the OTP." },
+      { status: 403 }
+    );
+  }
+
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET not set in environment");
   }
