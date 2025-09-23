@@ -98,8 +98,12 @@ const Sidebar = () => {
                 />
               </div>
               <div className="flex-1 ">
-                <p className="text-white text-lg font-semibold">{user?.name}</p>
-                <p className="text-mystic-500">{user?.email}</p>
+                <p className="text-white truncate max-w-[150px] text-lg font-semibold">
+                  {user?.name}
+                </p>
+                <p className="text-mystic-500 truncate max-w-[150px]">
+                  {user?.email}
+                </p>
               </div>
             </div>
 
