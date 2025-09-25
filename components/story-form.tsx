@@ -167,7 +167,7 @@ const StoryForm = ({
             className="stroke-white md:hidden cursor-pointer"
             onClick={toggleSidebar}
           />
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 text-white">
             {mode === "create" ? "Create a new story" : "Edit story"}
           </h2>
         </div>
@@ -197,7 +197,7 @@ const StoryForm = ({
         />
       </div>
 
-      <p className="sm:text-lg max-w-2xl text-mystic-500">
+      <p className="text-sm max-w-2xl text-mystic-500">
         Your story needs a title and genre. You can add more details later.
       </p>
 
@@ -230,13 +230,13 @@ const StoryForm = ({
         <div className="flex items-start gap-2 bg-mystic-900 p-3 rounded-lg border border-mystic-600 text-sm text-white">
           <Info className="w-4 h-4 mt-0.5 text-mystic-500" />
           <p className="text-neutral-300 flex-1">
-            <span className="inline-flex items-start gap-1 ">
+            <span className="inline-flex items-start gap-1 text-sm">
               <BookOpenText className="w-4 h-4" />
               <b>Book</b> will format your story in a classic book-style
               page-flip layout.
             </span>
             <br />
-            <span className="inline-flex items-center gap-1 ">
+            <span className="inline-flex items-center gap-1 text-sm">
               <ScrollText className="w-4 h-4" />
               <b>Scroll</b> lets users read your story in a modern vertical
               scroll format.
@@ -294,7 +294,7 @@ const StoryForm = ({
         )}
 
         <div>
-          <label className="text-neutral-300 text-lg font-semibold">
+          <label className="text-neutral-300 text-sm font-semibold">
             Thumbnail
           </label>
           <div className="w-full max-w-4xl border border-dashed bg-mystic-800 border-neutral-800 rounded-lg">

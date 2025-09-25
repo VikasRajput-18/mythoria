@@ -16,14 +16,14 @@ const CustomSelect = ({
   return (
     <div className={`max-w-lg w-full flex flex-col space-y-2 ${className}`}>
       {label && (
-        <label className="text-neutral-300 text-lg font-semibold">
+        <label className="text-neutral-300 text-sm font-semibold">
           {label}
         </label>
       )}
       <select
         value={value}
         {...props}
-        className="bg-mystic-700 rounded-md px-3 py-4 placeholder:text-mystic-500 border border-mystic-300 outline-none text-white"
+        className="bg-mystic-700 rounded-md px-3 py-4 placeholder:text-mystic-500 border border-mystic-300 outline-none text-white text-sm"
       >
         {children}
       </select>

@@ -111,17 +111,10 @@ const ClientOnlyRTE = ({
 
   return (
     <div>
-      <label className="text-neutral-300 text-lg font-semibold mb-2 block">
+      <label className="text-neutral-300 text-sm font-semibold mb-2 block">
         Story Content
       </label>
-      {/* <JoditEditor
-        ref={editor}
-        value={value}
-        config={config}
-        tabIndex={1}
-        // ✅ `onBlur` triggers onChange with updated content
-        onBlur={(newContent) => onChange(newContent)}
-      /> */}
+    
 
       <JoditEditor
         ref={editor}

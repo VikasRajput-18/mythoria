@@ -12,6 +12,8 @@ import { AuthorType } from "../../../types";
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "../../../components/header/page-header";
+import Author from "../../../components/authors/author";
+import AuthorLoading from "../../../components/loading/author-loading";
 
 const Authors = () => {
   const [search, setSearch] = useState("");
@@ -53,36 +55,22 @@ const Authors = () => {
       </div>
 
       {isLoading ? (
-        <div className="w-full flex items-center justify-center mt-8">
-          <Spinner className="w-10 h-10" />{" "}
+        <div className="grid grid-cols-12  mt-8 items-stretch">
+          {Array.from({ length: 6 }).map((_, ind) => {
+            return <AuthorLoading key={ind} />;
+          })}
         </div>
       ) : authors?.length > 0 ? (
         <div className="grid grid-cols-12  mt-8 items-stretch">
           {authors.map((author: AuthorType) => {
             return (
-              <Link
-                href={`/authors/${author.id}`}
-                key={author?.id}
-                className="col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 no-underline hover:opacity-75 transition-all duration-200 ease-in-out border border-transparent p-4 hover:border-mystic-400 rounded-lg shadow-none hover:shadow-2xl"
-              >
-                <div className="w-40 md:w-52 h-40 md:h-52 rounded-full mx-auto overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
-                  <Image
-                    src={author.image || "/assets/mythoria.png"}
-                    alt={author.name}
-                    width={250}
-                    height={250}
-                    className="w-full h-full object-cover rounded-full "
-                  />
-                </div>
-                <p className="text-white text-lg md:text-xl font-bold mt-2 text-center">
-                  {author.name}
-                </p>
-                {author.bio && (
-                  <p className="text-mystic-500 text-[14px] md:text-base mt-1 text-center">
-                    {author.bio}
-                  </p>
-                )}
-              </Link>
+              <Author
+                key={author.id}
+                id={author.id}
+                image={author.image}
+                name={author.name}
+                bio={author.bio}
+              />
             );
           })}
         </div>

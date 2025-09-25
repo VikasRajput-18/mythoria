@@ -24,6 +24,7 @@ import { StoryType } from "../../types";
 import { useUserContext } from "../../context/user-context";
 import PageHeader from "../../components/header/page-header";
 import StoryPagination from "../../components/story-pagination";
+import CardLoading from "../../components/loading/card-loading";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
@@ -82,8 +83,10 @@ const page = () => {
 
       {/* ✅ Loading Spinner */}
       {isLoading2 && (
-        <div className="flex justify-center items-center h-60">
-          <Loader2 className="h-20 w-20 animate-spin text-mystic-500" />
+        <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24 items-stretch">
+          {Array.from({ length: 6 }).map((_, ind) => {
+            return <CardLoading key={ind} />;
+          })}
         </div>
       )}
 

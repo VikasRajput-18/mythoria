@@ -24,6 +24,7 @@ import useDebounce from "../../../hooks/use-debounce";
 import { StoryType } from "../../../types";
 import DeletePopup from "../../../components/delete-popup";
 import PageHeader from "../../../components/header/page-header";
+import CardLoading from "../../../components/loading/card-loading";
 
 const Page = () => {
   const queryClient = useQueryClient();
@@ -101,8 +102,10 @@ const Page = () => {
 
       {/* ✅ Loading Spinner */}
       {isLoading && (
-        <div className="flex justify-center items-center h-60">
-          <Loader2 className="h-20 w-20 animate-spin text-mystic-500" />
+        <div className="grid grid-cols-12 gap-4 mt-8 space-y-2 mb-24 items-stretch">
+          {Array.from({ length: 6 }).map((_, ind) => {
+            return <CardLoading key={ind} />;
+          })}
         </div>
       )}
 
