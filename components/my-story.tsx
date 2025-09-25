@@ -28,6 +28,9 @@ import CustomTags from "./custom-tags";
 import LikeButton from "./like-button";
 import Spinner from "./spinner";
 
+import DOMPurify from "dompurify";
+import StoryDetailLoading from "./loading/story-details-loading";
+
 const MyStory = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
@@ -109,21 +112,22 @@ const MyStory = () => {
     <section className="bg-mystic-800 w-full min-h-screen p-4 sm:p-8">
       {/* ✅ Loading Spinner */}
       {isLoading ? (
-        <div className="flex justify-center items-center h-60">
-          <Loader2 className="h-20 w-20 animate-spin text-mystic-500" />
+        <div className="lg:flex items-start gap-x-8 space-y-8">
+          <StoryDetailLoading />
         </div>
       ) : (
         <div className="lg:flex items-start gap-x-8 space-y-8">
           <div className="flex-1 w-full">
-            <div className="flex items-start gap-3">
-              <Link href={"/"} className="mt-0.5">
+            <div className="flex items-center gap-1">
+              <Link
+                href={"/"}
+                className="mt-0 p-2 hover:bg-mystic-700 rounded-full"
+              >
                 <ArrowLeft className="stroke-white" />
               </Link>
-              <h2 className="text-base sm:text-xl md:text-2xl my-0 text-neutral-200">
-                {story?.title}
-              </h2>
+              <h2 className="text-lg my-0 text-neutral-200">{story?.title}</h2>
             </div>
-            <p className="text-neutral-400 text-[15px] sm:text-base">
+            <p className="text-neutral-400 text-[14px] mt-1">
               {story?.description}
             </p>
 
@@ -152,17 +156,13 @@ const MyStory = () => {
               ) : null}
             </div>
 
-            {/* {story?.content && (
-              <div
-                className="prose prose-sm prose-invert max-w-none text-neutral-100"
-                dangerouslySetInnerHTML={{ __html: story.content }}
-              />
-            )} */}
             {story?.content && (
               <div
                 className="prose prose-invert max-w-none text-neutral-100"
                 style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
-                dangerouslySetInnerHTML={{ __html: story.content }}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(story.content),
+                }}
               />
             )}
 

@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cookie": "^1.0.2",
+    "dompurify": "^3.2.7",
     "input-otp": "^1.4.2",
     "jodit-react": "^5.2.19",
     "jsonwebtoken": "^9.0.2",

@@ -61,7 +61,7 @@ const Comments = ({
   return (
     comments?.length > 0 && (
       <div className="bg-mystic-700 p-4 mt-4 rounded-lg space-y-2">
-        <p className="text-white text-lg md:text-xl font-semibold border-b border-mystic-600 pb-2 mb-4">
+        <p className="text-white text-lg font-semibold border-b border-mystic-600 pb-2 mb-4">
           Comments ({commentCount})
         </p>
         {comments?.map((comment: CommentType) => {
@@ -83,7 +83,7 @@ const Comments = ({
                   <div className="flex items-center gap-2 justify-between w-full">
                     <p className="text-mystic-500 text-xs flex items-center">
                       {comment?.author?.name}{" "}
-                      <Dot className="stroke-mystic-500" />
+                      <Dot className="stroke-mystic-500 -mt-0.5" />
                       {timeAgo(comment.createdAt)}
                     </p>
 
@@ -99,7 +99,7 @@ const Comments = ({
                       </button>
                     )}
                   </div>
-                  <p className="text-neutral-200 text-xs md:text-base">
+                  <p className="text-neutral-200 text- sm:text-sm">
                     {comment?.content}
                   </p>
                 </div>
