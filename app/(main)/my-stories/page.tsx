@@ -23,6 +23,7 @@ import { useAppContext } from "../../../context/app-context";
 import useDebounce from "../../../hooks/use-debounce";
 import { StoryType } from "../../../types";
 import DeletePopup from "../../../components/delete-popup";
+import PageHeader from "../../../components/header/page-header";
 
 const Page = () => {
   const queryClient = useQueryClient();
@@ -78,18 +79,16 @@ const Page = () => {
 
   return (
     <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
-      <div className="flex items-center gap-2">
-        <Menu
-          className="stroke-white xl:hidden flex-inline cursor-pointer"
-          onClick={toggleSidebar}
-        />
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-          My Stories
-        </h2>
-      </div>
-      <p className="sm:text-lg max-w-2xl text-mystic-500">
-        Pen it. Drop it. Make hearts skip a beat. ✍️💫
-      </p>
+      <PageHeader
+        Icon={
+          <Menu
+            className="stroke-white xl:hidden flex-inline cursor-pointer"
+            onClick={toggleSidebar}
+          />
+        }
+        title={"My Stories"}
+        description="Pen it. Drop it. Make hearts skip a beat."
+      />
 
       <div className="max-w-sm w-full mt-4">
         <CustomInput

@@ -3,7 +3,6 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -23,6 +22,8 @@ import useDebounce from "../../hooks/use-debounce";
 import { cn } from "../../lib/utils";
 import { StoryType } from "../../types";
 import { useUserContext } from "../../context/user-context";
+import PageHeader from "../../components/header/page-header";
+import StoryPagination from "../../components/story-pagination";
 
 const page = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
@@ -43,19 +44,17 @@ const page = () => {
 
   return (
     <div className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
-      <div className="flex items-center gap-2">
-        <Menu
-          className="stroke-white xl:hidden flex-inline cursor-pointer"
-          onClick={toggleSidebar}
-        />
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-          Welcome to Mythoria
-        </h1>
-      </div>
-      <p className="sm:text-lg  max-w-2xl text-mystic-500">
-        Craft your legacy, one page at a time — unleash your imagination through
-        stories, comics, and magical manuscripts.
-      </p>
+      <PageHeader
+        Icon={
+          <Menu
+            className="stroke-white xl:hidden flex-inline cursor-pointer"
+            onClick={toggleSidebar}
+          />
+        }
+        title={"Welcome to Mythoria"}
+        description="Craft your legacy, one page at a time — unleash your imagination through
+        stories, comics, and magical manuscripts."
+      />
 
       <div className="flex items-center flex-wrap-reverse justify-between gap-4 mt-4">
         <div className="max-w-sm w-full">
@@ -64,16 +63,17 @@ const page = () => {
             onChange={(e) => setSearch(e.target.value)}
             name="search"
             placeholder="Discover myths, tales, and secrets..."
+            className="text-sm"
           />
         </div>
         <div className="flex items-center gap-4">
-          <button className="text-white cursor-pointer hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold bg-mystic-400 rounded-lg px-3 sm:px-6 py-2">
+          <button className="text-white text-sm cursor-pointer hover:opacity-85 transition-all duration-200 ease-in-out hover:scale-95 font-bold bg-mystic-400 rounded-lg px-3 sm:px-6 py-2">
             Upgrade Plan
           </button>
           <Link
             href={!user ? "/sign-in" : "/create"}
             aria-disabled={isLoading}
-            className="text-white hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-3 sm:px-6 py-2 bg-mystic-blue-900"
+            className="text-white text-sm hover:opacity-85 no-underline transition-all duration-200 ease-in-out hover:scale-95 font-bold rounded-lg px-3 sm:px-6 py-2 bg-mystic-blue-900 hover:bg-mystic-blue-800 hover:text-white"
           >
             Create New Story
           </Link>
@@ -97,7 +97,7 @@ const page = () => {
             height={300}
             className="object-contain "
           />
-          <p className="text-lg text-mystic-500 max-w-sm">
+          <p className="text-mystic-500 max-w-sm">
             You haven’t written any stories yet. Start your first masterpiece
             today!
           </p>
@@ -123,49 +123,11 @@ const page = () => {
           </div>
         )}
         {!isLoading2 && stories?.length > 0 && (
-          <Pagination className="">
-            <PaginationContent className="list-none ">
-              <PaginationItem
-                onClick={() => setPage((prev) => (prev <= 1 ? 1 : prev - 1))}
-              >
-                <PaginationPrevious
-                  href="#"
-                  className="text-mystic-500 no-underline"
-                />
-              </PaginationItem>
-              {Array.from({ length: totalPages }).map((i, ind) => {
-                return (
-                  <PaginationItem
-                    key={ind + 1}
-                    onClick={() => setPage(ind + 1)}
-                    className={`${
-                      ind + 1 === page
-                        ? "bg-white text-mystic-300 rounded-lg flex items-center justify-center font-bold"
-                        : "text-mystic-500"
-                    }`}
-                  >
-                    <PaginationLink
-                      className="text-mystic-500 no-underline"
-                      href="#"
-                    >
-                      {ind + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
-
-              <PaginationItem
-                onClick={() =>
-                  setPage((prev) => (prev < totalPages ? prev + 1 : totalPages))
-                }
-              >
-                <PaginationNext
-                  href="#"
-                  className="text-mystic-500 no-underline"
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <StoryPagination
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
+          />
         )}
       </div>
       <PlanLimitBar />

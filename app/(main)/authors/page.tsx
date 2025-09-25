@@ -11,6 +11,7 @@ import Spinner from "../../../components/spinner";
 import { AuthorType } from "../../../types";
 import Image from "next/image";
 import Link from "next/link";
+import PageHeader from "../../../components/header/page-header";
 
 const Authors = () => {
   const [search, setSearch] = useState("");
@@ -27,19 +28,17 @@ const Authors = () => {
 
   return (
     <section className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
-      <div className="flex items-center gap-2">
-        <Menu
-          className="stroke-white xl:hidden flex-inline cursor-pointer"
-          onClick={toggleSidebar}
-        />
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
-          Meet Our Authors
-        </h2>
-      </div>
-      <p className="sm:text-lg max-w-2xl text-mystic-500">
-        Discover the brilliant minds weaving magical tales and timeless stories
-        for Mythoria. ✨📚
-      </p>
+      <PageHeader
+        Icon={
+          <Menu
+            className="stroke-white xl:hidden flex-inline cursor-pointer"
+            onClick={toggleSidebar}
+          />
+        }
+        title={"Meet Our Authors"}
+        description="Discover the brilliant minds weaving magical tales and timeless stories
+        for Mythoria. ✨📚"
+      />
 
       <div className="mt-8 flex items-center justify-center">
         <div className="max-w-3xl w-full">

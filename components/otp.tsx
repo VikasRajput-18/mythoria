@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
@@ -42,6 +43,7 @@ const OtpScreen = ({
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog} modal>
+      <DialogOverlay className="backdrop-blur-2xl" />
       <DialogContent
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()} // optional: prevent ESC from closing
@@ -65,7 +67,11 @@ const OtpScreen = ({
           >
             <InputOTPGroup>
               {[0, 1, 2, 3, 4, 5].map((i) => (
-                <InputOTPSlot key={i} index={i} />
+                <InputOTPSlot
+                  key={i}
+                  index={i}
+                  className="w-14 h-14 text-2xl  border-mystic-500 focus:ring-2 focus:ring-mystic-blue-800"
+                />
               ))}
             </InputOTPGroup>
           </InputOTP>

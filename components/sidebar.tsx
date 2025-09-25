@@ -46,23 +46,22 @@ const Sidebar = () => {
     <aside
       ref={sidebarRef}
       className={cn(
-        `fixed -left-[400px] bg-mystic-800 xl:sticky transition-all duration-200 ease-in-out top-0 w-[350px] min-w-w-[350px] p-8`,
+        `fixed -left-[400px] bg-mystic-800 xl:sticky transition-all duration-200 ease-in-out top-0 w-[300px] min-w-[300px] p-8`,
         openSidebar ? "left-0  h-screen z-[99]" : "h-screen"
       )}
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl lg:text-4xl font-bold text-white">Mythoria</h2>
+        <h2 className="text-lg lg:text-2xl font-bold text-white">Mythoria</h2>
         <X
           className="stroke-white xl:hidden cursor-pointer hover:scale-95 transition-all duration-200 ease-in-out"
           onClick={toggleSidebar}
         />
       </div>
       <div className="flex flex-col justify-between mt-8 h-[calc(100vh-150px)]">
-        <div className="flex-1 h-full space-y-5">
+        <div className="flex-1 h-full space-y-2">
           {SIDEBAR_OPTIONS.map((item) => {
             const { icon: Icon } = item;
             let isActive = false;
-
             if (item.href === "/") {
               // Exact match for Home
               isActive = pathname === "/";
@@ -80,7 +79,7 @@ const Sidebar = () => {
                 }`}
               >
                 <Icon className="stroke-white " />
-                <p className="text-white">{item.label}</p>
+                <p className="text-white text-sm">{item.label}</p>
               </Link>
             );
           })}
@@ -98,10 +97,10 @@ const Sidebar = () => {
                 />
               </div>
               <div className="flex-1 ">
-                <p className="text-white truncate max-w-[150px] text-lg font-semibold">
+                <p className="text-white truncate max-w-[150px] font-semibold">
                   {user?.name}
                 </p>
-                <p className="text-mystic-500 truncate max-w-[150px]">
+                <p className="text-mystic-500 truncate max-w-[150px] text-sm">
                   {user?.email}
                 </p>
               </div>
@@ -117,14 +116,14 @@ const Sidebar = () => {
                 <div className="w-full rounded-lg overflow-hidden">
                   <Link
                     href={"/profile"}
-                    className="no-underline px-4 p-2 text-white flex items-center gap-2 cursor-pointer w-full h-full  bg-mystic-700  hover:bg-mystic-400 hover:text-white"
+                    className="no-underline text-sm px-4 py-3 text-white flex items-center gap-2 cursor-pointer w-full h-full  bg-mystic-700  hover:bg-mystic-400 hover:text-white"
                   >
                     <User />
                     Profile
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="px-4 p-2 text-white flex items-center gap-2 cursor-pointer w-full h-full  bg-mystic-700  hover:bg-mystic-400"
+                    className="text-sm px-4 py-3 text-white flex items-center gap-2 cursor-pointer w-full h-full  bg-mystic-700  hover:bg-mystic-400"
                   >
                     <LogOut />
                     Logout
