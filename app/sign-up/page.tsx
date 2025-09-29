@@ -64,7 +64,7 @@ const SignUp = () => {
   };
 
   return (
-    <section className="bg-mystic-800 min-h-screen flex items-center justify-center p-4">
+    <section className="bg-mystic-800 min-h-screen flex items-center justify-center p-4 overflow-x-hidden">
       <Vortex
         backgroundColor="black"
         rangeY={600}

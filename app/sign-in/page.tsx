@@ -39,7 +39,7 @@ const SignIn = () => {
   };
 
   return (
-    <section className="bg-mystic-800 min-h-screen flex items-center p-4 justify-center">
+    <section className="bg-mystic-800 min-h-screen flex items-center p-4 justify-center overflow-x-hidden">
       <Vortex
         backgroundColor="black"
         rangeY={600}
