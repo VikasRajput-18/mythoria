@@ -13,6 +13,14 @@
   --color-mystic-blue-900: #1466b8;
 
   --color-book-800: #5b4636;
+
+  --animate-border: border 4s linear infinite;
+
+  @keyframes border {
+    to {
+      --border-angle: 360deg;
+    }
+  }
 }
 
 :root {
@@ -78,6 +86,12 @@
 
 body {
   font-family: var(--font-epilogue);
+}
+
+@property --border-angle {
+  inherits: false;
+  initial-value: 0deg;
+  syntax: "<angle>";
 }
 
 @layer utilities {

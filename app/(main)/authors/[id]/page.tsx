@@ -11,6 +11,7 @@ import { useAppContext } from "../../../../context/app-context";
 import { StoryType } from "../../../../types";
 import Link from "next/link";
 import Spinner from "../../../../components/spinner";
+import AuthorDetailsLoading from "../../../../components/loading/author-details-loading";
 
 const AuthorPage = () => {
   const { toggleSidebar, openSidebar } = useAppContext();
@@ -34,9 +35,7 @@ const AuthorPage = () => {
       )}
     >
       {isLoading ? (
-        <div className="w-full flex items-center justify-center mt-20">
-          <Spinner className={"w-10 h-10"} />
-        </div>
+        <AuthorDetailsLoading />
       ) : (
         <>
           <div className="mb-3 p-2 hover:bg-mystic-700 rounded-full w-max">

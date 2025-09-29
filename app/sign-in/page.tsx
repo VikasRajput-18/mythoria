@@ -40,18 +40,13 @@ const SignIn = () => {
   return (
     <section className="bg-mystic-800 min-h-screen flex items-center p-4 justify-center">
       <form
-        className="max-w-lg w-full border border-mystic-300 rounded-xl border-dashed p-4 sm:p-8  shadow-lg"
+        className="max-w-lg w-full p-4 sm:p-8  shadow-lg
+        [background:linear-gradient(45deg,#172033,theme(colors.slate.800)_50%,#172033)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.slate.600/.48)_80%,_theme(colors.indigo.500)_86%,_theme(colors.indigo.300)_90%,_theme(colors.indigo.500)_94%,_theme(colors.slate.600/.48))_border-box] rounded-2xl border border-transparent animate-border
+        "
         onSubmit={handleSubmit}
       >
         <div className="text-center">
-          <Image
-            src="/assets/mythoria-logo.png"
-            width={80}
-            height={80}
-            alt="Mythoria Logo"
-            className="mx-auto object-contain"
-          />
-          <h3 className="text-3xl font-bold text-mystic-blue-900 mt-2">
+          <h3 className="text-3xl font-bold text-mystic-blue-900 ">
             Mythoria
           </h3>
           <p className="text-mystic-500 text-sm mt-1">
