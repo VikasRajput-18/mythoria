@@ -31,7 +31,7 @@
     "jodit-react": "^5.2.19",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.511.0",
-    "motion": "^12.16.0",
+    "motion": "^12.23.22",
     "next": "15.3.3",
     "next-cloudinary": "^6.16.0",
     "next-sitemap": "^4.2.3",
@@ -42,6 +42,7 @@
     "react-dropzone": "^14.3.8",
     "react-pageflip": "^2.0.3",
     "resend": "^6.1.0",
+    "simplex-noise": "^4.0.3",
     "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.0",
     "ws": "^8.18.2"
