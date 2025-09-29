@@ -99,9 +99,9 @@ const ProfileForm = () => {
   return (
     <div className="mt-10">
       {isSubmitting ? <Overlay /> : null}
-      <form onSubmit={handleUpdateProfile} className="space-y-6">
-        <p className="text-xl font-semibold text-mystic-500">Profile Photo</p>
-        <label className="block w-[200px] h-[200px] md:w-[300px] md:h-[300px] border bg-mystic-800 border-mystic-blue-900 p-1 rounded-full overflow-hidden cursor-pointer hover:opacity-85">
+      <form onSubmit={handleUpdateProfile} className="space-y-3">
+        <p className="font-semibold text-mystic-500">Profile Photo</p>
+        <label className="block w-[200px] h-[200px] border bg-mystic-800 border-mystic-blue-900 p-1 rounded-full overflow-hidden cursor-pointer hover:opacity-65">
           <img
             src={formData.profilePic || "/assets/mythoria.png"}
             alt="Profile Preview"

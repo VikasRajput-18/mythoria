@@ -27,7 +27,12 @@ const AuthorPage = () => {
   const author = data?.author;
 
   return (
-    <section className={cn(`w-full p-4 sm:p-8`, openSidebar && "opacity-30")}>
+    <section
+      className={cn(
+        `w-full p-4 sm:p-8 max-w-[1880px]`,
+        openSidebar && "opacity-30"
+      )}
+    >
       {isLoading ? (
         <div className="w-full flex items-center justify-center mt-20">
           <Spinner className={"w-10 h-10"} />
@@ -46,21 +51,21 @@ const AuthorPage = () => {
             />
           </div>
           <div className="flex items-start gap-6 flex-wrap flex-col md:flex-row">
-            <div className="w-40 md:w-52 h-40 md:h-52 rounded-full overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
+            <div className="w-40 h-40 rounded-full overflow-hidden border border-mystic-blue-900 p-1 bg-mystic-800">
               <Image
                 src={author?.profile?.image || "/assets/mythoria.png"}
                 alt={author?.name || "NA"}
-                width={250}
-                height={250}
+                width={200}
+                height={200}
                 className="w-full h-full object-cover rounded-full "
               />
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-white">
+              <h2 className="text-lg sm:text-2xl font-bold mb-4 text-white">
                 {author?.name}
               </h2>
               {author?.profile?.bio ? (
-                <p className="sm:text-lg max-w-2xl text-mystic-500 text-left">
+                <p className="max-w-2xl text-sm text-mystic-500 text-left">
                   {author?.profile?.bio}
                 </p>
               ) : null}
@@ -79,7 +84,7 @@ const AuthorPage = () => {
                   className="col-span-12 md:col-span-6 2xl:col-span-4 hover:opacity-80  rounded-xl "
                   key={story?.id}
                 >
-                  <div className="w-full h-full max-w-[450px] md:h-[450px] p-1  rounded-xl overflow-hidden border border-transparent hover:border-mystic-300 relative">
+                  <div className="w-full h-full md:h-[450px] p-1  rounded-xl overflow-hidden border border-transparent hover:border-mystic-300 relative">
                     <Image
                       src={story?.coverImage}
                       alt={story?.title}
