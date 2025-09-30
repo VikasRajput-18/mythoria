@@ -21,7 +21,7 @@ const AuthorDetailsLoading = () => {
             return (
               <Skeleton
                 key={ind}
-                className="relativecol-span-12 md:col-span-6 2xl:col-span-4 hover:opacity-80 bg-mystic-400 rounded-xl h-[450px]"
+                className="relative col-span-12 md:col-span-6 2xl:col-span-4 hover:opacity-80 bg-mystic-400 rounded-xl h-[450px]"
               />
             );
           })}

@@ -1,19 +1,17 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
-import React, { useState } from "react";
-import { useAppContext } from "../../../context/app-context";
-import CustomInput from "../../../components/custom-input";
-import useDebounce from "../../../hooks/use-debounce";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAuthors } from "../../../api-service/api";
-import Spinner from "../../../components/spinner";
-import { AuthorType } from "../../../types";
+import { Menu } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import PageHeader from "../../../components/header/page-header";
+import { useState } from "react";
+import { fetchAuthors } from "../../../api-service/api";
 import Author from "../../../components/authors/author";
+import CustomInput from "../../../components/custom-input";
+import PageHeader from "../../../components/header/page-header";
 import AuthorLoading from "../../../components/loading/author-loading";
+import { useAppContext } from "../../../context/app-context";
+import useDebounce from "../../../hooks/use-debounce";
+import { AuthorType } from "../../../types";
 
 const Authors = () => {
   const [search, setSearch] = useState("");

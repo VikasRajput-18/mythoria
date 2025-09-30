@@ -29,6 +29,9 @@ model User {
   otpExpiry DateTime?
 
   isVerified Boolean @default(false)
+
+  followers Follow[] @relation("followers") // users who follow this user (authors' followers)
+  following Follow[] @relation("following") // users this user follows
 }
 
 model Profile {
@@ -63,6 +66,8 @@ model Story {
   comments Comment[]
   like     Like[]
   views    Int       @default(0) // NEW: simple counter
+
+  // Follow relation 
 }
 
 model Page {
@@ -116,6 +121,25 @@ model StoryTag {
   tagId Int
 
   @@id([storyId, tagId]) // composite primary key
+}
+
+model Follow {
+  id Int @id @default(autoincrement())
+
+  //  the user who follows 
+  follower   User @relation("following", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId Int
+
+  // the user being followed (author)
+
+  following   User @relation("followers", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId Int
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId]) // prevents duplicate follows
+  @@index([followingId]) // useful when querying an author's followers
+  @@index([followerId]) // useful when querying who a user is following
 }
 
 // ✅ Enum for audience

@@ -93,6 +93,9 @@ body {
   initial-value: 0deg;
   syntax: "<angle>";
 }
+button {
+  cursor: pointer;
+}
 
 @layer utilities {
   .font-josefin {

@@ -231,3 +231,14 @@ export const fetchAuthorsWithId = async (id: string) => {
   const response = await axios.get(`/api/authors/${id}`);
   return response.data;
 };
+
+export const followAuthor = async (id: string) => {
+  const response = await axios.put(
+    `/api/authors/${id}/follow`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};

@@ -1,30 +1,47 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Menu } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { fetchAuthorsWithId } from "../../../../api-service/api";
+import { fetchAuthorsWithId, followAuthor } from "../../../../api-service/api";
 import { GenerateButton } from "../../../../components/author-details";
 import { useAppContext } from "../../../../context/app-context";
 import { StoryType } from "../../../../types";
 import Link from "next/link";
-import Spinner from "../../../../components/spinner";
 import AuthorDetailsLoading from "../../../../components/loading/author-details-loading";
+import { Button } from "@/components/ui/button";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import Spinner from "../../../../components/spinner";
 
 const AuthorPage = () => {
+  const queryClient = useQueryClient();
+
   const { toggleSidebar, openSidebar } = useAppContext();
   const { id } = useParams();
-  const storyId = id as string;
+  const authorId = id as string;
 
   const { data, isLoading } = useQuery({
-    queryKey: ["author", storyId],
-    queryFn: () => fetchAuthorsWithId(storyId),
+    queryKey: ["author", authorId],
+    queryFn: () => fetchAuthorsWithId(authorId),
     placeholderData: (prev) => prev,
   });
 
-  if (!storyId) return;
+  const followAuthorMutation = useMutation({
+    mutationFn: followAuthor,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["author"] });
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      const message = error.response?.data?.message || "Something went wrong!";
+      toast.error(message);
+    },
+  });
+
+  if (!authorId) return;
   const author = data?.author;
 
   return (
@@ -60,11 +77,36 @@ const AuthorPage = () => {
               />
             </div>
             <div className="flex-1">
-              <h2 className="text-lg sm:text-2xl font-bold mb-4 text-white">
-                {author?.name}
-              </h2>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <h2 className="text-lg sm:text-2xl font-bold mb-4 text-white">
+                    {author?.name}
+                  </h2>{" "}
+                  <div className="text-mystic-500 flex items-center gap-2">
+                    |<p className="text-sm">Followers</p>
+                    <p className="text-sm font-bold text-white">
+                      {data?.followersCount}
+                    </p>
+                  </div>
+                </div>
+
+                <Button
+                  variant={"outline"}
+                  disabled={followAuthorMutation.isPending || data?.isFollowing}
+                  onClick={() => followAuthorMutation.mutate(authorId)}
+                  className="bg-white rounded-full font-semibold font-josefin min-w-[100px]"
+                >
+                  {followAuthorMutation.isPending ? (
+                    <Spinner className="border-mystic-400 border-t-transparent" />
+                  ) : data?.isFollowing ? (
+                    "Followed"
+                  ) : (
+                    "Follow"
+                  )}
+                </Button>
+              </div>
               {author?.profile?.bio ? (
-                <p className="max-w-4xl text-sm text-mystic-500 text-left">
+                <p className="max-w-4xl text-sm text-mystic-500 text-left font-josefin">
                   {author?.profile?.bio}
                 </p>
               ) : null}
