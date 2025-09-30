@@ -64,7 +64,7 @@ const AuthorPage = () => {
                 {author?.name}
               </h2>
               {author?.profile?.bio ? (
-                <p className="max-w-2xl text-sm text-mystic-500 text-left">
+                <p className="max-w-4xl text-sm text-mystic-500 text-left">
                   {author?.profile?.bio}
                 </p>
               ) : null}

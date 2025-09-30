@@ -6,9 +6,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section className="bg-mystic-800 flex items-start min-h-screen w-full ">
+    <main className="bg-mystic-800 flex items-start min-h-screen w-full ">
       <Sidebar />
-      <main className="flex-1">{children}</main>
-    </section>
+      <section className="flex-1">{children}</section>
+    </main>
   );
 }

@@ -27,7 +27,9 @@ const Author = ({ id, image, name, bio }: AuthorProps) => {
       </div>
       <p className="text-white text-lg font-bold mt-2 text-center">{name}</p>
       {bio && (
-        <p className="text-mystic-500 text-[14px] mt-1 text-center">{bio}</p>
+        <p className="text-mystic-500 text-[14px] mt-1 text-center line-clamp-4">
+          {bio}
+        </p>
       )}
     </Link>
   );
