@@ -101,13 +101,16 @@ const ProfileForm = () => {
       {isSubmitting ? <Overlay /> : null}
       <form onSubmit={handleUpdateProfile} className="space-y-3">
         <p className="font-semibold text-mystic-500">Profile Photo</p>
-        <label className="block w-[200px] h-[200px] border bg-mystic-800 border-mystic-blue-900 p-1 rounded-full overflow-hidden cursor-pointer hover:opacity-65">
+        <label className="block w-[200px] h-[200px] border bg-mystic-800 border-mystic-blue-900 p-1 rounded-full overflow-hidden cursor-pointer relative group transition-all duration-200 ease-in-out">
           <img
             src={formData.profilePic || "/assets/mythoria.png"}
             alt="Profile Preview"
             className="w-full h-full object-cover rounded-full"
           />
           <input type="file" className="hidden" onChange={handleFileUpload} />
+          <div className="absolute -bottom-[200px] group-hover:bottom-0 py-4 bg-black/80 left-0 right-0 hidden group-hover:block transition-all duration-200 ease-in-out">
+            <p className="text-white text-center">Edit</p>
+          </div>
         </label>
 
         <CustomInput

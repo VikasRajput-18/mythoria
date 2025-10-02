@@ -25,7 +25,6 @@ export async function PUT(
     }
 
     let userId = verifyUser(req);
-    console.log("userId", userId);
     userId = Number(userId);
     if (!userId) {
       return NextResponse.json(
@@ -52,8 +51,16 @@ export async function PUT(
     });
 
     if (existing) {
+      await prisma.follow.delete({
+        where: {
+          followerId_followingId: {
+            followerId: userId,
+            followingId: targetId,
+          },
+        },
+      });
       return NextResponse.json(
-        { message: "Already following." },
+        { message: "Unfollowed successfully." },
         { status: 200 }
       );
     }
@@ -81,7 +88,11 @@ export async function PUT(
     console.log("Follow error:", error);
 
     return NextResponse.json(
-      { message: (error as Error).message ||  "Something went wrong. Please try again later." },
+      {
+        message:
+          (error as Error).message ||
+          "Something went wrong. Please try again later.",
+      },
       { status: 500 }
     );
   }

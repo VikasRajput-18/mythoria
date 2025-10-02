@@ -92,14 +92,26 @@ const AuthorPage = () => {
 
                 <Button
                   variant={"outline"}
-                  disabled={followAuthorMutation.isPending || data?.isFollowing}
+                  disabled={followAuthorMutation.isPending}
                   onClick={() => followAuthorMutation.mutate(authorId)}
-                  className="bg-white rounded-full font-semibold font-josefin min-w-[100px]"
+                  className={cn(
+                    " rounded-full font-semibold font-josefin min-w-[100px]",
+                    data?.isFollowing
+                      ? "bg-transparent border-2 border-white text-white font-semibold"
+                      : "bg-white"
+                  )}
                 >
                   {followAuthorMutation.isPending ? (
-                    <Spinner className="border-mystic-400 border-t-transparent" />
+                    <Spinner
+                      className={cn(
+                        "",
+                        data?.isFollowing
+                          ? "border-white border-t-transparent"
+                          : "border-mystic-400  border-t-transparent"
+                      )}
+                    />
                   ) : data?.isFollowing ? (
-                    "Followed"
+                    "Unfollow"
                   ) : (
                     "Follow"
                   )}
