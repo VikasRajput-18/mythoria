@@ -15,7 +15,28 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const userId = verifyUser(req);
+    // try to get logged-in user id, but don't fail the request if auth missing/invalid
+    let userId: number | null = null;
+    try {
+      // If verifyUser is async, await it. If it's sync, this still works.
+      // If verifyUser throws when not authenticated, the catch below will set userId=null.
+      const maybe = await verifyUser(req);
+      // adapt to whatever verifyUser returns: either user id number or an object
+      if (maybe === null || maybe === undefined) {
+        userId = null;
+      } else if (typeof maybe === "number") {
+        userId = maybe;
+      } else if (typeof maybe === "object" && "id" in maybe) {
+        userId = Number((maybe as any).id);
+      } else {
+        // fallback: try to coerce to number
+        const coerced = Number(maybe);
+        userId = Number.isNaN(coerced) ? null : coerced;
+      }
+    } catch (e) {
+      // not authenticated — keep userId null and continue (page remains public)
+      userId = null;
+    }
     const author = await prisma.user.findFirst({
       where: {
         id: Number(id),

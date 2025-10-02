@@ -14,7 +14,8 @@ export async function PUT(
   }
 ) {
   try {
-    let targetId = Number(params.id);
+    const { id } = await params;
+    let targetId = Number(id);
 
     if (!Number.isInteger(Number(targetId)) || Number(targetId) <= 0) {
       return NextResponse.json(
@@ -24,6 +25,7 @@ export async function PUT(
     }
 
     let userId = verifyUser(req);
+    console.log("userId", userId);
     userId = Number(userId);
     if (!userId) {
       return NextResponse.json(
@@ -76,10 +78,10 @@ export async function PUT(
         { status: 200 }
       );
     }
-    console.error("Follow error:", error);
+    console.log("Follow error:", error);
 
     return NextResponse.json(
-      { message: "Something went wrong. Please try again later." },
+      { message: (error as Error).message ||  "Something went wrong. Please try again later." },
       { status: 500 }
     );
   }
